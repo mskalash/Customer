@@ -18,7 +18,7 @@ public class ListFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_list, container, false);
         main = (RecyclerView) view.findViewById(R.id.main);
-        ((MainActivity) getActivity()).getSupportActionBar();
+
         return view;
 
     }

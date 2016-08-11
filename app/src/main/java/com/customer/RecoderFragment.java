@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -27,6 +28,7 @@ public class RecoderFragment extends android.support.v4.app.Fragment implements 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_recoder, container, false);
         rec = (ImageView) view.findViewById(R.id.rec);
         stop = (ImageView) view.findViewById(R.id.pause);
@@ -80,5 +82,16 @@ public class RecoderFragment extends android.support.v4.app.Fragment implements 
         } else {
             Toast.makeText(getActivity(), "Wrong result", Toast.LENGTH_SHORT).show();
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_main, new InfoFragment()).commit();
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

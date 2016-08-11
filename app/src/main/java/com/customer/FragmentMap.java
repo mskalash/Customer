@@ -3,9 +3,15 @@ package com.customer;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -25,11 +31,11 @@ public class FragmentMap extends Fragment {
     private GoogleMap googleMap;
     double longit;
     double lat;
-
+    LatLng position;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        setHasOptionsMenu(true);
         View v = inflater.inflate(R.layout.fragment_map, container,
                 false);
         mMapView = (MapView) v.findViewById(R.id.mapView);
@@ -67,7 +73,7 @@ public class FragmentMap extends Fragment {
                                 latLng);
                         marker.icon(BitmapDescriptorFactory
                                 .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).draggable(true);
-                        googleMap.addMarker(marker); LatLng position = marker.getPosition();
+                        googleMap.addMarker(marker);  position = marker.getPosition();
                     }
                 });
 
@@ -99,6 +105,18 @@ public class FragmentMap extends Fragment {
         super.onLowMemory();
         mMapView.onLowMemory();
     }
-
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            if (position!=null) {
+                ((MainActivity) getActivity()).getClient().setLat(position.latitude);
+                ((MainActivity) getActivity()).getClient().setLonget(position.longitude);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_main, new NewFragment()).commit();
+            }
+            else Toast.makeText(getActivity(),"Select point",Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
