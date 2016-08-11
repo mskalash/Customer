@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/profile_avatar"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:paddingTop="5dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/newprofile"/>
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Name"
+    android:layout_gravity="center"
+    android:textSize="17sp"
+    android:textColor="#000"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Maxim"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:id="@+id/name"/>
+    <TextView
+       android:paddingTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last name"
+        android:layout_gravity="center"
+        android:textSize="17sp"
+        android:textColor="#000"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Khlebnikov"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:id="@+id/lastname"/>
+    <TextView
+        android:paddingTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:layout_gravity="center"
+        android:textSize="17sp"
+        android:textColor="#000"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bla Bla Bla"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:id="@+id/description"/>
+    <ImageView
+
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/play"
+        android:id="@+id/plaer"
+        />
+    <mehdi.sakout.fancybuttons.FancyButton xmlns:fancy="http://schemas.android.com/apk/res-auto"
+        android:layout_marginTop="30dp"
+        android:id="@+id/map"
+        android:layout_width="198dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        fancy:fb_borderColor="#66ff33"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="#66ff33"
+        fancy:fb_focusColor="#fff"
+        fancy:fb_iconPosition="left"
+        fancy:fb_radius="25dp"
+        fancy:fb_text="MAP"
+        fancy:fb_textColor="#fff"
+        fancy:fb_textGravity="center_horizontal"
+        fancy:fb_textSize="27sp"
+android:layout_marginBottom="20dp"
+        />
+
+</LinearLayout>

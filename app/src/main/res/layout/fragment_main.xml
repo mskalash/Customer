@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:paddingTop="30dp">
+   >
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/comment_avatar"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:paddingTop="5dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/newprofile" />
+
+    <mehdi.sakout.fancybuttons.FancyButton xmlns:fancy="http://schemas.android.com/apk/res-auto"
+android:layout_marginTop="30dp"
+        android:id="@+id/newperson"
+        android:layout_width="190dp"
+        android:layout_height="55dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        fancy:fb_borderColor="#2a5b83"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="#2a5b83"
+        fancy:fb_focusColor="#fff"
+        fancy:fb_iconPosition="left"
+        fancy:fb_radius="25dp"
+        fancy:fb_text="Add"
+        fancy:fb_textColor="#fff"
+        fancy:fb_textGravity="center_horizontal"
+        fancy:fb_textSize="18sp"
+
+        />
+    <mehdi.sakout.fancybuttons.FancyButton xmlns:fancy="http://schemas.android.com/apk/res-auto"
+        android:layout_marginTop="15dp"
+        android:id="@+id/list"
+        android:layout_width="190dp"
+        android:layout_height="55dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        fancy:fb_borderColor="#37b5be"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="#37b5be"
+        fancy:fb_focusColor="#fff"
+        fancy:fb_iconPosition="left"
+        fancy:fb_radius="25dp"
+        fancy:fb_text="List"
+        fancy:fb_textColor="#fff"
+        fancy:fb_textGravity="center_horizontal"
+        fancy:fb_textSize="18sp" />
+</LinearLayout>

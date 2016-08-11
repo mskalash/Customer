@@ -1,0 +1,23 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="TransparentBackground" parent="android:Theme.Light">
+        <item name="android:windowIsTranslucent">true</item> <!-- подлупрозрачность окна -->
+        <item name="android:windowBackground">@android:color/transparent</item> <!-- прозрачный цвет бэкграунда -->
+        <item name="android:windowContentOverlay">@null</item> <!-- отключаем оверлей содержимого окна -->
+        <item name="android:windowNoTitle">true</item> <!-- отключаем заголовок -->
+        <item name="android:windowIsFloating">true</item> <!-- окно в любой части экрана -->
+        <item name="android:backgroundDimEnabled">false</item> <!-- отключаем затемнение -->
+    </style>
+    <style name="Theme.Transparent" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+</resources>
