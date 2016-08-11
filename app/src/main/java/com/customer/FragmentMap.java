@@ -72,7 +72,7 @@ public class FragmentMap extends Fragment {
                         marker = new MarkerOptions().position(
                                 latLng);
                         marker.icon(BitmapDescriptorFactory
-                                .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)).draggable(true);
+                                .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                         googleMap.addMarker(marker);  position = marker.getPosition();
                     }
                 });
@@ -105,6 +105,7 @@ public class FragmentMap extends Fragment {
         super.onLowMemory();
         mMapView.onLowMemory();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

@@ -3,6 +3,7 @@ package com.customer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ public class FirstFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main, container, false);
+        setHasOptionsMenu(true);
         list= (FancyButton)view.findViewById(R.id.list);
         add= (FancyButton)view.findViewById(R.id.newperson);
         list.setOnClickListener(new View.OnClickListener() {
@@ -40,5 +42,10 @@ public class FirstFragment extends Fragment {
             }
         });
         return view;
+    }
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.getItem(0).setTitle(" ");
+
     }
 }

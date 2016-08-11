@@ -83,6 +83,7 @@ public class RecoderFragment extends android.support.v4.app.Fragment implements 
             Toast.makeText(getActivity(), "Wrong result", Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

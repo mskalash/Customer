@@ -64,27 +64,10 @@
         android:src="@drawable/play"
         android:id="@+id/plaer"
         />
-    <mehdi.sakout.fancybuttons.FancyButton xmlns:fancy="http://schemas.android.com/apk/res-auto"
-        android:layout_marginTop="30dp"
-        android:id="@+id/map"
-        android:layout_width="198dp"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        fancy:fb_borderColor="#66ff33"
-        fancy:fb_borderWidth="1dp"
-        fancy:fb_defaultColor="#66ff33"
-        fancy:fb_focusColor="#fff"
-        fancy:fb_iconPosition="left"
-        fancy:fb_radius="25dp"
-        fancy:fb_text="MAP"
-        fancy:fb_textColor="#fff"
-        fancy:fb_textGravity="center_horizontal"
-        fancy:fb_textSize="27sp"
-android:layout_marginBottom="20dp"
-        />
+   <com.google.android.gms.maps.MapView
+       android:layout_width="300dp"
+       android:layout_height="150dp"
+       android:layout_gravity="center"
+       android:id="@+id/infomap"></com.google.android.gms.maps.MapView>
 
 </LinearLayout>

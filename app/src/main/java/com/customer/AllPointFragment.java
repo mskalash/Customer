@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -42,6 +43,7 @@ private TextView name;
 maps.clear();
         View v = inflater.inflate(R.layout.fragment_map, container,
                 false);
+        setHasOptionsMenu(true);
         mMapView = (MapView) v.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
 
@@ -117,5 +119,11 @@ maps.clear();
     public void onLowMemory() {
         super.onLowMemory();
         mMapView.onLowMemory();
+    }
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.getItem(0).setTitle("");
+
+
     }
 }

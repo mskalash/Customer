@@ -49,10 +49,6 @@ public class NewFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-
-      //  Bitmap bitmap = null;
-
-
         switch (requestCode) {
             case GALLERY_REQUEST:
                 if (resultCode == Activity.RESULT_OK) {
@@ -75,5 +71,12 @@ public class NewFragment extends Fragment {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    private void settext(){
+
+        profilelast.setText(((MainActivity) getActivity()).getClient().getLast());
+        profilename.setText(((MainActivity) getActivity()).getClient().getProfilename());
+        profiledesc.setText(((MainActivity) getActivity()).getClient().getDesc());
+
     }
 }
