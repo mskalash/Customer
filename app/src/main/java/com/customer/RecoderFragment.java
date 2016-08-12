@@ -39,7 +39,8 @@ public class RecoderFragment extends android.support.v4.app.Fragment implements 
         rec.setOnClickListener(this);
         play.setOnClickListener(this);
         stop.setOnClickListener(this);
-
+if(((MainActivity) getActivity()).getClient().getFilename()!=null){visibl();
+       fileName=((MainActivity) getActivity()).getClient().getFilename(); }
         return view;
     }
 
@@ -75,12 +76,8 @@ public class RecoderFragment extends android.support.v4.app.Fragment implements 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-
                     break;
-
             }
-
             // если вернулось не ОК
         } else {
             Toast.makeText(getActivity(), "Wrong result", Toast.LENGTH_SHORT).show();

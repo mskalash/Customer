@@ -46,7 +46,6 @@ public class InfoFragment extends Fragment {
         avatar=(CircularImageView)view.findViewById(R.id.profile_avatar);
         if (((MainActivity) getActivity()).getClient().getImagename()!=null){
             Uri image=Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
-
         Glide.with(getActivity())
                 .load(image)
                 .into(avatar);}
@@ -54,7 +53,6 @@ setMedia();
         lastname.setText(((MainActivity) getActivity()).getClient().getLast());
         name.setText(((MainActivity) getActivity()).getClient().getProfilename());
         description.setText(((MainActivity) getActivity()).getClient().getDesc());
-
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,15 +70,14 @@ setMedia();
                 }
             }
         });
-        FragmentManager childFragMan = getChildFragmentManager();
 
+        FragmentManager childFragMan = getChildFragmentManager();
         FragmentTransaction childFragTrans = childFragMan.beginTransaction();
         childFragTrans.add(R.id.profilemap,new FaragmentMapInfo() ).commit();
         return view; }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             ((MainActivity) getActivity()).showScreen(new FirstFragment(),FirstFragment.TAG,false);

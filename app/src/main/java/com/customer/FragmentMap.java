@@ -33,6 +33,7 @@ public class FragmentMap extends Fragment {
     double lat;
     LatLng position;
     boolean camera=true;
+    boolean info=false;
     public final static String TAG="FragmentMap";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -131,8 +132,10 @@ public void setmarker(){
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             if (position!=null) {
+                if(!info){
                 ((MainActivity) getActivity()).getClient().setLat(position.latitude);
                 ((MainActivity) getActivity()).getClient().setLonget(position.longitude);
+                info=true;}
                 ((MainActivity) getActivity()).showScreen(new NewFragment(),NewFragment.TAG,true);
             }
             else Toast.makeText(getActivity(),"Select point",Toast.LENGTH_SHORT).show();

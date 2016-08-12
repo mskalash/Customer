@@ -34,11 +34,12 @@ public class NewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         setHasOptionsMenu(true);
-        if (((MainActivity) getActivity()).getClient().getProfilename() != null) settext();
+
         v = inflater.inflate(R.layout.fragment_new, container, false);
         profilename = (EditText) v.findViewById(R.id.editname);
         profilelast = (EditText) v.findViewById(R.id.editlast);
         profiledesc = (EditText) v.findViewById(R.id.editdesc);
+        if (((MainActivity) getActivity()).getClient().getProfilename() != null) settext();
         newimage = (CircularImageView) v.findViewById(R.id.editavatar);
         newimage.setOnClickListener(new View.OnClickListener() {
             @Override
