@@ -20,6 +20,7 @@ public class FirstFragment extends Fragment {
     TextView left;
     TextView right;
     TextView center;
+    public final static String TAG="FirstFragment";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class FirstFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_main, new FragmentMap()).commit();
+                ((MainActivity) getActivity()).showScreen(new FragmentMap(),FragmentMap.TAG,true);
             }
         });
         return view;

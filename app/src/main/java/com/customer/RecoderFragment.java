@@ -23,8 +23,10 @@ public class RecoderFragment extends android.support.v4.app.Fragment implements 
     ImageView stop;
     MediaPlayer mediaPlayer;
     String fileName;
+    boolean recoder=false;
     final int REQUEST_CODE_FILE = 1;
 
+    public final static String TAG="RecoderFragment";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class RecoderFragment extends android.support.v4.app.Fragment implements 
         rec = (ImageView) view.findViewById(R.id.rec);
         stop = (ImageView) view.findViewById(R.id.pause);
         play = (ImageView) view.findViewById(R.id.play);
+        if (recoder)visibl();
         rec.setOnClickListener(this);
         play.setOnClickListener(this);
         stop.setOnClickListener(this);
@@ -47,8 +50,7 @@ public class RecoderFragment extends android.support.v4.app.Fragment implements 
                 Intent intent = new Intent(getActivity(), RecordingCoverActivity.class);
                 intent.putExtra("recordID", "lalala");
                 startActivityForResult(intent, REQUEST_CODE_FILE);
-                play.setVisibility(View.VISIBLE);
-                stop.setVisibility(View.VISIBLE);
+                if (!recoder)visibl();
                 break;
             case R.id.play:
                 if(!mediaPlayer.isPlaying()) mediaPlayer.start();
@@ -78,19 +80,27 @@ public class RecoderFragment extends android.support.v4.app.Fragment implements 
                     break;
 
             }
+
             // если вернулось не ОК
         } else {
             Toast.makeText(getActivity(), "Wrong result", Toast.LENGTH_SHORT).show();
         }
     }
+public void visibl(){
+    play.setVisibility(View.VISIBLE);
+    stop.setVisibility(View.VISIBLE);
+    recoder=true;
 
+}
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_main, new InfoFragment()).commit();
-
+            if(fileName==null){
+                Toast.makeText(getActivity(),"Please Recodering info",Toast.LENGTH_SHORT).show();
+            }
+            else {((MainActivity) getActivity()).getClient().setFilename(fileName);
+            ((MainActivity) getActivity()).showScreen(new InfoFragment(),InfoFragment.TAG,true);}
             return true;
         }
         return super.onOptionsItemSelected(item);

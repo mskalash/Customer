@@ -32,10 +32,13 @@ public class FragmentMap extends Fragment {
     double longit;
     double lat;
     LatLng position;
+    boolean camera=true;
+    public final static String TAG="FragmentMap";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+        Toast.makeText(getActivity(),"Waiting search your position",Toast.LENGTH_SHORT).show();
         View v = inflater.inflate(R.layout.fragment_map, container,
                 false);
         mMapView = (MapView) v.findViewById(R.id.mapView);
@@ -49,21 +52,27 @@ public class FragmentMap extends Fragment {
         }
         googleMap = mMapView.getMap();
         googleMap.setMyLocationEnabled(true);
+        if (!camera)setmarker();
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
         googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
 
 
             @Override
-            public void onMyLocationChange(Location location) {
+            public void onMyLocationChange(Location location) { if (camera){
                 longit = location.getLongitude();
                 lat = location.getLatitude();
+
                 CameraPosition cameraPosition = new CameraPosition.Builder()
                         .target(new LatLng(lat, longit)).zoom(17).build();
                 googleMap.animateCamera(CameraUpdateFactory
                         .newCameraPosition(cameraPosition));
+                camera=false;
+                return;}
                 return;
             }
         });
+
         googleMap
                 .setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
@@ -81,7 +90,18 @@ public class FragmentMap extends Fragment {
 
         return v;
     }
-
+public void setmarker(){
+    LatLng markerposition=new LatLng(((MainActivity) getActivity()).getClient().getLat(),((MainActivity) getActivity()).getClient().getLonget());
+    marker = new MarkerOptions().position(
+            markerposition);
+    marker.icon(BitmapDescriptorFactory
+            .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+    googleMap.addMarker(marker);
+    CameraPosition cameraPosition = new CameraPosition.Builder()
+            .target(markerposition).zoom(17).build();
+    googleMap.animateCamera(CameraUpdateFactory
+            .newCameraPosition(cameraPosition));
+}
     @Override
     public void onResume() {
         super.onResume();
@@ -113,7 +133,7 @@ public class FragmentMap extends Fragment {
             if (position!=null) {
                 ((MainActivity) getActivity()).getClient().setLat(position.latitude);
                 ((MainActivity) getActivity()).getClient().setLonget(position.longitude);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_main, new NewFragment()).commit();
+                ((MainActivity) getActivity()).showScreen(new NewFragment(),NewFragment.TAG,true);
             }
             else Toast.makeText(getActivity(),"Select point",Toast.LENGTH_SHORT).show();
             return true;

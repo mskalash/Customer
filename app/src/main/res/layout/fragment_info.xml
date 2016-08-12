@@ -4,8 +4,8 @@
     android:layout_height="match_parent">
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/profile_avatar"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:layout_gravity="center"
         android:layout_margin="8dp"
         android:paddingTop="5dp"
@@ -26,7 +26,7 @@
         android:textSize="20sp"
         android:id="@+id/name"/>
     <TextView
-       android:paddingTop="20dp"
+       android:paddingTop="@dimen/texpadding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Last name"
@@ -41,7 +41,7 @@
         android:textSize="20sp"
         android:id="@+id/lastname"/>
     <TextView
-        android:paddingTop="20dp"
+        android:paddingTop="@dimen/texpadding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Description"
@@ -57,17 +57,17 @@
         android:id="@+id/description"/>
     <ImageView
 
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/play"
         android:id="@+id/plaer"
+        android:layout_gravity="center"
         />
-   <com.google.android.gms.maps.MapView
-       android:layout_width="300dp"
-       android:layout_height="150dp"
-       android:layout_gravity="center"
-       android:id="@+id/infomap"></com.google.android.gms.maps.MapView>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:id="@+id/profilemap"
+        />
 
 </LinearLayout>

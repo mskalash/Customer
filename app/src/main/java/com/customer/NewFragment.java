@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mikhaellopez.circularimageview.CircularImageView;
@@ -25,26 +26,31 @@ public class NewFragment extends Fragment {
     EditText profilename;
     EditText profilelast;
     EditText profiledesc;
+    public final static String TAG = "NewFtagment";
     static final int GALLERY_REQUEST = 1;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         setHasOptionsMenu(true);
-        v= inflater.inflate(R.layout.fragment_new, container, false);
-        profilename=(EditText)v.findViewById(R.id.editname);
-        profilelast=(EditText)v.findViewById(R.id.editlast);
-        profiledesc=(EditText) v.findViewById(R.id.editdesc);
-        newimage=(CircularImageView)v.findViewById(R.id.editavatar);
+        if (((MainActivity) getActivity()).getClient().getProfilename() != null) settext();
+        v = inflater.inflate(R.layout.fragment_new, container, false);
+        profilename = (EditText) v.findViewById(R.id.editname);
+        profilelast = (EditText) v.findViewById(R.id.editlast);
+        profiledesc = (EditText) v.findViewById(R.id.editdesc);
+        newimage = (CircularImageView) v.findViewById(R.id.editavatar);
         newimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, GALLERY_REQUEST);            }
+                startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+            }
         });
 
-        return v;}
+        return v;
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
@@ -52,27 +58,38 @@ public class NewFragment extends Fragment {
         switch (requestCode) {
             case GALLERY_REQUEST:
                 if (resultCode == Activity.RESULT_OK) {
-                     selectedImage = imageReturnedIntent.getData();
+                    selectedImage = imageReturnedIntent.getData();
                     Glide.with(getActivity())
                             .load(selectedImage)
                             .into(newimage);
                 }
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_main, new RecoderFragment()).commit();
-            ((MainActivity) getActivity()).getClient().setProfilename(profilename.getText().toString());
-            ((MainActivity) getActivity()).getClient().setLast(profilelast.getText().toString());
-            ((MainActivity) getActivity()).getClient().setDesc(profiledesc.getText().toString());
-            if (selectedImage!=null) ((MainActivity) getActivity()).getClient().setImagename(selectedImage.toString());
+            if (profilename.getText().toString().isEmpty())
+                Toast.makeText(getActivity(), "Write person name", Toast.LENGTH_SHORT).show();
+            else if (profilelast.getText().toString().isEmpty())
+                Toast.makeText(getActivity(), "Write person last name", Toast.LENGTH_SHORT).show();
+            else if (profiledesc.getText().toString().isEmpty())
+                Toast.makeText(getActivity(), "Write person description", Toast.LENGTH_SHORT).show();
+            else {
+                ((MainActivity) getActivity()).showScreen(new RecoderFragment(), RecoderFragment.TAG, true);
+                ((MainActivity) getActivity()).getClient().setProfilename(profilename.getText().toString());
+                ((MainActivity) getActivity()).getClient().setLast(profilelast.getText().toString());
+                ((MainActivity) getActivity()).getClient().setDesc(profiledesc.getText().toString());
+                if (selectedImage != null)
+                    ((MainActivity) getActivity()).getClient().setImagename(selectedImage.toString());
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-    private void settext(){
+
+    private void settext() {
 
         profilelast.setText(((MainActivity) getActivity()).getClient().getLast());
         profilename.setText(((MainActivity) getActivity()).getClient().getProfilename());

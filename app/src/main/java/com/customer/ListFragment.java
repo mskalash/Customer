@@ -21,7 +21,10 @@ public class ListFragment extends Fragment {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_list, container, false);
         main = (RecyclerView) view.findViewById(R.id.main);
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        ((MainActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(false);
 
+        // getActivity().getActionBar().setDisplayShowHomeEnabled(false);
         return view;
 
     }
