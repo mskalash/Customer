@@ -4,7 +4,9 @@ package com.customer;
  * Created by Максим on 10.08.2016.
  */
 public class Client {
-    public Client() {}
+    public Client() {
+    }
+
     public String recid;
     public String profilename;
     public String last;
@@ -14,6 +16,12 @@ public class Client {
     public double longet;
     public String imagename;
 
+public Client(String id,String profilename,String last,String desc){
+    this.recid=id;
+    this.profilename=profilename;
+    this.last=last;
+    this.desc=desc;
+}
     public String getRecid() {
         return recid;
     }
@@ -76,6 +84,17 @@ public class Client {
 
     public void setImagename(String imagename) {
         this.imagename = imagename;
+    }
+
+    public void clear() {
+        recid = null;
+        profilename = null;
+        last = null;
+        filename = null;
+        desc = null;
+        lat = 0;
+        longet = 0;
+        imagename = null;
     }
 
 

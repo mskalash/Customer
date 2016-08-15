@@ -26,10 +26,12 @@ public class RecoderFragment extends android.support.v4.app.Fragment implements 
     boolean recoder=false;
     final int REQUEST_CODE_FILE = 1;
 
+    DatabaseAdapter db;
     public final static String TAG="RecoderFragment";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        db=new DatabaseAdapter(getActivity());
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_recoder, container, false);
         rec = (ImageView) view.findViewById(R.id.rec);
@@ -40,7 +42,14 @@ public class RecoderFragment extends android.support.v4.app.Fragment implements 
         play.setOnClickListener(this);
         stop.setOnClickListener(this);
 if(((MainActivity) getActivity()).getClient().getFilename()!=null){visibl();
-       fileName=((MainActivity) getActivity()).getClient().getFilename(); }
+       fileName=((MainActivity) getActivity()).getClient().getFilename();
+    mediaPlayer = new MediaPlayer();
+    try { mediaPlayer.setDataSource(fileName);
+        mediaPlayer.prepare();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
         return view;
     }
 
@@ -49,7 +58,7 @@ if(((MainActivity) getActivity()).getClient().getFilename()!=null){visibl();
         switch (view.getId()) {
             case R.id.rec:
                 Intent intent = new Intent(getActivity(), RecordingCoverActivity.class);
-                intent.putExtra("recordID", "lalala");
+                intent.putExtra("recordID",db.insertDummyContact()) ;
                 startActivityForResult(intent, REQUEST_CODE_FILE);
                 if (!recoder)visibl();
                 break;
@@ -97,6 +106,7 @@ public void visibl(){
                 Toast.makeText(getActivity(),"Please Recodering info",Toast.LENGTH_SHORT).show();
             }
             else {((MainActivity) getActivity()).getClient().setFilename(fileName);
+DatabaseAdapter db=new DatabaseAdapter(getActivity());
             ((MainActivity) getActivity()).showScreen(new InfoFragment(),InfoFragment.TAG,true);}
             return true;
         }

@@ -80,6 +80,18 @@ setMedia();
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            DatabaseAdapter db = new DatabaseAdapter(getActivity());
+            String name= ((MainActivity) getActivity()).getClient().getProfilename();
+            String lastname=((MainActivity) getActivity()).getClient().getLast();
+            String desc=((MainActivity) getActivity()).getClient().getDesc();
+            double lat=((MainActivity) getActivity()).getClient().getLat();
+            double longet=((MainActivity) getActivity()).getClient().getLonget();
+            String filename=((MainActivity) getActivity()).getClient().getFilename();
+            String image=null;
+            if (((MainActivity) getActivity()).getClient().getImagename()!=null)
+            image=((MainActivity) getActivity()).getClient().getImagename();
+            db.addcontact(name,lastname,desc,lat,longet,filename,image);
+            ((MainActivity) getActivity()).getClient().clear();
             ((MainActivity) getActivity()).showScreen(new FirstFragment(),FirstFragment.TAG,false);
             return true;
         }
@@ -94,6 +106,7 @@ setMedia();
     public void setMedia(){
         mediaPlayer = new MediaPlayer();
         try {
+
             mediaPlayer.setDataSource(((MainActivity) getActivity()).getClient().getFilename());
             mediaPlayer.prepare();
         } catch (IOException e) {

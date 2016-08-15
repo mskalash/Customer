@@ -39,8 +39,9 @@ public class NewFragment extends Fragment {
         profilename = (EditText) v.findViewById(R.id.editname);
         profilelast = (EditText) v.findViewById(R.id.editlast);
         profiledesc = (EditText) v.findViewById(R.id.editdesc);
-        if (((MainActivity) getActivity()).getClient().getProfilename() != null) settext();
         newimage = (CircularImageView) v.findViewById(R.id.editavatar);
+        if (((MainActivity) getActivity()).getClient().getProfilename() != null) settext();
+
         newimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,7 +92,12 @@ public class NewFragment extends Fragment {
     }
 
     private void settext() {
-
+if(((MainActivity) getActivity()).getClient().getImagename()!=null){
+    selectedImage=Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
+    Glide.with(getActivity())
+            .load(selectedImage)
+            .into(newimage);
+}
         profilelast.setText(((MainActivity) getActivity()).getClient().getLast());
         profilename.setText(((MainActivity) getActivity()).getClient().getProfilename());
         profiledesc.setText(((MainActivity) getActivity()).getClient().getDesc());

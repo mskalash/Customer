@@ -32,8 +32,7 @@ public class FirstFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_main, new ListFragment()).commit();
-            }
+                ((MainActivity) getActivity()).showScreen(new ListFragment(),ListFragment.TAG,true); }
         });
         add.setOnClickListener(new View.OnClickListener() {
             @Override
