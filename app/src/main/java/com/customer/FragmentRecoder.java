@@ -110,7 +110,7 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
                 Toast.makeText(getActivity(), "Please Recodering info", Toast.LENGTH_SHORT).show();
             } else {
                 ((MainActivity) getActivity()).getClient().setFilename(fileName);
-                DatabaseAdapter db = new DatabaseAdapter(getActivity());
+                ((MainActivity) getActivity()).getClient().setCheck(false);
                 ((MainActivity) getActivity()).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
             }
             return true;

@@ -1,31 +1,24 @@
 package com.customer;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by Максим on 08.08.2016.
@@ -33,20 +26,22 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class FragmentAllPoint extends Fragment {
     MapView mMapView;
     private GoogleMap googleMap;
-private TextView name;
+    private TextView name;
     private TextView lastname;
     private TextView desc;
-    private Map<Marker,DatabaseAdapter> maps=new HashMap<>();
+    private Map<Marker, Client> maps = new HashMap<>();
+    ArrayList<Client> arrayList;
+    public static final String TAG = "FragmentAllPoint";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-maps.clear();
+        maps.clear();
         View v = inflater.inflate(R.layout.fragment_map, container,
                 false);
         setHasOptionsMenu(true);
         mMapView = (MapView) v.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
-
         mMapView.onResume();
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
@@ -54,47 +49,61 @@ maps.clear();
             e.printStackTrace();
         }
         googleMap = mMapView.getMap();
-        double latitude = 17.385044;
-        double longitude = 78.486671;
-        MarkerOptions marker = new MarkerOptions().position(
-                new LatLng(latitude, longitude));
-        marker.icon(BitmapDescriptorFactory
-                .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-            @Override
-            public View getInfoWindow(Marker marker) {
-                ContextThemeWrapper wrapper=new ContextThemeWrapper(getActivity(),R.style.TransparentBackground);
-                LayoutInflater inflater = (LayoutInflater)  wrapper.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View layout = inflater.inflate(R.layout.marker_view, null);
-                ImageView image=(ImageView)layout.findViewById(R.id.avatar);
-                Glide.with(getActivity())
-                        .load(R.drawable.lalal)//<= path of image
-                        .bitmapTransform(new CropCircleTransformation(getActivity()))//<= For Circuler image
-                        .into(image);
-                return layout;
-            }
 
-            @Override
-            public View getInfoContents(Marker marker) {
-                return null;
-            }
-        });
-        googleMap.addMarker(marker);
+        DatabaseAdapter db = new DatabaseAdapter(getActivity());
+        arrayList = db.getmapdata();
+        for (int i = 0; i < arrayList.size(); i++) {
+            Marker marker = googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(arrayList.get(i).getLat(), arrayList.get(i).getLonget()))
+                    .title(arrayList.get(i).getProfilename())
+                    .snippet(arrayList.get(i).getLast())
+                    .icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+            ((MainActivity) getActivity()).getClient().setMapid(marker.getId());
+        }
+//        googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+//            @Override
+//            public View getInfoWindow(Marker marker) {
+//                ContextThemeWrapper wrapper = new ContextThemeWrapper(getActivity(), R.style.TransparentBackground);
+//                LayoutInflater inflater = (LayoutInflater) wrapper.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                View layout = inflater.inflate(R.layout.marker_view, null);
+//                TextView name = (TextView) layout.findViewById(R.id.firsname);
+//
+////
+//                return layout;
+//            }
+//
+//            @Override
+//            public View getInfoContents(Marker marker) {
+//                return null;
+//            }
+//        });
+
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(latitude, longitude)).zoom(19).build();
-        googleMap.animateCamera(CameraUpdateFactory
-                .newCameraPosition(cameraPosition));
+//        CameraPosition cameraPosition = new CameraPosition.Builder()
+//                .target(new LatLng(arrayList.get(arrayList.size()).getLat(), arrayList.get(arrayList.size()).getLonget())).zoom(17).build();
+//        googleMap.animateCamera(CameraUpdateFactory
+//                .newCameraPosition(cameraPosition));
         googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
+                ((MainActivity) getActivity()).getClient().setRecid(recId(marker.getId(),arrayList));
+                ((MainActivity) getActivity()).getClient().setCheck(true);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_main, new FragmentInfo()).commit();
 
             }
         });
-        //   LatLng position = marker.getPosition();
-
         return v;
+    }
+
+    private int recId(String markerid, ArrayList<Client> arrayList) {
+        for (Client client : arrayList) {
+            if (((MainActivity) getActivity()).getClient().getMapid().equals(markerid)) {
+                return client.getRecid();
+            }
+        }
+
+        return -1;
     }
 
     @Override
@@ -120,10 +129,10 @@ maps.clear();
         super.onLowMemory();
         mMapView.onLowMemory();
     }
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        menu.getItem(0).setTitle("");
-
+        menu.getItem(0).setVisible(false);
 
     }
 }

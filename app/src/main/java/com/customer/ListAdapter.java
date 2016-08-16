@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -34,11 +35,29 @@ public class ListAdapter extends RecyclerView.Adapter<FollowVH> {
     }
 
     @Override
-    public void onBindViewHolder(FollowVH holder, int position) {
+    public void onBindViewHolder(FollowVH holder, final int position) {
         String image = arrayList.get(position).getImagename();
+        if (image!=null)
         Glide.with(mContext).load(image).into(holder.avatar);
         holder.username.setText(arrayList.get(position).getProfilename()+" "+arrayList.get(position).getLast());
         holder.message.setText(arrayList.get(position).getDesc());
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) mContext).deleteprofile(arrayList.get(position).getRecid(),arrayList.get(position).getFilename());
+
+              arrayList.remove(position);
+                notifyItemRemoved(position);
+             }
+        });
+        holder.profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) mContext).getClient().setCheck(true);
+                ((MainActivity) mContext).getClient().setRecid(arrayList.get(position).getRecid());
+                ((MainActivity) mContext).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
+            }
+        });
 
     }
 
@@ -53,19 +72,14 @@ class FollowVH extends RecyclerView.ViewHolder {
     ImageView avatar;
     TextView username;
     TextView message;
-
+    LinearLayout profile;
     public FollowVH(View itemView) {
         super(itemView);
         avatar = (ImageView) itemView.findViewById(R.id.avatar);
         username = (TextView) itemView.findViewById(R.id.firsname);
         message = (TextView) itemView.findViewById(R.id.desc);
         delete = (ImageView) itemView.findViewById(R.id.delete);
-//        delete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
+profile=(LinearLayout)itemView.findViewById(R.id.profileid);
     }
 
 

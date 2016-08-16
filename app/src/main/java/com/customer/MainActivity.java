@@ -9,10 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity {
 private Client client;
 Toolbar mToolbar;
     FragmentManager fm;
+    ListAdapter listAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 client=new Client();
@@ -68,5 +71,11 @@ public void showScreen(Fragment fragment,String tag,boolean addToBackStack){
             finish();}
         else fm.popBackStack();
 
+    }
+    public void deleteprofile(int id,String filename){
+        DatabaseAdapter db=new DatabaseAdapter(this);
+        db.deleteContact(id);
+        File file=new File(filename);
+        file.delete();
     }
 }

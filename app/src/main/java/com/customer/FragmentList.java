@@ -26,21 +26,20 @@ public class FragmentList extends Fragment {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_list, container, false);
         main = (RecyclerView) view.findViewById(R.id.main);
-        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        ((MainActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(false);
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
         ArrayList<Client> arrayList = db.getContactsData();
         ListAdapter adapter = new ListAdapter(getActivity(),arrayList);
+
         main.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         main.setLayoutManager(layoutManager);
-        // getActivity().getActionBar().setDisplayShowHomeEnabled(false);
         return view;
 
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
+        menu.getItem(0).setVisible(true);
         menu.getItem(0).setTitle("MAP");
 
     }
@@ -50,7 +49,7 @@ public class FragmentList extends Fragment {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
 
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_main, new FragmentAllPoint()).commit();
+            ((MainActivity) getActivity()).showScreen(new FragmentAllPoint(), FragmentAllPoint.TAG, true);
 
             return true;
         }

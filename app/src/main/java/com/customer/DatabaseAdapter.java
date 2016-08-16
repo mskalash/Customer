@@ -23,9 +23,44 @@ public class DatabaseAdapter {
         this.context = context;
     }
 
+    public void selectprofile(int id) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + SQLHelper.TABLE_NAME_CONTACTS + " WHERE " + SQLHelper.CONTACTS_ID + "=" + id, null);
+        while (cursor.moveToNext()) {
+            int lastIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_LAST);
+            int nameIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_NAME);
+            int descIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_DESCRIPTION);
+            int iconIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_ICON);
+            int fileIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
+            int latIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_LAT);
+            int longIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_LONGET);
+
+
+            String filename = cursor.getString(fileIndex);
+            String last = cursor.getString(lastIndex);
+            String name = cursor.getString(nameIndex);
+            String desc = cursor.getString(descIndex);
+            String icon = cursor.getString(iconIndex);
+            double lat = cursor.getDouble(latIndex);
+            double longet = cursor.getDouble(longIndex);
+
+
+            ((MainActivity) context).getClient().setProfilename(name);
+            ((MainActivity) context).getClient().setLast(last);
+            ((MainActivity) context).getClient().setFilename(filename);
+            ((MainActivity) context).getClient().setDesc(desc);
+            ((MainActivity) context).getClient().setImagename(icon);
+            ((MainActivity) context).getClient().setLat(lat);
+            ((MainActivity) context).getClient().setLonget(longet);
+        }
+
+        cursor.close();
+        db.close();
+    }
+
     public ArrayList<Client> getContactsData() {
         SQLiteDatabase db = helper.getWritableDatabase();
-        String[] columns = {SQLHelper.CONTACTS_ID, SQLHelper.CONTACTS_NAME, SQLHelper.CONTACTS_LAST, SQLHelper.CONTACTS_DESCRIPTION, SQLHelper.CONTACTS_ICON};
+        String[] columns = {SQLHelper.CONTACTS_ID, SQLHelper.CONTACTS_NAME, SQLHelper.CONTACTS_LAST, SQLHelper.CONTACTS_DESCRIPTION, SQLHelper.CONTACTS_ICON, SQLHelper.CONTACTS_REC};
         Cursor cursor = db.query(SQLHelper.TABLE_NAME_CONTACTS, columns, null, null, null, null, null);
         ArrayList<Client> result = new ArrayList<>();
         while (cursor.moveToNext()) {
@@ -33,13 +68,38 @@ public class DatabaseAdapter {
             int lastIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_LAST);
             int nameIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_NAME);
             int descIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_DESCRIPTION);
-      //      int iconIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_ICON);
+            int iconIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_ICON);
+int reIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
             int id = cursor.getInt(idIndex);
             String last = cursor.getString(lastIndex);
             String name = cursor.getString(nameIndex);
             String desc = cursor.getString(descIndex);
-//            String icon = cursor.getString(iconIndex);
-            result.add(new Client(String.valueOf(id), name, last, desc));
+            String icon = cursor.getString(iconIndex);
+            String rec=cursor.getString(reIndex);
+            result.add(new Client(id, name, last, desc, icon,rec));
+        }
+        cursor.close();
+        db.close();
+        return result;
+    }
+
+    public ArrayList<Client> getmapdata() {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        String[] columns = {SQLHelper.CONTACTS_ID, SQLHelper.CONTACTS_NAME, SQLHelper.CONTACTS_LAST, SQLHelper.CONTACTS_DESCRIPTION, SQLHelper.CONTACTS_LAT, SQLHelper.CONTACTS_LONGET};
+        Cursor cursor = db.query(SQLHelper.TABLE_NAME_CONTACTS, columns, null, null, null, null, null);
+        ArrayList<Client> result = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            int idIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_ID);
+            int lastIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_LAST);
+            int nameIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_NAME);
+            int latIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_LAT);
+            int longetIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_LONGET);
+            int id = cursor.getInt(idIndex);
+            String last = cursor.getString(lastIndex);
+            String name = cursor.getString(nameIndex);
+            double lat = cursor.getDouble(latIndex);
+            double longet = cursor.getDouble(longetIndex);
+            result.add(new Client(id, lat, longet, name, last));
         }
         cursor.close();
         db.close();
