@@ -23,7 +23,7 @@ import java.io.IOException;
 public class RecordingCoverActivity extends AppCompatActivity {
 
     private ImageView recordIcon;
-    private String recordID;
+    private long recordID;
     protected MediaRecorder recorder = null;
     protected String fileName = null;
 
@@ -35,9 +35,8 @@ public class RecordingCoverActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_cover_activity_layout);
-
-        Intent intent = getIntent();
-        recordID = intent.getStringExtra("recordID");
+DatabaseAdapter db=new DatabaseAdapter(this);
+        recordID = db.insertDummyContact();
 
         File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+getResources().getString(R.string.app_name));
         if (!folder.exists()) {
@@ -69,7 +68,6 @@ public class RecordingCoverActivity extends AppCompatActivity {
 
     private void stopUpdateRecordInDatabaseAndReturn(){
         stopRecording();
-        DatabaseAdapter databaseAdapter = new DatabaseAdapter(this);
         int count =1;// databaseAdapter.updateRecord(null, null, fileName, Integer.parseInt(recordID));
         if (count != 1){
             Toast.makeText(this, "The record was NOT properly saved to database", Toast.LENGTH_LONG).show();

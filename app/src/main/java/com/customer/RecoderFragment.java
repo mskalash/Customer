@@ -23,33 +23,36 @@ public class RecoderFragment extends android.support.v4.app.Fragment implements 
     ImageView stop;
     MediaPlayer mediaPlayer;
     String fileName;
-    boolean recoder=false;
+    boolean recoder = false;
     final int REQUEST_CODE_FILE = 1;
 
     DatabaseAdapter db;
-    public final static String TAG="RecoderFragment";
+    public final static String TAG = "RecoderFragment";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        db=new DatabaseAdapter(getActivity());
+        db = new DatabaseAdapter(getActivity());
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_recoder, container, false);
         rec = (ImageView) view.findViewById(R.id.rec);
         stop = (ImageView) view.findViewById(R.id.pause);
         play = (ImageView) view.findViewById(R.id.play);
-        if (recoder)visibl();
+        if (recoder) visibl();
         rec.setOnClickListener(this);
         play.setOnClickListener(this);
         stop.setOnClickListener(this);
-if(((MainActivity) getActivity()).getClient().getFilename()!=null){visibl();
-       fileName=((MainActivity) getActivity()).getClient().getFilename();
-    mediaPlayer = new MediaPlayer();
-    try { mediaPlayer.setDataSource(fileName);
-        mediaPlayer.prepare();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
+        if (((MainActivity) getActivity()).getClient().getFilename() != null) {
+            visibl();
+            fileName = ((MainActivity) getActivity()).getClient().getFilename();
+            mediaPlayer = new MediaPlayer();
+            try {
+                mediaPlayer.setDataSource(fileName);
+                mediaPlayer.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return view;
     }
 
@@ -58,12 +61,11 @@ if(((MainActivity) getActivity()).getClient().getFilename()!=null){visibl();
         switch (view.getId()) {
             case R.id.rec:
                 Intent intent = new Intent(getActivity(), RecordingCoverActivity.class);
-                intent.putExtra("recordID",db.insertDummyContact()) ;
                 startActivityForResult(intent, REQUEST_CODE_FILE);
-                if (!recoder)visibl();
+                if (!recoder) visibl();
                 break;
             case R.id.play:
-                if(!mediaPlayer.isPlaying()) mediaPlayer.start();
+                if (!mediaPlayer.isPlaying()) mediaPlayer.start();
                 break;
             case R.id.pause:
                 mediaPlayer.pause();
@@ -92,22 +94,25 @@ if(((MainActivity) getActivity()).getClient().getFilename()!=null){visibl();
             Toast.makeText(getActivity(), "Wrong result", Toast.LENGTH_SHORT).show();
         }
     }
-public void visibl(){
-    play.setVisibility(View.VISIBLE);
-    stop.setVisibility(View.VISIBLE);
-    recoder=true;
 
-}
+    public void visibl() {
+        play.setVisibility(View.VISIBLE);
+        stop.setVisibility(View.VISIBLE);
+        recoder = true;
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            if(fileName==null){
-                Toast.makeText(getActivity(),"Please Recodering info",Toast.LENGTH_SHORT).show();
+            if (fileName == null) {
+                Toast.makeText(getActivity(), "Please Recodering info", Toast.LENGTH_SHORT).show();
+            } else {
+                ((MainActivity) getActivity()).getClient().setFilename(fileName);
+                DatabaseAdapter db = new DatabaseAdapter(getActivity());
+                ((MainActivity) getActivity()).showScreen(new InfoFragment(), InfoFragment.TAG, true);
             }
-            else {((MainActivity) getActivity()).getClient().setFilename(fileName);
-DatabaseAdapter db=new DatabaseAdapter(getActivity());
-            ((MainActivity) getActivity()).showScreen(new InfoFragment(),InfoFragment.TAG,true);}
             return true;
         }
         return super.onOptionsItemSelected(item);

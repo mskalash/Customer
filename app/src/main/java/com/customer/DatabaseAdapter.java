@@ -17,62 +17,64 @@ public class DatabaseAdapter {
 
     SQLHelper helper;
     Context context;
-    public DatabaseAdapter(Context context){
+
+    public DatabaseAdapter(Context context) {
         helper = new SQLHelper(context);
         this.context = context;
     }
 
-    public ArrayList<Client> getContactsData(){
+    public ArrayList<Client> getContactsData() {
         SQLiteDatabase db = helper.getWritableDatabase();
-        String[] columns = {SQLHelper.CONTACTS_ID, SQLHelper.CONTACTS_NAME,SQLHelper.CONTACTS_LAST, SQLHelper.CONTACTS_DESCRIPTION, SQLHelper.CONTACTS_ICON};
+        String[] columns = {SQLHelper.CONTACTS_ID, SQLHelper.CONTACTS_NAME, SQLHelper.CONTACTS_LAST, SQLHelper.CONTACTS_DESCRIPTION, SQLHelper.CONTACTS_ICON};
         Cursor cursor = db.query(SQLHelper.TABLE_NAME_CONTACTS, columns, null, null, null, null, null);
         ArrayList<Client> result = new ArrayList<>();
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             int idIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_ID);
-            int lastIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_LAST);
+            int lastIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_LAST);
             int nameIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_NAME);
             int descIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_DESCRIPTION);
             int iconIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_ICON);
 
             int id = cursor.getInt(idIndex);
-            String last= cursor.getString(lastIndex);
+            String last = cursor.getString(lastIndex);
             String name = cursor.getString(nameIndex);
             String desc = cursor.getString(descIndex);
 //            String icon = cursor.getString(iconIndex);
-            result.add(new Client(String.valueOf(id),name,last,desc));
+            result.add(new Client(String.valueOf(id), name, last, desc));
 
         }
         cursor.close();
         db.close();
-        Toast.makeText(context,"SHOW",Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "SHOW", Toast.LENGTH_SHORT).show();
         return result;
     }
 
-    public long insertDummyContact(){
+    public long insertDummyContact() {
         SQLiteDatabase db = helper.getWritableDatabase();
         long id;
-           Cursor c=db.rawQuery("SELECT "+SQLHelper.CONTACTS_ID+" FROM "+SQLHelper.TABLE_NAME_CONTACTS+" ORDER BY "+SQLHelper.CONTACTS_ID+" DESC LIMIT 1",null);
+        Cursor c = db.rawQuery("SELECT " + SQLHelper.CONTACTS_ID + " FROM " + SQLHelper.TABLE_NAME_CONTACTS + " ORDER BY " + SQLHelper.CONTACTS_ID + " DESC LIMIT 1", null);
         if (c != null && c.moveToFirst()) {
-            id=c.getLong(0)+1;}
-        else id=0;
+            id = c.getLong(0) + 1;
+        } else id = 0;
         c.close();
         db.close();
         return id;
     }
-    public void addcontact(String name ,String lastname,String description,double lat, double longet,String filename,String imagename){
-        SQLiteDatabase db=helper.getWritableDatabase();
-        ContentValues contentValues=new ContentValues();
-        contentValues.put(SQLHelper.CONTACTS_NAME,name);
-        contentValues.put(SQLHelper.CONTACTS_LAST,lastname);
-        contentValues.put(SQLHelper.CONTACTS_DESCRIPTION,description);
-        contentValues.put(SQLHelper.CONTACTS_LAT,lat);
-        contentValues.put(SQLHelper.CONTACTS_LONGET,longet);
-        contentValues.put(SQLHelper.CONTACTS_REC,filename);
-        contentValues.put(SQLHelper.CONTACTS_ICON,imagename);
-        db.insert(SQLHelper.TABLE_NAME_CONTACTS,null,contentValues);
-        Toast.makeText(context,"Add",Toast.LENGTH_SHORT).show();
+
+    public void addcontact(String name, String lastname, String description, double lat, double longet, String filename, String imagename) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(SQLHelper.CONTACTS_NAME, name);
+        contentValues.put(SQLHelper.CONTACTS_LAST, lastname);
+        contentValues.put(SQLHelper.CONTACTS_DESCRIPTION, description);
+        contentValues.put(SQLHelper.CONTACTS_LAT, lat);
+        contentValues.put(SQLHelper.CONTACTS_LONGET, longet);
+        contentValues.put(SQLHelper.CONTACTS_REC, filename);
+        contentValues.put(SQLHelper.CONTACTS_ICON, imagename);
+        db.insert(SQLHelper.TABLE_NAME_CONTACTS, null, contentValues);
         db.close();
     }
+
     public int deleteContact(int contactID) {
         SQLiteDatabase db = helper.getWritableDatabase();
         String[] whereArgs = {String.valueOf(contactID)};
@@ -82,6 +84,7 @@ public class DatabaseAdapter {
 
 
     }
+
     static class SQLHelper extends SQLiteOpenHelper {
 
         private Context context;
@@ -99,19 +102,19 @@ public class DatabaseAdapter {
         private static final String CONTACTS_LAT = "lat";
         private static final String CONTACTS_LONGET = "longet";
 
-        private static final String CREATE_TABLE_CONTACTS = "CREATE TABLE IF not exists "+TABLE_NAME_CONTACTS+"("
-                    + CONTACTS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + CONTACTS_NAME + " VARCHAR(255), "
+        private static final String CREATE_TABLE_CONTACTS = "CREATE TABLE IF not exists " + TABLE_NAME_CONTACTS + "("
+                + CONTACTS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + CONTACTS_NAME + " VARCHAR(255), "
                 + CONTACTS_LAST + " VARCHAR(255), "
-                    + CONTACTS_DESCRIPTION + " VARCHAR(255), "
+                + CONTACTS_DESCRIPTION + " VARCHAR(255), "
                 + CONTACTS_LAT + " VARCHAR(255), "
                 + CONTACTS_LONGET + " VARCHAR(255), "
-                    + CONTACTS_ICON + " VARCHAR(255), " +
-                CONTACTS_REC+" VARCHAR(255)"+
+                + CONTACTS_ICON + " VARCHAR(255), " +
+                CONTACTS_REC + " VARCHAR(255)" +
                 ");";
-        private static final String DROP_TABLE_CONTACTS = "DROP TABLE IF EXISTS "+TABLE_NAME_CONTACTS;
+        private static final String DROP_TABLE_CONTACTS = "DROP TABLE IF EXISTS " + TABLE_NAME_CONTACTS;
 
-        public SQLHelper(Context context){
+        public SQLHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
             this.context = context;
             SQLiteDatabase db = this.getWritableDatabase();
@@ -126,7 +129,7 @@ public class DatabaseAdapter {
                 Toast.makeText(context, "New version of database created", Toast.LENGTH_SHORT).show();
             } catch (SQLException e) {
                 e.printStackTrace();
-                Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "" + e, Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -139,7 +142,7 @@ public class DatabaseAdapter {
 //                Toast.makeText(context, "The previous version of database dropped", Toast.LENGTH_SHORT).show();
             } catch (SQLException e) {
                 e.printStackTrace();
-                Toast.makeText(context, ""+e, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "" + e, Toast.LENGTH_SHORT).show();
             }
         }
     }
