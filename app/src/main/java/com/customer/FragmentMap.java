@@ -3,10 +3,7 @@ package com.customer;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,7 +134,7 @@ public void setmarker(){
                 ((MainActivity) getActivity()).getClient().setLat(position.latitude);
                 ((MainActivity) getActivity()).getClient().setLonget(position.longitude);
                 info=true;}
-                ((MainActivity) getActivity()).showScreen(new NewFragment(),NewFragment.TAG,true);
+                ((MainActivity) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG,true);
             }
             else Toast.makeText(getActivity(),"Select point",Toast.LENGTH_SHORT).show();
             return true;

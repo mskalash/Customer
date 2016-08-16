@@ -33,19 +33,16 @@ public class DatabaseAdapter {
             int lastIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_LAST);
             int nameIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_NAME);
             int descIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_DESCRIPTION);
-            int iconIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_ICON);
-
+      //      int iconIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_ICON);
             int id = cursor.getInt(idIndex);
             String last = cursor.getString(lastIndex);
             String name = cursor.getString(nameIndex);
             String desc = cursor.getString(descIndex);
 //            String icon = cursor.getString(iconIndex);
             result.add(new Client(String.valueOf(id), name, last, desc));
-
         }
         cursor.close();
         db.close();
-        Toast.makeText(context, "SHOW", Toast.LENGTH_SHORT).show();
         return result;
     }
 

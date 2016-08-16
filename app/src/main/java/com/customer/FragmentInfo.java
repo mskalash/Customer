@@ -23,7 +23,7 @@ import java.io.IOException;
 /**
  * Created by Максим on 08.08.2016.
  */
-public class InfoFragment extends Fragment {
+public class FragmentInfo extends Fragment {
     View view;
     ImageView play;
     TextView lastname;
@@ -31,7 +31,7 @@ public class InfoFragment extends Fragment {
     TextView description;
     CircularImageView avatar;
     MediaPlayer mediaPlayer;
-    public final static String TAG="InfoFragment";
+    public final static String TAG="FragmentInfo";
     boolean playrec=false;
     @Nullable
     @Override
@@ -92,7 +92,7 @@ setMedia();
             image=((MainActivity) getActivity()).getClient().getImagename();
             db.addcontact(name,lastname,desc,lat,longet,filename,image);
             ((MainActivity) getActivity()).getClient().clear();
-            ((MainActivity) getActivity()).showScreen(new FirstFragment(),FirstFragment.TAG,false);
+            ((MainActivity) getActivity()).showScreen(new FragmentFirst(), FragmentFirst.TAG,false);
             return true;
         }
         return super.onOptionsItemSelected(item);

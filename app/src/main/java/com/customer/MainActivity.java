@@ -20,7 +20,7 @@ client=new Client();
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        showScreen(new FirstFragment(),FirstFragment.TAG,false);
+        showScreen(new FragmentFirst(), FragmentFirst.TAG,false);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -37,7 +37,7 @@ public void showScreen(Fragment fragment,String tag,boolean addToBackStack){
     ft.replace(R.id.frame_main, fragment, tag);
     ft.commitAllowingStateLoss();
     fm.executePendingTransactions();
-    if (tag.equals(FirstFragment.TAG)) {
+    if (tag.equals(FragmentFirst.TAG)) {
         fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(false);

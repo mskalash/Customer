@@ -13,14 +13,14 @@ import mehdi.sakout.fancybuttons.FancyButton;
 /**
  * Created by Максим on 08.08.2016.
  */
-public class FirstFragment extends Fragment {
+public class FragmentFirst extends Fragment {
     View view;
     FancyButton list;
     FancyButton add;
     TextView left;
     TextView right;
     TextView center;
-    public final static String TAG="FirstFragment";
+    public final static String TAG="FragmentFirst";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class FirstFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                ((MainActivity) getActivity()).showScreen(new ListFragment(),ListFragment.TAG,true); }
+                ((MainActivity) getActivity()).showScreen(new FragmentList(), FragmentList.TAG,true); }
         });
         add.setOnClickListener(new View.OnClickListener() {
             @Override

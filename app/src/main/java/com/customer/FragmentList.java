@@ -15,10 +15,10 @@ import java.util.ArrayList;
 /**
  * Created by Максим on 08.08.2016.
  */
-public class ListFragment extends Fragment {
+public class FragmentList extends Fragment {
     RecyclerView main;
     View view;
-    public final static String TAG = "ListFragment";
+    public final static String TAG = "FragmentList";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,7 +30,7 @@ public class ListFragment extends Fragment {
         ((MainActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(false);
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
         ArrayList<Client> arrayList = db.getContactsData();
-        ListAdapter adapter = new ListAdapter(arrayList);
+        ListAdapter adapter = new ListAdapter(getActivity(),arrayList);
         main.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         main.setLayoutManager(layoutManager);
@@ -50,7 +50,7 @@ public class ListFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
 
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_main, new AllPointFragment()).commit();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_main, new FragmentAllPoint()).commit();
 
             return true;
         }

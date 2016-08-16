@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * Created by Максим on 08.08.2016.
  */
-public class RecoderFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
+public class FragmentRecoder extends android.support.v4.app.Fragment implements View.OnClickListener {
     View view;
     ImageView rec;
     ImageView play;
@@ -27,7 +27,7 @@ public class RecoderFragment extends android.support.v4.app.Fragment implements 
     final int REQUEST_CODE_FILE = 1;
 
     DatabaseAdapter db;
-    public final static String TAG = "RecoderFragment";
+    public final static String TAG = "FragmentRecoder";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,7 +111,7 @@ public class RecoderFragment extends android.support.v4.app.Fragment implements 
             } else {
                 ((MainActivity) getActivity()).getClient().setFilename(fileName);
                 DatabaseAdapter db = new DatabaseAdapter(getActivity());
-                ((MainActivity) getActivity()).showScreen(new InfoFragment(), InfoFragment.TAG, true);
+                ((MainActivity) getActivity()).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
             }
             return true;
         }

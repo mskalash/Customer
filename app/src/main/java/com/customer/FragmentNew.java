@@ -19,14 +19,14 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 /**
  * Created by Максим on 08.08.2016.
  */
-public class NewFragment extends Fragment {
+public class FragmentNew extends Fragment {
     CircularImageView newimage;
     View v;
     Uri selectedImage;
     EditText profilename;
     EditText profilelast;
     EditText profiledesc;
-    public final static String TAG = "NewFtagment";
+    public final static String TAG = "FtagmentNew";
     static final int GALLERY_REQUEST = 1;
 
     @Nullable
@@ -79,7 +79,7 @@ public class NewFragment extends Fragment {
             else if (profiledesc.getText().toString().isEmpty())
                 Toast.makeText(getActivity(), "Write person description", Toast.LENGTH_SHORT).show();
             else {
-                ((MainActivity) getActivity()).showScreen(new RecoderFragment(), RecoderFragment.TAG, true);
+                ((MainActivity) getActivity()).showScreen(new FragmentRecoder(), FragmentRecoder.TAG, true);
                 ((MainActivity) getActivity()).getClient().setProfilename(profilename.getText().toString());
                 ((MainActivity) getActivity()).getClient().setLast(profilelast.getText().toString());
                 ((MainActivity) getActivity()).getClient().setDesc(profiledesc.getText().toString());

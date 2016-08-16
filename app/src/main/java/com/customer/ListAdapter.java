@@ -1,95 +1,74 @@
 package com.customer;
 
-import android.app.FragmentManager;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
 /**
- * Created by Максим on 08.08.2016.
+ * Created by Максим on 16.08.2016.
  */
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ContactViewHolder> {
-
+public class ListAdapter extends RecyclerView.Adapter<FollowVH> {
     private LayoutInflater inflater;
+    private Context mContext;
     ArrayList<Client> arrayList;
-    Context context;
-public ListAdapter(ArrayList<Client> arrayList){
-    this.arrayList=arrayList;
-}
+
+    public ListAdapter(Context context, ArrayList<Client> arrayList) {
+        inflater = LayoutInflater.from(context);
+        this.arrayList = arrayList;
+        mContext = context;
+    }
 
     @Override
-    public ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        View view = inflater.inflate(R.layout.fragment_list, parent, false);
-        ContactViewHolder holder = new ContactViewHolder(view, context);
+    public FollowVH onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = inflater.inflate(R.layout.viewcuston, parent, false);
+        FollowVH holder = new FollowVH(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(final ContactViewHolder holder, final int position) {
-        holder.name.setText(arrayList.get(position).getProfilename());
-        holder.description.setText(arrayList.get(position).getDesc());
-        Toast.makeText(context, arrayList.get(position).getRecid(), Toast.LENGTH_LONG).show();
+    public void onBindViewHolder(FollowVH holder, int position) {
+        String image = arrayList.get(position).getImagename();
+        Glide.with(mContext).load(image).into(holder.avatar);
+        holder.username.setText(arrayList.get(position).getProfilename()+" "+arrayList.get(position).getLast());
+        holder.message.setText(arrayList.get(position).getDesc());
+
     }
 
     @Override
     public int getItemCount() {
-        return 0;
-    }
-
-
-    class ContactViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
-
-        private ImageView icon;
-        private TextView name;
-        private TextView description;
-        private TextView databaseID;
-        private ImageView delete;
-
-        public ContactViewHolder(final View itemView, Context context) {
-            super(itemView);
-            icon = (ImageView) itemView.findViewById(R.id.avatar);
-            name = (TextView) itemView.findViewById(R.id.firsname);
-            description = (TextView) itemView.findViewById(R.id.desc);
-            databaseID = (TextView) itemView.findViewById(R.id.databaseID);
-            delete = (ImageView) itemView.findViewById(R.id.delete);
-            itemView.setOnClickListener(this);
-            name.setOnClickListener(this);
-            description.setOnClickListener(this);
-            delete.setOnClickListener(this);
-
-        }
-
-        @Override
-        public void onClick(View v) {
-
-            if (v.getId() == R.id.delete) {
-                RemoveConfirmation dialog = new RemoveConfirmation();
-                Bundle data = new Bundle();
-                data.putString("purpose", "contacts");
-                data.putInt("itemID", Integer.parseInt(databaseID.getText().toString()));
-                data.putInt("position", getPosition());
-                dialog.setArguments(data);
-                FragmentManager fragmentManager = ((MainActivity) context).getFragmentManager();
-                dialog.show(fragmentManager, "Confirmation");
-
-
-            } else {
-//                Intent intent = new Intent(context , MeetRecActivity.class);
-//                intent.putExtra("contactID", Integer.parseInt(databaseID.getText().toString()));
-//                context.startActivity(intent);
-            }
-        }
-
-
+        return arrayList.size();
     }
 }
+
+class FollowVH extends RecyclerView.ViewHolder {
+    ImageView delete;
+    ImageView avatar;
+    TextView username;
+    TextView message;
+
+    public FollowVH(View itemView) {
+        super(itemView);
+        avatar = (ImageView) itemView.findViewById(R.id.avatar);
+        username = (TextView) itemView.findViewById(R.id.firsname);
+        message = (TextView) itemView.findViewById(R.id.desc);
+        delete = (ImageView) itemView.findViewById(R.id.delete);
+//        delete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
+    }
+
+
+}
+
+

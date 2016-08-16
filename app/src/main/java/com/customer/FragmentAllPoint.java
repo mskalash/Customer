@@ -30,7 +30,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 /**
  * Created by Максим on 08.08.2016.
  */
-public class AllPointFragment extends Fragment {
+public class FragmentAllPoint extends Fragment {
     MapView mMapView;
     private GoogleMap googleMap;
 private TextView name;
@@ -88,7 +88,7 @@ maps.clear();
         googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_main, new InfoFragment()).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_main, new FragmentInfo()).commit();
 
             }
         });
