@@ -38,8 +38,8 @@ public void showScreen(Fragment fragment,String tag,boolean addToBackStack){
         ft.addToBackStack(String.valueOf(System.identityHashCode(fragment)));
     }
     ft.replace(R.id.frame_main, fragment, tag);
-    ft.commitAllowingStateLoss();
-    fm.executePendingTransactions();
+    ft.commit();
+    //fm.executePendingTransactions();
     if (tag.equals(FragmentFirst.TAG)) {
         fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);

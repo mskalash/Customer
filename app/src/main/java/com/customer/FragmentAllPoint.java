@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -26,9 +26,7 @@ import java.util.Map;
 public class FragmentAllPoint extends Fragment {
     MapView mMapView;
     private GoogleMap googleMap;
-    private TextView name;
-    private TextView lastname;
-    private TextView desc;
+
     private Map<Marker, Client> maps = new HashMap<>();
     ArrayList<Client> arrayList;
     public static final String TAG = "FragmentAllPoint";
@@ -80,21 +78,19 @@ public class FragmentAllPoint extends Fragment {
 //        });
 
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-//        CameraPosition cameraPosition = new CameraPosition.Builder()
-//                .target(new LatLng(arrayList.get(arrayList.size()).getLat(), arrayList.get(arrayList.size()).getLonget())).zoom(17).build();
-//        googleMap.animateCamera(CameraUpdateFactory
-//                .newCameraPosition(cameraPosition));
         googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                ((MainActivity) getActivity()).getClient().setRecid(recId(marker.getId(),arrayList));
+                ((MainActivity) getActivity()).getClient().setRecid(recId(marker.getId(), arrayList));
                 ((MainActivity) getActivity()).getClient().setCheck(true);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_main, new FragmentInfo()).commit();
+                Toast.makeText(getActivity(), "" + ((MainActivity) getActivity()).getClient().getRecid(), Toast.LENGTH_SHORT).show();
+                  ((MainActivity) getActivity()).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
 
             }
         });
         return v;
     }
+
 
     private int recId(String markerid, ArrayList<Client> arrayList) {
         for (Client client : arrayList) {
