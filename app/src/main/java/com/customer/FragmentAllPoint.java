@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -47,7 +46,6 @@ public class FragmentAllPoint extends Fragment {
             e.printStackTrace();
         }
         googleMap = mMapView.getMap();
-
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
         arrayList = db.getmapdata();
         for (int i = 0; i < arrayList.size(); i++) {
@@ -57,25 +55,8 @@ public class FragmentAllPoint extends Fragment {
                     .snippet(arrayList.get(i).getLast())
                     .icon(BitmapDescriptorFactory
                             .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-            ((MainActivity) getActivity()).getClient().setMapid(marker.getId());
+            arrayList.get(i).setMapid(marker.getId());
         }
-//        googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-//            @Override
-//            public View getInfoWindow(Marker marker) {
-//                ContextThemeWrapper wrapper = new ContextThemeWrapper(getActivity(), R.style.TransparentBackground);
-//                LayoutInflater inflater = (LayoutInflater) wrapper.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                View layout = inflater.inflate(R.layout.marker_view, null);
-//                TextView name = (TextView) layout.findViewById(R.id.firsname);
-//
-////
-//                return layout;
-//            }
-//
-//            @Override
-//            public View getInfoContents(Marker marker) {
-//                return null;
-//            }
-//        });
 
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -83,7 +64,6 @@ public class FragmentAllPoint extends Fragment {
             public void onInfoWindowClick(Marker marker) {
                 ((MainActivity) getActivity()).getClient().setRecid(recId(marker.getId(), arrayList));
                 ((MainActivity) getActivity()).getClient().setCheck(true);
-                Toast.makeText(getActivity(), "" + ((MainActivity) getActivity()).getClient().getRecid(), Toast.LENGTH_SHORT).show();
                   ((MainActivity) getActivity()).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
 
             }
@@ -94,7 +74,7 @@ public class FragmentAllPoint extends Fragment {
 
     private int recId(String markerid, ArrayList<Client> arrayList) {
         for (Client client : arrayList) {
-            if (((MainActivity) getActivity()).getClient().getMapid().equals(markerid)) {
+            if (client.getMapid().equals(markerid)) {
                 return client.getRecid();
             }
         }

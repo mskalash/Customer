@@ -11,16 +11,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.mikhaellopez.circularimageview.CircularImageView;
 
 /**
  * Created by Максим on 08.08.2016.
  */
 public class FragmentNew extends Fragment {
-    CircularImageView newimage;
+    ImageView newimage;
     View v;
     Uri selectedImage;
     EditText profilename;
@@ -39,7 +39,7 @@ public class FragmentNew extends Fragment {
         profilename = (EditText) v.findViewById(R.id.editname);
         profilelast = (EditText) v.findViewById(R.id.editlast);
         profiledesc = (EditText) v.findViewById(R.id.editdesc);
-        newimage = (CircularImageView) v.findViewById(R.id.editavatar);
+        newimage = (ImageView) v.findViewById(R.id.editavatar);
         if (((MainActivity) getActivity()).getClient().getProfilename() != null) settext();
 
         newimage.setOnClickListener(new View.OnClickListener() {

@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.io.IOException;
 
@@ -29,7 +28,7 @@ public class FragmentInfo extends Fragment {
     TextView lastname;
     TextView name;
     TextView description;
-    CircularImageView avatar;
+    ImageView avatar;
     MediaPlayer mediaPlayer;
     public final static String TAG = "FragmentInfo";
     boolean playrec = false;
@@ -44,7 +43,7 @@ public class FragmentInfo extends Fragment {
         lastname = (TextView) view.findViewById(R.id.lastname);
         name = (TextView) view.findViewById(R.id.name);
         description = (TextView) view.findViewById(R.id.description);
-        avatar = (CircularImageView) view.findViewById(R.id.profile_avatar);
+        avatar = (ImageView) view.findViewById(R.id.profile_avatar);
         if (((MainActivity) getActivity()).getClient().isCheck()) {
             DatabaseAdapter db = new DatabaseAdapter(getActivity());
             db.selectprofile(((MainActivity) getActivity()).getClient().getRecid());

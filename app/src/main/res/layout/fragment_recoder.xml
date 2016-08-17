@@ -2,13 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    android:background="@drawable/background">
 <ImageView
     android:layout_width="wrap_content"
     android:layout_marginTop="40dp"
     android:layout_height="300dp"
-    android:src="@drawable/icon_mic2"
-    android:layout_gravity="center"/>
+    android:src="@drawable/microphone_icon"
+    android:layout_gravity="center"
+    android:layout_marginBottom="25dp"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,19 +18,21 @@
     <ImageView
         android:layout_width="@dimen/imgesize"
         android:layout_height="@dimen/imgesize"
+        android:layout_marginRight="10dp"
         android:src="@drawable/play"
         android:visibility="invisible"
         android:id="@+id/play"/>
     <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/imgesize"
+        android:layout_height="@dimen/imgesize"
         android:layout_gravity="center"
         android:id="@+id/rec"
-        android:src="@drawable/recoder"/>
+        android:src="@drawable/rec"/>
     <ImageView
         android:layout_width="@dimen/imgesize"
         android:layout_height="@dimen/imgesize"
         android:src="@drawable/pause"
         android:id="@+id/pause"
+        android:layout_marginLeft="10dp"
         android:visibility="invisible"/></LinearLayout>
 </LinearLayout>

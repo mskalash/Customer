@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.mikhaellopez.circularimageview.CircularImageView
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+    <ImageView
         android:id="@+id/profile_avatar"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_gravity="center"
         android:layout_margin="8dp"
-        android:paddingTop="5dp"
         android:scaleType="centerCrop"
         android:src="@drawable/newprofile"/>
 <TextView
@@ -17,14 +17,15 @@
     android:text="Name"
     android:layout_gravity="center"
     android:textSize="17sp"
-    android:textColor="#000"/>
+    android:textColor="#fff"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Maxim"
         android:layout_gravity="center"
         android:textSize="20sp"
-        android:id="@+id/name"/>
+        android:id="@+id/name"
+        android:textColor="#fff"/>
     <TextView
        android:paddingTop="@dimen/texpadding"
         android:layout_width="wrap_content"
@@ -32,14 +33,15 @@
         android:text="Last name"
         android:layout_gravity="center"
         android:textSize="17sp"
-        android:textColor="#000"/>
+        android:textColor="#fff"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Khlebnikov"
         android:layout_gravity="center"
         android:textSize="20sp"
-        android:id="@+id/lastname"/>
+        android:id="@+id/lastname"
+        android:textColor="#fff"/>
     <TextView
         android:paddingTop="@dimen/texpadding"
         android:layout_width="wrap_content"
@@ -47,14 +49,15 @@
         android:text="Description"
         android:layout_gravity="center"
         android:textSize="17sp"
-        android:textColor="#000"/>
+        android:textColor="#fff"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Bla Bla Bla"
         android:layout_gravity="center"
         android:textSize="20sp"
-        android:id="@+id/description"/>
+        android:id="@+id/description"
+        android:textColor="#fff"/>
     <ImageView
 
         android:layout_width="50dp"

@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     android:layout_height="?android:actionBarSize"
-    android:background="@color/colorPrimaryDark">
+    android:background="#ffd954"
+    android:titleTextColor="#00176d"
+    app:titleTextColor="#00176d">
 
 </android.support.v7.widget.Toolbar>

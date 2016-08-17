@@ -3,16 +3,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:paddingTop="30dp">
+    android:paddingTop="30dp"
+    android:background="@drawable/background">
    >
 
-    <com.mikhaellopez.circularimageview.CircularImageView
+    <ImageView
         android:id="@+id/comment_avatar"
         android:layout_width="170dp"
         android:layout_height="170dp"
         android:layout_gravity="center"
         android:layout_margin="8dp"
-        android:paddingTop="5dp"
         android:scaleType="centerCrop"
         android:src="@drawable/newprofile" />
 
@@ -26,14 +26,14 @@ android:layout_marginTop="30dp"
         android:gravity="bottom"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
-        fancy:fb_borderColor="#2a5b83"
+        fancy:fb_borderColor="#ffd954"
         fancy:fb_borderWidth="1dp"
-        fancy:fb_defaultColor="#2a5b83"
+        fancy:fb_defaultColor="#ffd954"
         fancy:fb_focusColor="#fff"
         fancy:fb_iconPosition="left"
         fancy:fb_radius="25dp"
         fancy:fb_text="ADD"
-        fancy:fb_textColor="#fff"
+        fancy:fb_textColor="#00176d"
         fancy:fb_textGravity="center_horizontal"
         fancy:fb_textSize="18sp"
 
@@ -46,14 +46,14 @@ android:layout_marginTop="30dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
-        fancy:fb_borderColor="#37b5be"
+        fancy:fb_borderColor="#fff"
         fancy:fb_borderWidth="1dp"
-        fancy:fb_defaultColor="#37b5be"
-        fancy:fb_focusColor="#fff"
+        fancy:fb_defaultColor="#fff"
+        fancy:fb_focusColor="#ffd954"
         fancy:fb_iconPosition="left"
         fancy:fb_radius="25dp"
         fancy:fb_text="LIST"
-        fancy:fb_textColor="#fff"
+        fancy:fb_textColor="#00176d"
         fancy:fb_textGravity="center_horizontal"
         fancy:fb_textSize="18sp" />
 </LinearLayout>

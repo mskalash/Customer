@@ -16,14 +16,15 @@ import java.util.ArrayList;
 /**
  * Created by Максим on 16.08.2016.
  */
-public class ListAdapter extends RecyclerView.Adapter<FollowVH> {
+public class ListAdapter extends RecyclerView.Adapter<ListAdapter.FollowVH> {
     private LayoutInflater inflater;
     private Context mContext;
     ArrayList<Client> arrayList;
 
     public ListAdapter(Context context, ArrayList<Client> arrayList) {
         inflater = LayoutInflater.from(context);
-        this.arrayList = arrayList;
+//        this.arrayList = arrayList;
+        this.arrayList = new ArrayList<>(arrayList);
         mContext = context;
     }
 
@@ -37,52 +38,50 @@ public class ListAdapter extends RecyclerView.Adapter<FollowVH> {
     @Override
     public void onBindViewHolder(FollowVH holder, final int position) {
         String image = arrayList.get(position).getImagename();
-        if (image!=null)
-        Glide.with(mContext).load(image).into(holder.avatar);
-        holder.username.setText(arrayList.get(position).getProfilename()+" "+arrayList.get(position).getLast());
+        if (image != null)
+            Glide.with(mContext).load(image).into(holder.avatar);
+        holder.username.setText(arrayList.get(position).getProfilename() + " " + arrayList.get(position).getLast());
         holder.message.setText(arrayList.get(position).getDesc());
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((MainActivity) mContext).deleteprofile(arrayList.get(position).getRecid(),arrayList.get(position).getFilename());
-
-              arrayList.remove(position);
-                notifyItemRemoved(position);
-             }
-        });
-        holder.profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((MainActivity) mContext).getClient().setCheck(true);
-                ((MainActivity) mContext).getClient().setRecid(arrayList.get(position).getRecid());
-                ((MainActivity) mContext).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
-            }
-        });
-
     }
 
     @Override
     public int getItemCount() {
         return arrayList.size();
     }
-}
 
-class FollowVH extends RecyclerView.ViewHolder {
-    ImageView delete;
-    ImageView avatar;
-    TextView username;
-    TextView message;
-    LinearLayout profile;
-    public FollowVH(View itemView) {
-        super(itemView);
-        avatar = (ImageView) itemView.findViewById(R.id.avatar);
-        username = (TextView) itemView.findViewById(R.id.firsname);
-        message = (TextView) itemView.findViewById(R.id.desc);
-        delete = (ImageView) itemView.findViewById(R.id.delete);
-profile=(LinearLayout)itemView.findViewById(R.id.profileid);
+
+    class FollowVH extends RecyclerView.ViewHolder implements View.OnClickListener {
+        ImageView delete;
+        ImageView avatar;
+        TextView username;
+        TextView message;
+        LinearLayout profile;
+
+        public FollowVH(View itemView) {
+            super(itemView);
+            avatar = (ImageView) itemView.findViewById(R.id.avatar);
+            username = (TextView) itemView.findViewById(R.id.firsname);
+            message = (TextView) itemView.findViewById(R.id.desc);
+            delete = (ImageView) itemView.findViewById(R.id.delete);
+            profile = (LinearLayout) itemView.findViewById(R.id.profileid);
+            delete.setOnClickListener(this);
+            profile.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            if (view.getId() == delete.getId()) {
+                ((MainActivity) mContext).deleteprofile(arrayList.get(position).getRecid(), arrayList.get(position).getFilename());
+                arrayList.remove(position);
+                notifyItemRemoved(position);
+          }
+            if (view.getId() == profile.getId()) {
+                ((MainActivity) mContext).getClient().setCheck(true);
+                ((MainActivity) mContext).getClient().setRecid(arrayList.get(position).getRecid());
+                ((MainActivity) mContext).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
+            }
+        }
     }
-
-
 }
-
 
