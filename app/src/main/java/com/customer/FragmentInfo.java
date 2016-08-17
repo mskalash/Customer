@@ -19,6 +19,8 @@ import com.bumptech.glide.Glide;
 
 import java.io.IOException;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 /**
  * Created by Максим on 08.08.2016.
  */
@@ -52,6 +54,7 @@ public class FragmentInfo extends Fragment {
             Uri image = Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
             Glide.with(getActivity())
                     .load(image)
+                    .bitmapTransform(new CropCircleTransformation(getActivity()))
                     .into(avatar);
         }
 

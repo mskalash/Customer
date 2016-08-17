@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 /**
  * Created by Максим on 08.08.2016.
  */
@@ -62,7 +64,7 @@ public class FragmentNew extends Fragment {
                 if (resultCode == Activity.RESULT_OK) {
                     selectedImage = imageReturnedIntent.getData();
                     Glide.with(getActivity())
-                            .load(selectedImage)
+                            .load(selectedImage).bitmapTransform(new CropCircleTransformation(getActivity()))
                             .into(newimage);
                 }
         }

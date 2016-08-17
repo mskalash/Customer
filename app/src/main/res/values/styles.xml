@@ -6,8 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:background">@color/background</item>
     </style>
+    <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorPrimary">@color/toolbarcolor</item>
+        <item name="android:textColorSecondary">@color/toolbarcolor</item>
+        <item name="android:textColor">@color/toolbarcolor</item>
+    </style>`
     <style name="TransparentBackground" parent="android:Theme.Light">
         <item name="android:windowIsTranslucent">true</item> <!-- подлупрозрачность окна -->
         <item name="android:windowBackground">@android:color/transparent</item> <!-- прозрачный цвет бэкграунда -->
