@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 /**
  * Created by Максим on 16.08.2016.
  */
@@ -39,9 +41,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.FollowVH> {
     public void onBindViewHolder(FollowVH holder, final int position) {
         String image = arrayList.get(position).getImagename();
         if (image != null)
-            Glide.with(mContext).load(image).into(holder.avatar);
-        holder.username.setText(arrayList.get(position).getProfilename() + " " + arrayList.get(position).getLast());
+            Glide.with(mContext).load(image).bitmapTransform(new CropCircleTransformation(mContext)).into(holder.avatar);
+        holder.username.setText(arrayList.get(position).getProfilename() );
         holder.message.setText(arrayList.get(position).getDesc());
+        holder.namelist.setText(arrayList.get(position).getLast());
     }
 
     @Override
@@ -56,9 +59,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.FollowVH> {
         TextView username;
         TextView message;
         LinearLayout profile;
+        TextView namelist;
 
         public FollowVH(View itemView) {
             super(itemView);
+            namelist=(TextView)itemView.findViewById(R.id.namelist);
             avatar = (ImageView) itemView.findViewById(R.id.avatar);
             username = (TextView) itemView.findViewById(R.id.firsname);
             message = (TextView) itemView.findViewById(R.id.desc);

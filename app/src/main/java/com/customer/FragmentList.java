@@ -2,7 +2,7 @@ package com.customer;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,8 +30,9 @@ public class FragmentList extends Fragment {
         ArrayList<Client> arrayList = db.getContactsData();
         ListAdapter adapter = new ListAdapter(getActivity(),arrayList);
         main.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        main.setLayoutManager(layoutManager);
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+//        main.setLayoutManager(layoutManager);
+        main.setLayoutManager(new GridLayoutManager(getContext(), 3));
         return view;
 
     }

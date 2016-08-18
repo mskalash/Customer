@@ -38,7 +38,7 @@ public class RecordingCoverActivity extends AppCompatActivity {
 DatabaseAdapter db=new DatabaseAdapter(this);
         recordID = db.insertDummyContact();
 
-        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+getResources().getString(R.string.app_name));
+        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+getResources().getString(R.string.app_name)+"/record");
         if (!folder.exists()) {
             folder.mkdir();
         }
