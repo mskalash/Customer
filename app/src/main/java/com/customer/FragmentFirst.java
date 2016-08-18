@@ -16,31 +16,38 @@ public class FragmentFirst extends Fragment {
     View view;
     FancyButton list;
     FancyButton add;
-boolean tool=false;
-    public final static String TAG="FragmentFirst";
+    boolean tool = false;
+    public final static String TAG = "FragmentFirst";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main, container, false);
         setHasOptionsMenu(true);
         ((MainActivity) getActivity()).getClient().clear();
-        list= (FancyButton)view.findViewById(R.id.list);
-        add= (FancyButton)view.findViewById(R.id.newperson);
+        list = (FancyButton) view.findViewById(R.id.list);
+        add = (FancyButton) view.findViewById(R.id.newperson);
         list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                ((MainActivity) getActivity()).showScreen(new FragmentList(), FragmentList.TAG,true); }
+                ((MainActivity) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, true);
+            }
         });
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                ((MainActivity) getActivity()).showScreen(new FragmentMap(),FragmentMap.TAG,true);
+                ((MainActivity) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);
             }
         });
+
+
+            ((MainActivity) getActivity()).mToolbar.setNavigationIcon(null);
+
         return view;
     }
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(false);

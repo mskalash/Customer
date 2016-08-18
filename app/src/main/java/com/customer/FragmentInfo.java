@@ -1,5 +1,6 @@
 package com.customer;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,11 +21,12 @@ import com.bumptech.glide.Glide;
 import java.io.IOException;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import mehdi.sakout.fancybuttons.FancyButton;
 
 /**
  * Created by Максим on 08.08.2016.
  */
-public class FragmentInfo extends Fragment {
+public class FragmentInfo extends Fragment implements View.OnClickListener{
     View view;
     ImageView play;
     TextView lastname;
@@ -32,6 +34,9 @@ public class FragmentInfo extends Fragment {
     TextView description;
     ImageView avatar;
     MediaPlayer mediaPlayer;
+    String phone;
+    FancyButton call;
+    FancyButton send;
     public final static String TAG = "FragmentInfo";
     boolean playrec = false;
 
@@ -46,6 +51,8 @@ public class FragmentInfo extends Fragment {
         name = (TextView) view.findViewById(R.id.name);
         description = (TextView) view.findViewById(R.id.description);
         avatar = (ImageView) view.findViewById(R.id.profile_avatar);
+        call = (FancyButton) view.findViewById(R.id.callphone);
+        send = (FancyButton) view.findViewById(R.id.messege);
         if (((MainActivity) getActivity()).getClient().isCheck()) {
             DatabaseAdapter db = new DatabaseAdapter(getActivity());
             db.selectprofile(((MainActivity) getActivity()).getClient().getRecid());
@@ -57,29 +64,14 @@ public class FragmentInfo extends Fragment {
                     .bitmapTransform(new CropCircleTransformation(getActivity()))
                     .into(avatar);
         }
-
         setMedia();
-
+        phone = ((MainActivity) getActivity()).getClient().getPhone();
         lastname.setText(((MainActivity) getActivity()).getClient().getLast());
         name.setText(((MainActivity) getActivity()).getClient().getProfilename());
         description.setText(((MainActivity) getActivity()).getClient().getDesc());
-
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (playrec == false) {
-                    play.setImageResource(R.drawable.pause);
-                    mediaPlayer.start();
-                    playrec = true;
-                    return;
-                } else {
-                    play.setImageResource(R.drawable.play);
-                    mediaPlayer.pause();
-                    playrec = false;
-                }
-            }
-        });
-
+call.setOnClickListener(this);
+        play.setOnClickListener(this);
+send.setOnClickListener(this);
         FragmentManager childFragMan = getChildFragmentManager();
         FragmentTransaction childFragTrans = childFragMan.beginTransaction();
         childFragTrans.add(R.id.profilemap, new FaragmentMapInfo()).commit();
@@ -98,9 +90,10 @@ public class FragmentInfo extends Fragment {
             double longet = ((MainActivity) getActivity()).getClient().getLonget();
             String filename = ((MainActivity) getActivity()).getClient().getFilename();
             String image = null;
+            String phone = ((MainActivity) getActivity()).getClient().getPhone();
             if (((MainActivity) getActivity()).getClient().getImagename() != null)
                 image = ((MainActivity) getActivity()).getClient().getImagename();
-            db.addcontact(name, lastname, desc, lat, longet, filename, image);
+            db.addcontact(name, lastname, desc, lat, longet, filename, image, phone);
 
             ((MainActivity) getActivity()).showScreen(new FragmentFirst(), FragmentFirst.TAG, false);
             return true;
@@ -112,7 +105,7 @@ public class FragmentInfo extends Fragment {
     public void onPrepareOptionsMenu(Menu menu) {
         if (((MainActivity) getActivity()).getClient().isCheck())
             menu.getItem(0).setVisible(false);
-            menu.getItem(0).setTitle("DONE");
+        menu.getItem(0).setTitle("DONE");
 
     }
 
@@ -124,6 +117,33 @@ public class FragmentInfo extends Fragment {
             mediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.plaer:
+                if (playrec == false) {
+                    play.setImageResource(R.drawable.pause);
+                    mediaPlayer.start();
+                    playrec = true;
+                    return;
+                } else {
+                    play.setImageResource(R.drawable.play);
+                    mediaPlayer.pause();
+                    playrec = false;
+                }
+                break;
+            case R.id.callphone:
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",phone, null));
+                startActivity(intent);
+                break;
+            case R.id.messege:
+                String uri= "smsto:"+phone;
+                Intent intent2 = new Intent(Intent.ACTION_SENDTO, Uri.parse(uri));
+                startActivity(intent2);
+                break;
         }
     }
 }

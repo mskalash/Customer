@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    android:orientation="vertical">
+
     <ImageView
         android:id="@+id/profile_avatar"
         android:layout_width="130dp"
@@ -10,67 +12,124 @@
         android:layout_gravity="center"
         android:layout_margin="8dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/newprofile"/>
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Name"
-    android:layout_gravity="center"
-    android:textSize="17sp"
-    android:textColor="#fff"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Maxim"
-        android:layout_gravity="center"
-        android:textSize="20sp"
-        android:id="@+id/name"
-        android:textColor="#fff"/>
-    <TextView
-       android:paddingTop="@dimen/texpadding"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Last name"
-        android:layout_gravity="center"
-        android:textSize="17sp"
-        android:textColor="#fff"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Khlebnikov"
-        android:layout_gravity="center"
-        android:textSize="20sp"
-        android:id="@+id/lastname"
-        android:textColor="#fff"/>
-    <TextView
-        android:paddingTop="@dimen/texpadding"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Description"
-        android:layout_gravity="center"
-        android:textSize="17sp"
-        android:textColor="#fff"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bla Bla Bla"
-        android:layout_gravity="center"
-        android:textSize="20sp"
-        android:id="@+id/description"
-        android:textColor="#fff"/>
-    <ImageView
+        android:src="@drawable/newprofile" />
 
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/play"
-        android:id="@+id/plaer"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        />
+        android:text="Name"
+        android:textColor="#fff"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Maxim"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="@dimen/texpadding"
+        android:text="Last name"
+        android:textColor="#fff"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/lastname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Khlebnikov"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="@dimen/texpadding"
+        android:text="Description"
+        android:textColor="#fff"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Bla Bla Bla"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <mehdi.sakout.fancybuttons.FancyButton xmlns:fancy="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/callphone"
+            android:layout_width="115dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="20dp"
+            android:gravity="bottom"
+            android:layout_marginLeft="25dp"
+            android:orientation="horizontal"
+            fancy:fb_borderColor="#49AD05"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_defaultColor="#49AD05"
+            fancy:fb_focusColor="#fff"
+            fancy:fb_iconPosition="left"
+            fancy:fb_radius="25dp"
+            fancy:fb_text="CALL"
+            fancy:fb_textColor="#fff"
+            fancy:fb_textGravity="center_horizontal"
+            fancy:fb_textSize="18sp"
+
+            />
+
+        <ImageView
+
+            android:id="@+id/plaer"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="@drawable/play" />
+
+        <mehdi.sakout.fancybuttons.FancyButton xmlns:fancy="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/messege"
+            android:layout_width="115dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            fancy:fb_borderColor="#FFFC0F"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_defaultColor="#FFFC0F"
+            fancy:fb_focusColor="#fff"
+            fancy:fb_iconPosition="left"
+            fancy:fb_radius="25dp"
+            fancy:fb_text="SEND"
+            fancy:fb_textColor="#00176d"
+            fancy:fb_textGravity="center_horizontal"
+            fancy:fb_textSize="18sp"
+
+            />
+    </LinearLayout>
+
     <FrameLayout
+        android:id="@+id/profilemap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:id="@+id/profilemap"
-        />
+        android:layout_gravity="center" />
 
 </LinearLayout>

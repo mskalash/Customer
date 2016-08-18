@@ -28,6 +28,7 @@ public class FragmentNew extends Fragment {
     EditText profilename;
     EditText profilelast;
     EditText profiledesc;
+    EditText profilephone;
     public final static String TAG = "FtagmentNew";
     static final int GALLERY_REQUEST = 1;
 
@@ -41,6 +42,7 @@ public class FragmentNew extends Fragment {
         profilename = (EditText) v.findViewById(R.id.editname);
         profilelast = (EditText) v.findViewById(R.id.editlast);
         profiledesc = (EditText) v.findViewById(R.id.editdesc);
+        profilephone=(EditText)v.findViewById(R.id.editphone);
         newimage = (ImageView) v.findViewById(R.id.editavatar);
         if (((MainActivity) getActivity()).getClient().getProfilename() != null) settext();
 
@@ -80,11 +82,16 @@ public class FragmentNew extends Fragment {
                 Toast.makeText(getActivity(), "Write person last name", Toast.LENGTH_SHORT).show();
             else if (profiledesc.getText().toString().isEmpty())
                 Toast.makeText(getActivity(), "Write person description", Toast.LENGTH_SHORT).show();
+            else if (profilephone.getText().toString().isEmpty()){
+                Toast.makeText(getActivity(), "Write person phone number", Toast.LENGTH_SHORT).show();
+            }
             else {
                 ((MainActivity) getActivity()).showScreen(new FragmentRecoder(), FragmentRecoder.TAG, true);
                 ((MainActivity) getActivity()).getClient().setProfilename(profilename.getText().toString());
                 ((MainActivity) getActivity()).getClient().setLast(profilelast.getText().toString());
                 ((MainActivity) getActivity()).getClient().setDesc(profiledesc.getText().toString());
+                ((MainActivity) getActivity()).getClient().setPhone(profilephone.getText().toString());
+
                 if (selectedImage != null)
                     ((MainActivity) getActivity()).getClient().setImagename(selectedImage.toString());
             }
@@ -103,6 +110,7 @@ if(((MainActivity) getActivity()).getClient().getImagename()!=null){
         profilelast.setText(((MainActivity) getActivity()).getClient().getLast());
         profilename.setText(((MainActivity) getActivity()).getClient().getProfilename());
         profiledesc.setText(((MainActivity) getActivity()).getClient().getDesc());
+        profilephone.setText(((MainActivity) getActivity()).getClient().getPhone());
 
     }
 }

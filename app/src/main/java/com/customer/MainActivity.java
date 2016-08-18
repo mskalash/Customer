@@ -12,46 +12,55 @@ import android.view.View;
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
-private Client client;
-Toolbar mToolbar;
+    private Client client;
+    Toolbar mToolbar;
     FragmentManager fm;
     ListAdapter listAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-client=new Client();
+        client = new Client();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        showScreen(new FragmentFirst(), FragmentFirst.TAG,false);
+        showScreen(new FragmentFirst(), FragmentFirst.TAG, false);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         return true;
     }
-public void showScreen(Fragment fragment,String tag,boolean addToBackStack){
-    fm =getSupportFragmentManager();
-    FragmentTransaction ft = fm.beginTransaction();
-    if (addToBackStack) {
-        ft.addToBackStack(String.valueOf(System.identityHashCode(fragment)));
+
+    public void showScreen(Fragment fragment, String tag, boolean addToBackStack) {
+        fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        if (addToBackStack) {
+            ft.addToBackStack(String.valueOf(System.identityHashCode(fragment)));
+        }
+        ft.replace(R.id.frame_main, fragment, tag);
+        ft.commit();
+        //fm.executePendingTransactions();
+        if (tag.equals(FragmentFirst.TAG)) {
+            fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            if (fm.getFragments() instanceof  FragmentFirst) {
+                mToolbar.setNavigationIcon(null);
+            } else {
+                mToolbar.setNavigationIcon(R.drawable.backbutton);
+            }
+            mToolbar.setNavigationIcon(null);
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//            getSupportActionBar().setHomeButtonEnabled(false);
+        } else {
+            showIcon();
+        }
     }
-    ft.replace(R.id.frame_main, fragment, tag);
-    ft.commit();
-    //fm.executePendingTransactions();
-    if (tag.equals(FragmentFirst.TAG)) {
-        fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setHomeButtonEnabled(false);
-    }
-    else {
-        showIcon();
-    }
-    }
-    public void showIcon(){
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    public void showIcon() {
+        mToolbar.setNavigationIcon(R.drawable.backbutton);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,16 +75,16 @@ public void showScreen(Fragment fragment,String tag,boolean addToBackStack){
 
     @Override
     public void onBackPressed() {
-        if (fm.getBackStackEntryCount() == 0){
-            getSupportActionBar().setHomeButtonEnabled(false);
-            finish();}
-        else fm.popBackStack();
+        if (fm.getBackStackEntryCount() == 0) {
+            finish();
+        } else fm.popBackStack();
 
     }
-    public void deleteprofile(int id,String filename){
-        DatabaseAdapter db=new DatabaseAdapter(this);
+
+    public void deleteprofile(int id, String filename) {
+        DatabaseAdapter db = new DatabaseAdapter(this);
         db.deleteContact(id);
-        File file=new File(filename);
+        File file = new File(filename);
         file.delete();
     }
 }

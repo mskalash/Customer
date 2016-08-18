@@ -16,29 +16,40 @@ public class Client {
     public double longet;
     public String imagename;
     public String mapid;
-public boolean check;
-public Client(int id,String profilename,String last,String desc,String icon,String rec){
-    this.recid=id;
-    this.profilename=profilename;
-    this.last=last;
-    this.desc=desc;
-    this.imagename=icon;
-    this.filename=rec;
-  }
-public Client(int id,double lat,double longet,String name,String lastname){
-    this.recid=id;
-    this.lat=lat;
-    this.longet=longet;
-    this.profilename = name;
-    this.last=lastname;
+    public boolean check;
+    public String phone;
 
-}
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Client(int id, String profilename, String last, String desc, String icon, String rec) {
+        this.recid = id;
+        this.profilename = profilename;
+        this.last = last;
+        this.desc = desc;
+        this.imagename = icon;
+        this.filename = rec;
+    }
+
+    public Client(int id, double lat, double longet, String name, String lastname) {
+        this.recid = id;
+        this.lat = lat;
+        this.longet = longet;
+        this.profilename = name;
+        this.last = lastname;
+
+    }
 
     public String getMapid() {
         return mapid;
     }
 
-    public void setMapid(String  mapid) {
+    public void setMapid(String mapid) {
         this.mapid = mapid;
     }
 

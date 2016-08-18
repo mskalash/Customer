@@ -34,6 +34,7 @@ public class DatabaseAdapter {
             int fileIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
             int latIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_LAT);
             int longIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_LONGET);
+            int phoneIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_PHONE);
 
 
             String filename = cursor.getString(fileIndex);
@@ -43,7 +44,7 @@ public class DatabaseAdapter {
             String icon = cursor.getString(iconIndex);
             double lat = cursor.getDouble(latIndex);
             double longet = cursor.getDouble(longIndex);
-
+            String phone=cursor.getString(phoneIndex);
 
             ((MainActivity) context).getClient().setProfilename(name);
             ((MainActivity) context).getClient().setLast(last);
@@ -52,6 +53,7 @@ public class DatabaseAdapter {
             ((MainActivity) context).getClient().setImagename(icon);
             ((MainActivity) context).getClient().setLat(lat);
             ((MainActivity) context).getClient().setLonget(longet);
+            ((MainActivity) context).getClient().setPhone(phone);
         }
 
         cursor.close();
@@ -118,7 +120,7 @@ int reIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
         return id;
     }
 
-    public void addcontact(String name, String lastname, String description, double lat, double longet, String filename, String imagename) {
+    public void addcontact(String name, String lastname, String description, double lat, double longet, String filename, String imagename,String telephone) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(SQLHelper.CONTACTS_NAME, name);
@@ -128,6 +130,7 @@ int reIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
         contentValues.put(SQLHelper.CONTACTS_LONGET, longet);
         contentValues.put(SQLHelper.CONTACTS_REC, filename);
         contentValues.put(SQLHelper.CONTACTS_ICON, imagename);
+        contentValues.put(SQLHelper.CONTACTS_PHONE,telephone);
         db.insert(SQLHelper.TABLE_NAME_CONTACTS, null, contentValues);
         db.close();
     }
@@ -146,7 +149,7 @@ int reIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
 
         private Context context;
         private static final String DATABASE_NAME = "customer";
-        private static final int DATABASE_VERSION = 8;
+        private static final int DATABASE_VERSION = 9;
 
         // Table contacts
         private static final String TABLE_NAME_CONTACTS = "customer";
@@ -158,6 +161,7 @@ int reIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
         private static final String CONTACTS_LAST = "last";
         private static final String CONTACTS_LAT = "lat";
         private static final String CONTACTS_LONGET = "longet";
+        private static final String CONTACTS_PHONE = "phone";
 
         private static final String CREATE_TABLE_CONTACTS = "CREATE TABLE IF not exists " + TABLE_NAME_CONTACTS + "("
                 + CONTACTS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -167,7 +171,8 @@ int reIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
                 + CONTACTS_LAT + " VARCHAR(255), "
                 + CONTACTS_LONGET + " VARCHAR(255), "
                 + CONTACTS_ICON + " VARCHAR(255), " +
-                CONTACTS_REC + " VARCHAR(255)" +
+                CONTACTS_REC + " VARCHAR(255), " +
+                CONTACTS_PHONE+" VARCHAR(255)"+
                 ");";
         private static final String DROP_TABLE_CONTACTS = "DROP TABLE IF EXISTS " + TABLE_NAME_CONTACTS;
 
@@ -183,7 +188,7 @@ int reIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
         public void onCreate(SQLiteDatabase db) {
             try {
                 db.execSQL(CREATE_TABLE_CONTACTS);
-                Toast.makeText(context, "New version of database created", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "New version of database created", Toast.LENGTH_SHORT).show();
             } catch (SQLException e) {
                 e.printStackTrace();
                 Toast.makeText(context, "" + e, Toast.LENGTH_SHORT).show();

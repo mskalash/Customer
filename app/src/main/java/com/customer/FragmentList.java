@@ -29,7 +29,6 @@ public class FragmentList extends Fragment {
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
         ArrayList<Client> arrayList = db.getContactsData();
         ListAdapter adapter = new ListAdapter(getActivity(),arrayList);
-
         main.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         main.setLayoutManager(layoutManager);
