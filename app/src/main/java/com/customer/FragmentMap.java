@@ -1,7 +1,10 @@
 package com.customer;
 
+import android.*;
+import android.Manifest;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,7 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * Created by Максим on 02.08.2016.
  */
-public class FragmentMap extends Fragment {
+public class FragmentMap extends Fragment implements OnPermissionsListener {
 
     MapView mMapView;
     MarkerOptions marker;
@@ -136,15 +139,21 @@ public void setmarker(){
         if (id == R.id.action_settings) {
 
             if (position!=null) {
-                if(!info){
+
                 ((MainActivity) getActivity()).getClient().setLat(position.latitude);
                 ((MainActivity) getActivity()).getClient().setLonget(position.longitude);
-                info=true;}
-                ((MainActivity) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG,true);
+                ActivityCompat.requestPermissions(getActivity(),new String[]{
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE},2);
+
+
             }
             else Toast.makeText(getActivity(),"Select point",Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onPermissionsGranted(String[] permission) {
+        ((MainActivity) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG,true);
     }
 }

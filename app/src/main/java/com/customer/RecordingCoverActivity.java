@@ -38,13 +38,13 @@ public class RecordingCoverActivity extends AppCompatActivity {
 DatabaseAdapter db=new DatabaseAdapter(this);
         recordID = db.insertDummyContact();
 
-        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+getResources().getString(R.string.app_name)+"/record");
+        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+getResources().getString(R.string.app_name)+"/record/");
         if (!folder.exists()) {
             folder.mkdir();
         }
-
-        fileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        fileName += "/"+getResources().getString(R.string.app_name)+"/record_"+recordID+".3gp";
+//
+//        fileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+        fileName = folder+"/record_"+recordID+".3gp";
         startRecording();
         recordIcon = (ImageView) findViewById(R.id.mic);
         recordIcon.setOnClickListener(new View.OnClickListener() {

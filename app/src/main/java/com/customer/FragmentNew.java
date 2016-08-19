@@ -1,5 +1,6 @@
 package com.customer;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -27,7 +29,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 /**
  * Created by Максим on 08.08.2016.
  */
-public class FragmentNew extends Fragment {
+public class FragmentNew extends Fragment implements OnPermissionsListener {
     ImageView newimage;
     View v;
     Uri selectedImage;
@@ -39,6 +41,7 @@ public class FragmentNew extends Fragment {
     static final int GALLERY_REQUEST = 1;
     private final static int ACTIVITY_TAKE_PHOTO = 0;
     Dialog myDialog;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,14 +52,14 @@ public class FragmentNew extends Fragment {
         profilename = (EditText) v.findViewById(R.id.editname);
         profilelast = (EditText) v.findViewById(R.id.editlast);
         profiledesc = (EditText) v.findViewById(R.id.editdesc);
-        profilephone=(EditText)v.findViewById(R.id.editphone);
+        profilephone = (EditText) v.findViewById(R.id.editphone);
         newimage = (ImageView) v.findViewById(R.id.editavatar);
         if (((MainActivity) getActivity()).getClient().getProfilename() != null) settext();
 
         newimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-messageDialog();
+                messageDialog();
 
 
             }
@@ -64,11 +67,12 @@ messageDialog();
 
         return v;
     }
+
     public void messageDialog() {
-       myDialog = new Dialog(getContext());
+        myDialog = new Dialog(getContext());
         myDialog.setContentView(R.layout.dialogscreen);
         myDialog.setCancelable(true);
-myDialog.setTitle("Select Image");
+        myDialog.setTitle("Select Image");
         Button image = (Button) myDialog.findViewById(R.id.images);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,11 +83,10 @@ myDialog.setTitle("Select Image");
 
             }
         });
-        Button photo=(Button)myDialog.findViewById(R.id.photos);
+        Button photo = (Button) myDialog.findViewById(R.id.photos);
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(),"lol",Toast.LENGTH_SHORT).show();
                 Uri imageUri = Uri.fromFile(getTempFile());
                 Intent intent = createIntentForCamera(imageUri);
                 startActivityForResult(intent, ACTIVITY_TAKE_PHOTO);
@@ -92,40 +95,46 @@ myDialog.setTitle("Select Image");
         myDialog.show();
 
     }
+
     private Intent createIntentForCamera(Uri imageUri) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
         return intent;
     }
+
     private File getTempFile() {
-        DatabaseAdapter db=new DatabaseAdapter(getActivity());
-       long imageid = db.insertDummyContact();
-        String fileName = "image_"+imageid+".jpg";
-        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+getResources().getString(R.string.app_name)+"/image");
+        DatabaseAdapter db = new DatabaseAdapter(getActivity());
+        long imageid = db.insertDummyContact();
+        String fileName = "image_" + imageid + ".jpg";
+        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + getResources().getString(R.string.app_name) + "/image/");
         if (!folder.exists()) {
             folder.mkdir();
         }
         return new File(folder, fileName);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         myDialog.dismiss();
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        switch (requestCode) {
-            case GALLERY_REQUEST:
-                if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case GALLERY_REQUEST:
+
                     selectedImage = imageReturnedIntent.getData();
 
-                }
-                break;
-            case ACTIVITY_TAKE_PHOTO:
-                selectedImage = Uri.fromFile(getTempFile());
 
+                    break;
+                case ACTIVITY_TAKE_PHOTO:
+                    selectedImage = Uri.fromFile(getTempFile());
+
+            }
+            Glide.with(getActivity())
+                    .load(selectedImage).bitmapTransform(new CropCircleTransformation(getActivity()))
+                    .into(newimage);
         }
-        Glide.with(getActivity())
-                .load(selectedImage).bitmapTransform(new CropCircleTransformation(getActivity()))
-                .into(newimage);
+
     }
 
     @Override
@@ -138,15 +147,15 @@ myDialog.setTitle("Select Image");
                 Toast.makeText(getActivity(), "Write person last name", Toast.LENGTH_SHORT).show();
             else if (profiledesc.getText().toString().isEmpty())
                 Toast.makeText(getActivity(), "Write person description", Toast.LENGTH_SHORT).show();
-            else if (profilephone.getText().toString().isEmpty()){
+            else if (profilephone.getText().toString().isEmpty()) {
                 Toast.makeText(getActivity(), "Write person phone number", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                ((MainActivity) getActivity()).showScreen(new FragmentRecoder(), FragmentRecoder.TAG, true);
+            } else {
                 ((MainActivity) getActivity()).getClient().setProfilename(profilename.getText().toString());
                 ((MainActivity) getActivity()).getClient().setLast(profilelast.getText().toString());
                 ((MainActivity) getActivity()).getClient().setDesc(profiledesc.getText().toString());
                 ((MainActivity) getActivity()).getClient().setPhone(profilephone.getText().toString());
+                ActivityCompat.requestPermissions(getActivity(),new String[]{
+                        Manifest.permission.RECORD_AUDIO},3);
 
                 if (selectedImage != null)
                     ((MainActivity) getActivity()).getClient().setImagename(selectedImage.toString());
@@ -157,16 +166,21 @@ myDialog.setTitle("Select Image");
     }
 
     private void settext() {
-if(((MainActivity) getActivity()).getClient().getImagename()!=null){
-    selectedImage=Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
-    Glide.with(getActivity())
-            .load(selectedImage)
-            .into(newimage);
-}
+        if (((MainActivity) getActivity()).getClient().getImagename() != null) {
+            selectedImage = Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
+            Glide.with(getActivity())
+                    .load(selectedImage)
+                    .into(newimage);
+        }
         profilelast.setText(((MainActivity) getActivity()).getClient().getLast());
         profilename.setText(((MainActivity) getActivity()).getClient().getProfilename());
         profiledesc.setText(((MainActivity) getActivity()).getClient().getDesc());
         profilephone.setText(((MainActivity) getActivity()).getClient().getPhone());
 
+    }
+
+    @Override
+    public void onPermissionsGranted(String[] permission) {
+        ((MainActivity) getActivity()).showScreen(new FragmentRecoder(), FragmentRecoder.TAG, true);
     }
 }

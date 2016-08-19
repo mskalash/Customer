@@ -1,6 +1,9 @@
 package com.customer;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
         client = new Client();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+getResources().getString(R.string.app_name));
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         showScreen(new FragmentFirst(), FragmentFirst.TAG, false);
@@ -41,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             ft.addToBackStack(String.valueOf(System.identityHashCode(fragment)));
         }
         ft.replace(R.id.frame_main, fragment, tag);
-        ft.commit();
+        ft.commitAllowingStateLoss();
         //fm.executePendingTransactions();
         if (tag.equals(FragmentFirst.TAG)) {
             fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -86,5 +93,27 @@ public class MainActivity extends AppCompatActivity {
         db.deleteContact(id);
         File file = new File(filename);
         file.delete();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        boolean isAllPermissionsGranted = true;
+        for (int result :
+                grantResults) {
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                isAllPermissionsGranted = false;
+            }
+            }
+        if(isAllPermissionsGranted){
+            switch (requestCode){
+                case 1:
+                    ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentFirst.TAG)).onPermissionsGranted(permissions);
+                    break;
+                case 2: ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentMap.TAG)).onPermissionsGranted(permissions);
+                    break;
+                case 3: ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentNew.TAG)).onPermissionsGranted(permissions);
+                    break;
+            }
+        }
     }
 }

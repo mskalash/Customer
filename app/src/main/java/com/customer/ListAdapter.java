@@ -42,7 +42,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.FollowVH> {
         String image = arrayList.get(position).getImagename();
         if (image != null)
             Glide.with(mContext).load(image).bitmapTransform(new CropCircleTransformation(mContext)).into(holder.avatar);
-        holder.username.setText(arrayList.get(position).getProfilename() );
+        holder.username.setText(arrayList.get(position).getProfilename());
         holder.message.setText(arrayList.get(position).getDesc());
         holder.namelist.setText(arrayList.get(position).getLast());
     }
@@ -63,7 +63,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.FollowVH> {
 
         public FollowVH(View itemView) {
             super(itemView);
-            namelist=(TextView)itemView.findViewById(R.id.namelist);
+            namelist = (TextView) itemView.findViewById(R.id.namelist);
             avatar = (ImageView) itemView.findViewById(R.id.avatar);
             username = (TextView) itemView.findViewById(R.id.firsname);
             message = (TextView) itemView.findViewById(R.id.desc);
@@ -80,7 +80,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.FollowVH> {
                 ((MainActivity) mContext).deleteprofile(arrayList.get(position).getRecid(), arrayList.get(position).getFilename());
                 arrayList.remove(position);
                 notifyItemRemoved(position);
-          }
+            }
             if (view.getId() == profile.getId()) {
                 ((MainActivity) mContext).getClient().setCheck(true);
                 ((MainActivity) mContext).getClient().setRecid(arrayList.get(position).getRecid());

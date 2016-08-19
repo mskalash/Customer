@@ -1,6 +1,8 @@
 package com.customer;
 
+import android.Manifest;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,7 +14,7 @@ import mehdi.sakout.fancybuttons.FancyButton;
 /**
  * Created by Максим on 08.08.2016.
  */
-public class FragmentFirst extends Fragment {
+public class FragmentFirst extends Fragment implements OnPermissionsListener {
     View view;
     FancyButton list;
     FancyButton add;
@@ -37,8 +39,9 @@ public class FragmentFirst extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                ((MainActivity) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);
+                ActivityCompat.requestPermissions(getActivity(),new String[]{
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION},1);
             }
         });
 
@@ -52,5 +55,10 @@ public class FragmentFirst extends Fragment {
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(false);
 
+    }
+
+    @Override
+    public void onPermissionsGranted(String[] permission) {
+        ((MainActivity) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);
     }
 }
