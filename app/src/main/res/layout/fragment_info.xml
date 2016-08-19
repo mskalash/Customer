@@ -68,7 +68,7 @@
         android:textSize="20sp" />
 
     <LinearLayout
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal">
@@ -98,8 +98,8 @@
         <ImageView
 
             android:id="@+id/plaer"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_gravity="center"
             android:src="@drawable/play" />
 
@@ -112,9 +112,9 @@
             android:layout_marginTop="30dp"
             android:gravity="bottom"
             android:orientation="horizontal"
-            fancy:fb_borderColor="#FFFC0F"
+            fancy:fb_borderColor="@color/background"
             fancy:fb_borderWidth="1dp"
-            fancy:fb_defaultColor="#FFFC0F"
+            fancy:fb_defaultColor="@color/background"
             fancy:fb_focusColor="#fff"
             fancy:fb_iconPosition="left"
             fancy:fb_radius="25dp"
@@ -127,6 +127,10 @@
     </LinearLayout>
 
     <FrameLayout
+
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
         android:id="@+id/profilemap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

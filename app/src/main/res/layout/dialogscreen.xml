@@ -8,11 +8,17 @@
         android:layout_height="wrap_content"
         android:text="Take Gallery"
         android:id="@+id/images"
-        android:layout_gravity="center"/>
+        android:textColor="@color/toolbarcolor"
+        android:background="@color/background"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"/>
     <Button
+        android:layout_margin="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create photo"
         android:id="@+id/photos"
+        android:textColor="@color/toolbarcolor"
+        android:background="@color/background"
         android:layout_gravity="center"/>
 </LinearLayout>
