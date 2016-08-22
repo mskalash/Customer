@@ -1,5 +1,7 @@
 package com.customer;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
@@ -57,21 +59,37 @@ public class FragmentList extends Fragment implements OnPermissionsListener{
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(true);
-        menu.getItem(0).setTitle("MAP");
+        menu.getItem(1).setTitle("MAP");
         menu.getItem(1).setVisible(true);
+        menu.getItem(0).setTitle("DELETE ALL");
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.delete_all) {
 
             ((MainActivity) getActivity()).showScreen(new FragmentAllPoint(), FragmentAllPoint.TAG, true);
 
             return true;
         }
-        if(id==R.id.delete_all){
-            delete_all();
+        if(id==R.id.action_settings){
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Are you sure you want delete all contact?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            delete_all();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+
             return true;
         }
         return super.onOptionsItemSelected(item);

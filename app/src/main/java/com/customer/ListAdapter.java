@@ -1,6 +1,8 @@
 package com.customer;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,8 +55,8 @@ public ListAdapter(){}
     }
 
 
-    class FollowVH extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView delete;
+    class FollowVH extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener {
+
         ImageView avatar;
         TextView username;
         TextView message;
@@ -67,27 +69,46 @@ public ListAdapter(){}
             avatar = (ImageView) itemView.findViewById(R.id.avatar);
             username = (TextView) itemView.findViewById(R.id.firsname);
             message = (TextView) itemView.findViewById(R.id.desc);
-            delete = (ImageView) itemView.findViewById(R.id.delete);
             profile = (LinearLayout) itemView.findViewById(R.id.profileid);
-            delete.setOnClickListener(this);
+profile.setOnLongClickListener(this);
             profile.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            if (view.getId() == delete.getId()) {
-                ((MainActivity) mContext).deleteprofile(arrayList.get(position).getRecid(), arrayList.get(position).getFilename());
-                arrayList.remove(position);
-                notifyItemRemoved(position);
-            }
-            if (view.getId() == profile.getId()) {
+
                 ((MainActivity) mContext).getClient().setCheck(true);
                 ((MainActivity) mContext).getClient().setRecid(arrayList.get(position).getRecid());
                 ((MainActivity) mContext).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
-            }
+
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setMessage("Are you sure you want to delete?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {int position = getAdapterPosition();
+                            ((MainActivity) mContext).deleteprofile(arrayList.get(position).getRecid(), arrayList.get(position).getFilename());
+                            arrayList.remove(position);
+                            notifyItemRemoved(position);
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+
+            return false;
         }
     }
+
     public void delete(){
         arrayList.clear();
         notifyDataSetChanged();

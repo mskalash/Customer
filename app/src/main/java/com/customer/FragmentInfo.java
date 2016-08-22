@@ -95,7 +95,7 @@ send.setOnClickListener(this);
                 image = ((MainActivity) getActivity()).getClient().getImagename();
             db.addcontact(name, lastname, desc, lat, longet, filename, image, phone);
 
-            ((MainActivity) getActivity()).showScreen(new FragmentFirst(), FragmentFirst.TAG, false);
+            ((MainActivity) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, false);
             return true;
         }
         return super.onOptionsItemSelected(item);

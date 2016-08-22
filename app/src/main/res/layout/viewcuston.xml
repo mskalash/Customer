@@ -67,16 +67,6 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/delete"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:src="@drawable/closezptx"
-
-                />
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

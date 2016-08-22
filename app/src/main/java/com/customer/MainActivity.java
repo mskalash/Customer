@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         ft.commitAllowingStateLoss();
         if (tag.equals(FragmentList.TAG)) {
             fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            if (fm.getFragments() instanceof  FragmentFirst) {
+            if (fm.getFragments() instanceof  FragmentList) {
                 mToolbar.setNavigationIcon(null);
             } else {
                 mToolbar.setNavigationIcon(R.drawable.backbutton);
