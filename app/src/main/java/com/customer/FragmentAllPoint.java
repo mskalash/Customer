@@ -109,6 +109,7 @@ public class FragmentAllPoint extends Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(false);
+        menu.getItem(1).setVisible(false);
 
     }
 }

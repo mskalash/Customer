@@ -131,7 +131,7 @@ public void setmarker(){
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(true);
         menu.getItem(0).setTitle("NEXT");
-
+        menu.getItem(1).setVisible(false);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

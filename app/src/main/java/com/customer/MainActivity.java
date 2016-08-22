@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
     private Client client;
     Toolbar mToolbar;
     FragmentManager fm;
-    ListAdapter listAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         }
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        showScreen(new FragmentFirst(), FragmentFirst.TAG, false);
+        showScreen(new FragmentList(), FragmentList.TAG, false);
     }
 
     @Override
@@ -49,8 +48,7 @@ public class MainActivity extends AppCompatActivity {
         }
         ft.replace(R.id.frame_main, fragment, tag);
         ft.commitAllowingStateLoss();
-        //fm.executePendingTransactions();
-        if (tag.equals(FragmentFirst.TAG)) {
+        if (tag.equals(FragmentList.TAG)) {
             fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             if (fm.getFragments() instanceof  FragmentFirst) {
                 mToolbar.setNavigationIcon(null);
@@ -58,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 mToolbar.setNavigationIcon(R.drawable.backbutton);
             }
             mToolbar.setNavigationIcon(null);
-//            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-//            getSupportActionBar().setHomeButtonEnabled(false);
         } else {
             showIcon();
         }
@@ -67,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void showIcon() {
         mToolbar.setNavigationIcon(R.drawable.backbutton);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         if(isAllPermissionsGranted){
             switch (requestCode){
                 case 1:
-                    ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentFirst.TAG)).onPermissionsGranted(permissions);
+                    ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentList.TAG)).onPermissionsGranted(permissions);
                     break;
                 case 2: ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentMap.TAG)).onPermissionsGranted(permissions);
                     break;

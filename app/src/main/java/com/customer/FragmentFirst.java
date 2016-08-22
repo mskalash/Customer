@@ -54,6 +54,7 @@ public class FragmentFirst extends Fragment implements OnPermissionsListener {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(false);
+        menu.getItem(1).setVisible(false);
 
     }
 

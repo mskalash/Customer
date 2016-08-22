@@ -144,7 +144,11 @@ int reIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
 
 
     }
-
+public void deleteall(){
+    SQLiteDatabase db = helper.getWritableDatabase();
+    db.delete(SQLHelper.TABLE_NAME_CONTACTS, null, null);
+    db.close();
+}
     static class SQLHelper extends SQLiteOpenHelper {
 
         private Context context;
@@ -181,14 +185,12 @@ int reIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
             this.context = context;
             SQLiteDatabase db = this.getWritableDatabase();
             db.setForeignKeyConstraintsEnabled(true);
-//            Toast.makeText(this.context, "Constructor called", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onCreate(SQLiteDatabase db) {
             try {
                 db.execSQL(CREATE_TABLE_CONTACTS);
-//                Toast.makeText(context, "New version of database created", Toast.LENGTH_SHORT).show();
             } catch (SQLException e) {
                 e.printStackTrace();
                 Toast.makeText(context, "" + e, Toast.LENGTH_SHORT).show();
@@ -199,9 +201,7 @@ int reIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             try {
                 db.execSQL(DROP_TABLE_CONTACTS);
-
                 onCreate(db);
-//                Toast.makeText(context, "The previous version of database dropped", Toast.LENGTH_SHORT).show();
             } catch (SQLException e) {
                 e.printStackTrace();
                 Toast.makeText(context, "" + e, Toast.LENGTH_SHORT).show();

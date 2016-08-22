@@ -6,4 +6,9 @@
         android:orderInCategory="100"
         app:showAsAction="ifRoom"
         />
+    <item android:id="@+id/delete_all"
+        android:title="Delete All"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
+        />
 </menu>

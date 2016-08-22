@@ -106,6 +106,7 @@ send.setOnClickListener(this);
         if (((MainActivity) getActivity()).getClient().isCheck())
             menu.getItem(0).setVisible(false);
         menu.getItem(0).setTitle("DONE");
+        menu.getItem(1).setVisible(false);
 
     }
 

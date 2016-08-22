@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -136,7 +137,9 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
         }
 
     }
-
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.getItem(1).setVisible(false);
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
