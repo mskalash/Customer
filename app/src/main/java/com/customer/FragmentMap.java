@@ -1,7 +1,8 @@
 package com.customer;
 
-import android.*;
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -33,14 +34,15 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
     double longit;
     double lat;
     LatLng position;
-    boolean camera=true;
-    boolean info=false;
-    public final static String TAG="FragmentMap";
+    boolean camera = true;
+    boolean info = false;
+    public final static String TAG = "FragmentMap";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        Toast.makeText(getActivity(),"Waiting search your position",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Waiting search your position", Toast.LENGTH_SHORT).show();
         View v = inflater.inflate(R.layout.fragment_map, container,
                 false);
         mMapView = (MapView) v.findViewById(R.id.mapView);
@@ -54,23 +56,25 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
         }
         googleMap = mMapView.getMap();
         googleMap.setMyLocationEnabled(true);
-        if (!camera)setmarker();
+        if (!camera) setmarker();
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
         googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
 
 
             @Override
-            public void onMyLocationChange(Location location) { if (camera){
-                longit = location.getLongitude();
-                lat = location.getLatitude();
+            public void onMyLocationChange(Location location) {
+                if (camera) {
+                    longit = location.getLongitude();
+                    lat = location.getLatitude();
 
-                CameraPosition cameraPosition = new CameraPosition.Builder()
-                        .target(new LatLng(lat, longit)).zoom(17).build();
-                googleMap.animateCamera(CameraUpdateFactory
-                        .newCameraPosition(cameraPosition));
-                camera=false;
-                return;}
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(new LatLng(lat, longit)).zoom(17).build();
+                    googleMap.animateCamera(CameraUpdateFactory
+                            .newCameraPosition(cameraPosition));
+                    camera = false;
+                    return;
+                }
                 return;
             }
         });
@@ -84,26 +88,28 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
                                 latLng);
                         marker.icon(BitmapDescriptorFactory
                                 .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                        googleMap.addMarker(marker);  position = marker.getPosition();
+                        googleMap.addMarker(marker);
+                        position = marker.getPosition();
                     }
                 });
 
 
-
         return v;
     }
-public void setmarker(){
-    LatLng markerposition=new LatLng(((MainActivity) getActivity()).getClient().getLat(),((MainActivity) getActivity()).getClient().getLonget());
-    marker = new MarkerOptions().position(
-            markerposition);
-    marker.icon(BitmapDescriptorFactory
-            .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-    googleMap.addMarker(marker);
-    CameraPosition cameraPosition = new CameraPosition.Builder()
-            .target(markerposition).zoom(17).build();
-    googleMap.animateCamera(CameraUpdateFactory
-            .newCameraPosition(cameraPosition));
-}
+
+    public void setmarker() {
+        LatLng markerposition = new LatLng(((MainActivity) getActivity()).getClient().getLat(), ((MainActivity) getActivity()).getClient().getLonget());
+        marker = new MarkerOptions().position(
+                markerposition);
+        marker.icon(BitmapDescriptorFactory
+                .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        googleMap.addMarker(marker);
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(markerposition).zoom(17).build();
+        googleMap.animateCamera(CameraUpdateFactory
+                .newCameraPosition(cameraPosition));
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -127,33 +133,47 @@ public void setmarker(){
         super.onLowMemory();
         mMapView.onLowMemory();
     }
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(true);
         menu.getItem(0).setTitle("NEXT");
         menu.getItem(1).setVisible(false);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
 
-            if (position!=null) {
+            if (position != null) {
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Show contact?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                ((MainActivity) getActivity()).showScreen(new FragmentPhone(), FragmentPhone.TAG, true);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                ActivityCompat.requestPermissions(getActivity(), new String[]{
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
                 ((MainActivity) getActivity()).getClient().setLat(position.latitude);
                 ((MainActivity) getActivity()).getClient().setLonget(position.longitude);
-                ActivityCompat.requestPermissions(getActivity(),new String[]{
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE},2);
-
-
-            }
-            else Toast.makeText(getActivity(),"Select point",Toast.LENGTH_SHORT).show();
+            } else Toast.makeText(getActivity(), "Select point", Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onPermissionsGranted(String[] permission) {
-        ((MainActivity) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG,true);
+        ((MainActivity) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
     }
 }

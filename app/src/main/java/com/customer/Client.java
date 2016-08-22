@@ -44,7 +44,10 @@ public class Client {
         this.last = lastname;
 
     }
-
+public Client(String name,String phone){
+    this.profilename=name;
+    this.phone=phone;
+}
     public String getMapid() {
         return mapid;
     }
