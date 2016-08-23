@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,7 +28,7 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
     String fileName;
     boolean recoder = false;
     final int REQUEST_CODE_FILE = 1;
-    int id;
+    String id;
     DatabaseAdapter db;
     public final static String TAG = "FragmentRecoder";
 
@@ -40,15 +41,15 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
         rec = (ImageView) view.findViewById(R.id.rec);
         stop = (ImageView) view.findViewById(R.id.pause);
         play = (ImageView) view.findViewById(R.id.play);
-        if (recoder) visibl();
+        if (((MainActivity) getActivity()).getClient().getFilename()!=null) visibl();
         rec.setOnClickListener(this);
         play.setOnClickListener(this);
         stop.setOnClickListener(this);
         if (((MainActivity) getActivity()).getClient().isCheck())
-            id = ((MainActivity) getActivity()).getClient().getRecid();
+            id = ((MainActivity) getActivity()).getClient().getFilename();
         else {
             DatabaseAdapter db = new DatabaseAdapter(getActivity());
-            id = (int) db.insertDummyContact();
+            id = Environment.getExternalStorageDirectory().getAbsolutePath() + "/."+getResources().getString(R.string.app_name)+"/record/"+"/record_"+db.insertDummyContact()+".3gp";
 
         }
         if (((MainActivity) getActivity()).getClient().getFilename() != null) {

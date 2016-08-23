@@ -36,7 +36,7 @@ public class RecordingCoverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_cover_activity_layout);
         Intent intent=getIntent();
-        recordID=intent.getStringExtra("recid");
+        fileName=intent.getStringExtra("recid");
         File folder1 = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/."+getResources().getString(R.string.app_name));
         if (!folder1.exists()) {
             folder1.mkdir();
@@ -47,7 +47,7 @@ public class RecordingCoverActivity extends AppCompatActivity {
         }
 //
 //        fileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        fileName = folder+"/record_"+recordID+".3gp";
+
         startRecording();
         recordIcon = (ImageView) findViewById(R.id.mic);
         recordIcon.setOnClickListener(new View.OnClickListener() {

@@ -177,6 +177,7 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
             selectedImage = Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
             Glide.with(getActivity())
                     .load(selectedImage)
+                    .bitmapTransform(new CropCircleTransformation(getActivity()))
                     .into(newimage);
         }
         profilelast.setText(((MainActivity) getActivity()).getClient().getLast());
