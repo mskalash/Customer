@@ -106,9 +106,13 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
 
     private File getTempFile() {
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
+        File folder1 = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/."+getResources().getString(R.string.app_name));
+        if (!folder1.exists()) {
+            folder1.mkdir();
+        }
         long imageid = db.insertDummyContact();
         String fileName = "image_" + imageid + ".jpg";
-        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + getResources().getString(R.string.app_name) + "/image/");
+        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/." + getResources().getString(R.string.app_name) + "/image/");
         if (!folder.exists()) {
             folder.mkdir();
         }

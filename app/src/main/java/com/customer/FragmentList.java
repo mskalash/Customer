@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +33,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener{
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_list, container, false);
+        Log.e("id", String.valueOf(((MainActivity) getActivity()).getClient().getRecid()));
         FloatingActionButton fab= (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,7 +46,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener{
         main = (RecyclerView) view.findViewById(R.id.main);
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
         ArrayList<Client> arrayList = db.getContactsData();
-        ListAdapter adapter = new ListAdapter(getActivity(),arrayList);
+        AdapterList adapter = new AdapterList(getActivity(),arrayList);
         main.setAdapter(adapter);
         main.setLayoutManager(new GridLayoutManager(getContext(), 3));
         ((MainActivity) getActivity()).mToolbar.setNavigationIcon(null);
@@ -97,10 +99,10 @@ public class FragmentList extends Fragment implements OnPermissionsListener{
     public void delete_all(){
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
         db.deleteall();
-        ((ListAdapter) main.getAdapter()).delete();
-        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + getResources().getString(R.string.app_name));
+        ((AdapterList) main.getAdapter()).delete();
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/." + getResources().getString(R.string.app_name));
         if (file.exists()) {
-            String deleteCmd = "rm -r " + Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + getResources().getString(R.string.app_name);
+            String deleteCmd = "rm -r " + Environment.getExternalStorageDirectory().getAbsolutePath() + "/." + getResources().getString(R.string.app_name);
             Runtime runtime = Runtime.getRuntime();
             try {
                 runtime.exec(deleteCmd);

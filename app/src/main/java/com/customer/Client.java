@@ -4,20 +4,21 @@ package com.customer;
  * Created by Максим on 10.08.2016.
  */
 public class Client {
+
+    private int recid=-1;
+    private String profilename;
+    private String last;
+    private String filename;
+    private String desc;
+    private double lat;
+    private double longet;
+    private String imagename;
+    private String mapid;
+    private boolean check=false;
+    private String phone;
+
     public Client() {
     }
-
-    public int recid;
-    public String profilename;
-    public String last;
-    public String filename;
-    public String desc;
-    public double lat;
-    public double longet;
-    public String imagename;
-    public String mapid;
-    public boolean check;
-    public String phone;
 
     public String getPhone() {
         return phone;
@@ -44,10 +45,12 @@ public class Client {
         this.last = lastname;
 
     }
-public Client(String name,String phone){
-    this.profilename=name;
-    this.phone=phone;
-}
+
+    public Client(String name, String phone) {
+        this.profilename = name;
+        this.phone = phone;
+    }
+
     public String getMapid() {
         return mapid;
     }

@@ -23,7 +23,7 @@ import java.io.IOException;
 public class RecordingCoverActivity extends AppCompatActivity {
 
     private ImageView recordIcon;
-    private long recordID;
+    private String recordID;
     protected MediaRecorder recorder = null;
     protected String fileName = null;
 
@@ -35,10 +35,13 @@ public class RecordingCoverActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_cover_activity_layout);
-DatabaseAdapter db=new DatabaseAdapter(this);
-        recordID = db.insertDummyContact();
-
-        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+getResources().getString(R.string.app_name)+"/record/");
+        Intent intent=getIntent();
+        recordID=intent.getStringExtra("recid");
+        File folder1 = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/."+getResources().getString(R.string.app_name));
+        if (!folder1.exists()) {
+            folder1.mkdir();
+        }
+        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/."+getResources().getString(R.string.app_name)+"/record/");
         if (!folder.exists()) {
             folder.mkdir();
         }

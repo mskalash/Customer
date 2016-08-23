@@ -144,6 +144,23 @@ int reIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
 
 
     }
+    public int updateContact(String name, String lastname, String description, double lat, double longet, String filename, String imagename,String telephone, int id){
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(SQLHelper.CONTACTS_NAME, name);
+        contentValues.put(SQLHelper.CONTACTS_LAST, lastname);
+        contentValues.put(SQLHelper.CONTACTS_DESCRIPTION, description);
+        contentValues.put(SQLHelper.CONTACTS_LAT, lat);
+        contentValues.put(SQLHelper.CONTACTS_LONGET, longet);
+        contentValues.put(SQLHelper.CONTACTS_REC, filename);
+        contentValues.put(SQLHelper.CONTACTS_ICON, imagename);
+        contentValues.put(SQLHelper.CONTACTS_PHONE,telephone);
+        String[] whereArgs = {String.valueOf(id)};
+        int count = db.update(SQLHelper.TABLE_NAME_CONTACTS, contentValues, SQLHelper.CONTACTS_ID+" =?", whereArgs);
+
+        db.close();
+        return count;
+    }
 public void deleteall(){
     SQLiteDatabase db = helper.getWritableDatabase();
     db.delete(SQLHelper.TABLE_NAME_CONTACTS, null, null);
@@ -196,6 +213,7 @@ public void deleteall(){
                 Toast.makeText(context, "" + e, Toast.LENGTH_SHORT).show();
             }
         }
+
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

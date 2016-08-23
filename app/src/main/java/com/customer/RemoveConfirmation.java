@@ -10,7 +10,7 @@ import android.os.Bundle;
  * Created by oleh on 10/21/15.
  */
 public class RemoveConfirmation extends DialogFragment {
-ListAdapter contactAdapter;
+AdapterList contactAdapter;
     String purpose;
     int itemID;
     int position;

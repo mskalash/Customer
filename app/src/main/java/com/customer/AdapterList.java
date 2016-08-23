@@ -20,12 +20,12 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 /**
  * Created by Максим on 16.08.2016.
  */
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.FollowVH> {
+public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
     private LayoutInflater inflater;
     private Context mContext;
     ArrayList<Client> arrayList;
-public ListAdapter(){}
-    public ListAdapter(Context context, ArrayList<Client> arrayList) {
+public AdapterList(){}
+    public AdapterList(Context context, ArrayList<Client> arrayList) {
         inflater = LayoutInflater.from(context);
 //        this.arrayList = arrayList;
         this.arrayList = new ArrayList<>(arrayList);

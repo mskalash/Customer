@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +27,7 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
     String fileName;
     boolean recoder = false;
     final int REQUEST_CODE_FILE = 1;
-
+    int id;
     DatabaseAdapter db;
     public final static String TAG = "FragmentRecoder";
 
@@ -43,6 +44,13 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
         rec.setOnClickListener(this);
         play.setOnClickListener(this);
         stop.setOnClickListener(this);
+        if (((MainActivity) getActivity()).getClient().isCheck())
+            id = ((MainActivity) getActivity()).getClient().getRecid();
+        else {
+            DatabaseAdapter db = new DatabaseAdapter(getActivity());
+            id = (int) db.insertDummyContact();
+
+        }
         if (((MainActivity) getActivity()).getClient().getFilename() != null) {
             visibl();
             fileName = ((MainActivity) getActivity()).getClient().getFilename();
@@ -59,13 +67,19 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
+        if (((MainActivity) getActivity()).getClient().isCheck()) {
+            menu.getItem(0).setTitle("FINISH");
+        }
         menu.getItem(1).setVisible(false);
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rec:
                 Intent intent = new Intent(getActivity(), RecordingCoverActivity.class);
+                Log.e("recoder", String.valueOf(id));
+                intent.putExtra("recid", String.valueOf(id));
                 startActivityForResult(intent, REQUEST_CODE_FILE);
                 if (!recoder) visibl();
                 break;
@@ -111,6 +125,12 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            if (((MainActivity) getActivity()).getClient().isCheck()) {
+                update();
+                Toast.makeText(getActivity(), "Customer updated", Toast.LENGTH_SHORT).show();
+                ((MainActivity) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, true);
+                return true;
+            }
             if (fileName == null) {
                 Toast.makeText(getActivity(), "Please Recodering info", Toast.LENGTH_SHORT).show();
             } else {
@@ -118,8 +138,26 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
                 ((MainActivity) getActivity()).getClient().setCheck(false);
                 ((MainActivity) getActivity()).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
             }
+
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void update() {
+        DatabaseAdapter db = new DatabaseAdapter(getActivity());
+        String name = ((MainActivity) getActivity()).getClient().getProfilename();
+        String lastname = ((MainActivity) getActivity()).getClient().getLast();
+        String desc = ((MainActivity) getActivity()).getClient().getDesc();
+        double lat = ((MainActivity) getActivity()).getClient().getLat();
+        double longet = ((MainActivity) getActivity()).getClient().getLonget();
+        String filename = ((MainActivity) getActivity()).getClient().getFilename();
+        String image = null;
+        String phone = ((MainActivity) getActivity()).getClient().getPhone();
+        int id = ((MainActivity) getActivity()).getClient().getRecid();
+        if (((MainActivity) getActivity()).getClient().getImagename() != null)
+            image = ((MainActivity) getActivity()).getClient().getImagename();
+        db.updateContact(name, lastname, desc, lat, longet, filename, image, phone, id);
+        ((MainActivity) getActivity()).getClient().clear();
     }
 }

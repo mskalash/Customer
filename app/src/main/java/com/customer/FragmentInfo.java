@@ -26,7 +26,7 @@ import mehdi.sakout.fancybuttons.FancyButton;
 /**
  * Created by Максим on 08.08.2016.
  */
-public class FragmentInfo extends Fragment implements View.OnClickListener{
+public class FragmentInfo extends Fragment implements View.OnClickListener {
     View view;
     ImageView play;
     TextView lastname;
@@ -69,9 +69,9 @@ public class FragmentInfo extends Fragment implements View.OnClickListener{
         lastname.setText(((MainActivity) getActivity()).getClient().getLast());
         name.setText(((MainActivity) getActivity()).getClient().getProfilename());
         description.setText(((MainActivity) getActivity()).getClient().getDesc());
-call.setOnClickListener(this);
+        call.setOnClickListener(this);
         play.setOnClickListener(this);
-send.setOnClickListener(this);
+        send.setOnClickListener(this);
         FragmentManager childFragMan = getChildFragmentManager();
         FragmentTransaction childFragTrans = childFragMan.beginTransaction();
         childFragTrans.add(R.id.profilemap, new FaragmentMapInfo()).commit();
@@ -82,30 +82,38 @@ send.setOnClickListener(this);
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            DatabaseAdapter db = new DatabaseAdapter(getActivity());
-            String name = ((MainActivity) getActivity()).getClient().getProfilename();
-            String lastname = ((MainActivity) getActivity()).getClient().getLast();
-            String desc = ((MainActivity) getActivity()).getClient().getDesc();
-            double lat = ((MainActivity) getActivity()).getClient().getLat();
-            double longet = ((MainActivity) getActivity()).getClient().getLonget();
-            String filename = ((MainActivity) getActivity()).getClient().getFilename();
-            String image = null;
-            String phone = ((MainActivity) getActivity()).getClient().getPhone();
-            if (((MainActivity) getActivity()).getClient().getImagename() != null)
-                image = ((MainActivity) getActivity()).getClient().getImagename();
-            db.addcontact(name, lastname, desc, lat, longet, filename, image, phone);
-
-            ((MainActivity) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, false);
+            if (!((MainActivity) getActivity()).getClient().isCheck()) {
+                addcon();
+                ((MainActivity) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, true);
+            } else {
+                ((MainActivity) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    public void addcon() {
+        DatabaseAdapter db = new DatabaseAdapter(getActivity());
+        String name = ((MainActivity) getActivity()).getClient().getProfilename();
+        String lastname = ((MainActivity) getActivity()).getClient().getLast();
+        String desc = ((MainActivity) getActivity()).getClient().getDesc();
+        double lat = ((MainActivity) getActivity()).getClient().getLat();
+        double longet = ((MainActivity) getActivity()).getClient().getLonget();
+        String filename = ((MainActivity) getActivity()).getClient().getFilename();
+        String image = null;
+        String phone = ((MainActivity) getActivity()).getClient().getPhone();
+        if (((MainActivity) getActivity()).getClient().getImagename() != null)
+            image = ((MainActivity) getActivity()).getClient().getImagename();
+        db.addcontact(name, lastname, desc, lat, longet, filename, image, phone);
+
+    }
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        if (((MainActivity) getActivity()).getClient().isCheck())
-            menu.getItem(0).setVisible(false);
         menu.getItem(0).setTitle("DONE");
+        if (((MainActivity) getActivity()).getClient().isCheck())
+            menu.getItem(0).setTitle("EDIT");
         menu.getItem(1).setVisible(false);
 
     }
@@ -123,7 +131,7 @@ send.setOnClickListener(this);
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.plaer:
                 if (playrec == false) {
                     play.setImageResource(R.drawable.pause);
@@ -137,11 +145,11 @@ send.setOnClickListener(this);
                 }
                 break;
             case R.id.callphone:
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",phone, null));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
                 startActivity(intent);
                 break;
             case R.id.messege:
-                String uri= "smsto:"+phone;
+                String uri = "smsto:" + phone;
                 Intent intent2 = new Intent(Intent.ACTION_SENDTO, Uri.parse(uri));
                 startActivity(intent2);
                 break;

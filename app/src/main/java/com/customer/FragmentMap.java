@@ -7,6 +7,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,7 +57,10 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
         }
         googleMap = mMapView.getMap();
         googleMap.setMyLocationEnabled(true);
-        if (!camera) setmarker();
+        if ((((MainActivity) getActivity()).getClient().getLat()!=0)&&(((MainActivity) getActivity()).getClient().getLonget()!=0)){
+            setmarker();
+        camera=false;}
+
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
         googleMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
@@ -166,7 +170,12 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
                 alert.show();
                 ((MainActivity) getActivity()).getClient().setLat(position.latitude);
                 ((MainActivity) getActivity()).getClient().setLonget(position.longitude);
-            } else Toast.makeText(getActivity(), "Select point", Toast.LENGTH_SHORT).show();
+            }
+            else if((((MainActivity) getActivity()).getClient().getLat()!=0)&&(((MainActivity) getActivity()).getClient().getLonget()!=0))
+                {
+                ((MainActivity) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
+            }
+            else Toast.makeText(getActivity(), "Select point", Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);

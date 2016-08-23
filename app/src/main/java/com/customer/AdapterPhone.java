@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,19 +16,19 @@ import java.util.ArrayList;
 /**
  * Created by Максим on 22.08.2016.
  */
-public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.FollowVH> {
+public class AdapterPhone extends RecyclerView.Adapter<AdapterPhone.FollowVH> {
     LayoutInflater inflater;
     private Context mContext;
     ArrayList<Client> arrayList;
 
-    public PhoneAdapter(Context context) {
+    public AdapterPhone(Context context) {
         inflater = LayoutInflater.from(context);
         mContext = context;
         getArrayList();
     }
 
     @Override
-    public PhoneAdapter.FollowVH onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AdapterPhone.FollowVH onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.phoneview, parent, false);
         FollowVH holder = new FollowVH(view);
         return holder;
@@ -39,7 +38,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.FollowVH> {
     public void onBindViewHolder(FollowVH holder, int position) {
         holder.username.setText(arrayList.get(position).getProfilename());
         holder.message.setText(arrayList.get(position).getPhone());
-        Log.e(arrayList.get(position).getProfilename(),arrayList.get(position).getPhone());
+
     }
 
 
@@ -49,7 +48,6 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.FollowVH> {
     }
 
     protected void getArrayList() {
-        // TODO Auto-generated method stub
         arrayList = new ArrayList<>();
         Cursor c = mContext.getContentResolver().query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
@@ -66,7 +64,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.FollowVH> {
         c.close();
     }
 
-    class FollowVH extends RecyclerView.ViewHolder implements View.OnClickListener,OnPermissionsListener {
+    class FollowVH extends RecyclerView.ViewHolder implements View.OnClickListener, OnPermissionsListener {
         TextView username;
         TextView message;
         LinearLayout profile;
@@ -79,10 +77,12 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.FollowVH> {
             profile.setOnClickListener(this);
 
         }
+
         @Override
         public void onPermissionsGranted(String[] permission) {
             ((MainActivity) mContext).showScreen(new FragmentNew(), FragmentNew.TAG, true);
         }
+
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();

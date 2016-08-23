@@ -23,8 +23,8 @@ public class FragmentPhone extends Fragment {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_phone, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.phonefeagment);
-        PhoneAdapter phoneAdapter = new PhoneAdapter(getActivity());
-        recyclerView.setAdapter(phoneAdapter);
+        AdapterPhone adapterPhone = new AdapterPhone(getActivity());
+        recyclerView.setAdapter(adapterPhone);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return view;
     }

@@ -24,10 +24,7 @@ public class MainActivity extends AppCompatActivity {
         client = new Client();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+getResources().getString(R.string.app_name));
-        if (!folder.exists()) {
-            folder.mkdir();
-        }
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         showScreen(new FragmentList(), FragmentList.TAG, false);
