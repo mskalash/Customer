@@ -38,6 +38,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ((MainActivity) getActivity()).getClient().clear();
                 ActivityCompat.requestPermissions(getActivity(),new String[]{
                         android.Manifest.permission.ACCESS_COARSE_LOCATION,
                         android.Manifest.permission.ACCESS_FINE_LOCATION},1);

@@ -132,7 +132,7 @@ public class Client {
     }
 
     public void clear() {
-        recid = 0;
+        recid = -1;
         profilename = null;
         last = null;
         filename = null;
@@ -140,6 +140,7 @@ public class Client {
         lat = 0;
         longet = 0;
         imagename = null;
+        check=false;
     }
 
 

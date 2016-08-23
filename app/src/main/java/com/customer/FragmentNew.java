@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -11,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +26,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -105,17 +112,26 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
     }
 
     private File getTempFile() {
+        Log.e("File","work");
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
-        File folder1 = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/."+getResources().getString(R.string.app_name));
+        File folder1 = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/." + getResources().getString(R.string.app_name));
         if (!folder1.exists()) {
             folder1.mkdir();
         }
         long imageid = db.insertDummyContact();
-        String fileName = "image_" + imageid + ".jpg";
+        String fileName;
         File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/." + getResources().getString(R.string.app_name) + "/image/");
         if (!folder.exists()) {
             folder.mkdir();
         }
+        if(((MainActivity) getActivity()).getClient().getRecid()!=-1)
+        {
+            Log.e("La","hfp");
+Uri uri=Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
+            return new File(uri.getPath());
+        }
+         fileName = "image_" + imageid + ".jpg";
+
         return new File(folder, fileName);
     }
 
@@ -123,27 +139,64 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         myDialog.dismiss();
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        selectedImage=null;
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case GALLERY_REQUEST:
 
-                    selectedImage = imageReturnedIntent.getData();
-
+                    try {
+                        Log.e("DJJFJFFJFHJ","&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+                        copyFile(getPath(imageReturnedIntent.getData()), getTempFile());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    selectedImage = Uri.fromFile(getTempFile());
 
                     break;
                 case ACTIVITY_TAKE_PHOTO:
                     selectedImage = Uri.fromFile(getTempFile());
+                    break;
 
             }
+            Log.e("image",selectedImage.toString());
             Glide.with(getActivity())
                     .load(selectedImage).bitmapTransform(new CropCircleTransformation(getActivity()))
                     .into(newimage);
+
         }
 
     }
+
+    public void copyFile(String selectedImagePath, File string) throws IOException {
+        InputStream in = new FileInputStream(selectedImagePath);
+        OutputStream out = new FileOutputStream(string);
+Log.e("BUFER","GOVNO");
+        // Transfer bytes from in to out
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0) {
+            out.write(buf, 0, len);
+        }
+        in.close();
+        out.close();
+        Toast.makeText(getActivity(), "Copy", Toast.LENGTH_SHORT).show();
+    }
+
+
+    public String getPath(Uri uri) {
+        Log.e("BUFER","not work");
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
+
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(1).setVisible(false);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -161,8 +214,8 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
                 ((MainActivity) getActivity()).getClient().setLast(profilelast.getText().toString());
                 ((MainActivity) getActivity()).getClient().setDesc(profiledesc.getText().toString());
                 ((MainActivity) getActivity()).getClient().setPhone(profilephone.getText().toString());
-                ActivityCompat.requestPermissions(getActivity(),new String[]{
-                        Manifest.permission.RECORD_AUDIO},3);
+                ActivityCompat.requestPermissions(getActivity(), new String[]{
+                        Manifest.permission.RECORD_AUDIO}, 3);
 
                 if (selectedImage != null)
                     ((MainActivity) getActivity()).getClient().setImagename(selectedImage.toString());
