@@ -8,9 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:textColorPrimary">@color/toolbarcolor</item>
-        <item name="android:textColorSecondary">@color/toolbarcolor</item>
-        <item name="android:textColor">@color/toolbarcolor</item>
+        <item name="android:textColorPrimary">#fff</item>
+        <item name="android:textColorSecondary">#fff</item>
+        <item name="android:textColor">#fff</item>
+        <item name="actionMenuTextColor">#fff</item>
     </style>`
     <style name="TransparentBackground" parent="android:Theme.Light">
         <item name="android:windowIsTranslucent">true</item> <!-- подлупрозрачность окна -->

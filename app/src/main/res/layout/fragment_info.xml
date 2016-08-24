@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@color/background"
     android:orientation="vertical">
 
     <ImageView
@@ -112,9 +112,9 @@
             android:layout_marginTop="30dp"
             android:gravity="bottom"
             android:orientation="horizontal"
-            fancy:fb_borderColor="@color/background"
+            fancy:fb_borderColor="#fff"
             fancy:fb_borderWidth="1dp"
-            fancy:fb_defaultColor="@color/background"
+            fancy:fb_defaultColor="#fff"
             fancy:fb_focusColor="#fff"
             fancy:fb_iconPosition="left"
             fancy:fb_radius="25dp"
