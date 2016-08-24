@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -89,6 +90,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
             if (!((MainActivity) getActivity()).getClient().isCheck()) {
                 if(mediaPlayer.isPlaying()) mediaPlayer.pause();
                 addcon();
+                Toast.makeText(getActivity(),"Customer added",Toast.LENGTH_SHORT).show();
                 ((MainActivity) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, true);
             } else {
                 ((MainActivity) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);

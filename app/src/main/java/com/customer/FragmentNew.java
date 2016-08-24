@@ -126,8 +126,9 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
         if (!folder.exists()) {
             folder.mkdir();
         }
-        if(((MainActivity) getActivity()).getClient().getRecid()!=-1)
-        {
+        if(((MainActivity) getActivity()).getClient().getImagename()!=null)
+               {
+
 Uri uri=Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
             return new File(uri.getPath());
         }
@@ -186,7 +187,6 @@ Uri uri=Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
         }
         in.close();
         out.close();
-        Toast.makeText(getActivity(), "Copy", Toast.LENGTH_SHORT).show();
     }
 
 
