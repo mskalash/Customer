@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
@@ -42,11 +44,14 @@ public AdapterList(){}
     @Override
     public void onBindViewHolder(FollowVH holder, final int position) {
         String image = arrayList.get(position).getImagename();
-        if (image != null)
-            Glide.with(mContext).load(image).bitmapTransform(new CropCircleTransformation(mContext)).into(holder.avatar);
+        if (image != null) {
+            Glide.with(mContext).load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).bitmapTransform(new CropCircleTransformation(mContext)).into(holder.avatar);
+            Log.e("image",image);}
         holder.username.setText(arrayList.get(position).getProfilename());
         holder.message.setText(arrayList.get(position).getDesc());
         holder.namelist.setText(arrayList.get(position).getLast());
+
     }
 
     @Override

@@ -1,11 +1,13 @@
 package com.customer;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -24,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -112,7 +115,6 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
     }
 
     private File getTempFile() {
-        Log.e("File","work");
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
         File folder1 = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/." + getResources().getString(R.string.app_name));
         if (!folder1.exists()) {
@@ -126,7 +128,6 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
         }
         if(((MainActivity) getActivity()).getClient().getRecid()!=-1)
         {
-            Log.e("La","hfp");
 Uri uri=Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
             return new File(uri.getPath());
         }
@@ -135,6 +136,7 @@ Uri uri=Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
         return new File(folder, fileName);
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         myDialog.dismiss();
@@ -145,23 +147,29 @@ Uri uri=Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
                 case GALLERY_REQUEST:
 
                     try {
-                        Log.e("DJJFJFFJFHJ","&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+
                         copyFile(getPath(imageReturnedIntent.getData()), getTempFile());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    selectedImage = Uri.fromFile(getTempFile());
+
+                    selectedImage = Uri.fromFile(new File(getTempFile().getPath()));
+                    Log.e("DJJFJFFJFHJ",selectedImage.toString());
+
 
                     break;
                 case ACTIVITY_TAKE_PHOTO:
-                    selectedImage = Uri.fromFile(getTempFile());
+                    selectedImage = Uri.fromFile(new File(getTempFile().getPath()));
                     break;
 
             }
-            Log.e("image",selectedImage.toString());
             Glide.with(getActivity())
-                    .load(selectedImage).bitmapTransform(new CropCircleTransformation(getActivity()))
+                    .load(selectedImage).diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).bitmapTransform(new CropCircleTransformation(getActivity()))
                     .into(newimage);
+
+
+
 
         }
 
@@ -170,7 +178,6 @@ Uri uri=Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
     public void copyFile(String selectedImagePath, File string) throws IOException {
         InputStream in = new FileInputStream(selectedImagePath);
         OutputStream out = new FileOutputStream(string);
-Log.e("BUFER","GOVNO");
         // Transfer bytes from in to out
         byte[] buf = new byte[1024];
         int len;
@@ -184,7 +191,6 @@ Log.e("BUFER","GOVNO");
 
 
     public String getPath(Uri uri) {
-        Log.e("BUFER","not work");
         String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -219,7 +225,10 @@ Log.e("BUFER","GOVNO");
 
                 if (selectedImage != null)
                     ((MainActivity) getActivity()).getClient().setImagename(selectedImage.toString());
+
             }
+
+
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -230,6 +239,8 @@ Log.e("BUFER","GOVNO");
             selectedImage = Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
             Glide.with(getActivity())
                     .load(selectedImage)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .bitmapTransform(new CropCircleTransformation(getActivity()))
                     .into(newimage);
         }

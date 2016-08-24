@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.io.IOException;
 
@@ -60,9 +62,11 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         if (((MainActivity) getActivity()).getClient().getImagename() != null) {
             Uri image = Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
             Glide.with(getActivity())
-                    .load(image)
+                    .load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .bitmapTransform(new CropCircleTransformation(getActivity()))
                     .into(avatar);
+            Log.e("image",((MainActivity) getActivity()).getClient().getImagename());
         }
         setMedia();
         phone = ((MainActivity) getActivity()).getClient().getPhone();
@@ -83,6 +87,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             if (!((MainActivity) getActivity()).getClient().isCheck()) {
+                if(mediaPlayer.isPlaying()) mediaPlayer.pause();
                 addcon();
                 ((MainActivity) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, true);
             } else {

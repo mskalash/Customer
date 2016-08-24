@@ -129,12 +129,14 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
             if (((MainActivity) getActivity()).getClient().isCheck()) {
                 update();
                 Toast.makeText(getActivity(), "Customer updated", Toast.LENGTH_SHORT).show();
+               if(mediaPlayer.isPlaying()) mediaPlayer.pause();
                 ((MainActivity) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, true);
                 return true;
             }
             if (fileName == null) {
                 Toast.makeText(getActivity(), "Please Recodering info", Toast.LENGTH_SHORT).show();
             } else {
+                if(mediaPlayer.isPlaying()) mediaPlayer.pause();
                 ((MainActivity) getActivity()).getClient().setFilename(fileName);
                 ((MainActivity) getActivity()).getClient().setCheck(false);
                 ((MainActivity) getActivity()).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class FragmentList extends Fragment implements OnPermissionsListener{
     RecyclerView main;
     View view;
+
     public final static String TAG = "FragmentList";
 
     @Override
