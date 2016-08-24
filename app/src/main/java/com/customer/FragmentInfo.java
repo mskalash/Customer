@@ -70,6 +70,15 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
             Log.e("image",((MainActivity) getActivity()).getClient().getImagename());
         }
         setMedia();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                play.setImageResource(R.drawable.play);
+                playrec = false;
+            }
+
+        });
         phone = ((MainActivity) getActivity()).getClient().getPhone();
         lastname.setText(((MainActivity) getActivity()).getClient().getLast());
         name.setText(((MainActivity) getActivity()).getClient().getProfilename());
@@ -87,6 +96,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+
             if (!((MainActivity) getActivity()).getClient().isCheck()) {
                 if(mediaPlayer.isPlaying()) mediaPlayer.pause();
                 addcon();
