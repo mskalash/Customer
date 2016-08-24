@@ -97,7 +97,7 @@ profile.setOnLongClickListener(this);
                     .setCancelable(false)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {int position = getAdapterPosition();
-                            ((MainActivity) mContext).deleteprofile(arrayList.get(position).getRecid(), arrayList.get(position).getFilename());
+                            ((MainActivity) mContext).deleteprofile(arrayList.get(position).getRecid(), arrayList.get(position).getFilename(),arrayList.get(position).getImagename());
                             arrayList.remove(position);
                             notifyItemRemoved(position);
                         }

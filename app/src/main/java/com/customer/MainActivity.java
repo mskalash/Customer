@@ -1,8 +1,8 @@
 package com.customer;
 
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -80,11 +80,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void deleteprofile(int id, String filename) {
+    public void deleteprofile(int id, String filename,String imagename ) {
         DatabaseAdapter db = new DatabaseAdapter(this);
         db.deleteContact(id);
         File file = new File(filename);
         file.delete();
+        if (imagename!=null){
+        File image=new File(Uri.parse(imagename).getPath());
+        image.delete();}
     }
 
     @Override
