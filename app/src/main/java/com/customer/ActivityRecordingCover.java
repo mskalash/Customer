@@ -29,7 +29,7 @@ public class ActivityRecordingCover extends AppCompatActivity {
     private String recordID;
     protected MediaRecorder recorder = null;
     protected String fileName = null;
- Chronometer chronometer;
+    Chronometer chronometer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,22 +38,22 @@ public class ActivityRecordingCover extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_cover_activity_layout);
-        chronometer=(Chronometer)findViewById(R.id.chronometer);
+        chronometer = (Chronometer) findViewById(R.id.chronometer);
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
-        Intent intent=getIntent();
-        fileName=intent.getStringExtra("recid");
-        File folder1 = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/."+getResources().getString(R.string.app_name));
+        Intent intent = getIntent();
+        fileName = intent.getStringExtra("recid");
+        File folder1 = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/." + getResources().getString(R.string.app_name));
         if (!folder1.exists()) {
             folder1.mkdir();
         }
-        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/."+getResources().getString(R.string.app_name)+"/record/");
+        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/." + getResources().getString(R.string.app_name) + "/record/");
         if (!folder.exists()) {
             folder.mkdir();
         }
 //
 //        fileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        Log.e("chronometr","lal");
+        Log.e("chronometr", "lal");
 
         startRecording();
 
@@ -76,11 +76,10 @@ public class ActivityRecordingCover extends AppCompatActivity {
     }
 
 
-
-    private void stopUpdateRecordInDatabaseAndReturn(){
+    private void stopUpdateRecordInDatabaseAndReturn() {
         stopRecording();
-        int count =1;// databaseAdapter.updateRecord(null, null, fileName, Integer.parseInt(recordID));
-        if (count != 1){
+        int count = 1;// databaseAdapter.updateRecord(null, null, fileName, Integer.parseInt(recordID));
+        if (count != 1) {
             Toast.makeText(this, "The record was NOT properly saved to database", Toast.LENGTH_LONG).show();
             Toast.makeText(this, "Nevertheless the record was saved in External Storage in AppRec folder", Toast.LENGTH_LONG).show();
             Log.e("LOG", "The record was NOT properly saved to database. The count of affected rows does not equal to 1");
@@ -93,7 +92,7 @@ public class ActivityRecordingCover extends AppCompatActivity {
         finish();
     }
 
-    private void startRecording(){
+    private void startRecording() {
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
@@ -113,7 +112,7 @@ public class ActivityRecordingCover extends AppCompatActivity {
 
     }
 
-    private void stopRecording(){
+    private void stopRecording() {
         chronometer.stop();
         recorder.stop();
         recorder.release();

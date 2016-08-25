@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Created by Максим on 08.08.2016.
  */
-public class FragmentList extends Fragment implements OnPermissionsListener{
+public class FragmentList extends Fragment implements OnPermissionsListener {
     RecyclerView main;
     View view;
 
@@ -37,22 +37,22 @@ public class FragmentList extends Fragment implements OnPermissionsListener{
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_list, container, false);
-        FloatingActionButton fab= (FloatingActionButton) view.findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!isOnline())
+                if (!isOnline())
                     Toast.makeText(getActivity(), "You haven`t connected map not loading ,show uploading map", Toast.LENGTH_SHORT).show();
                 ((ActivityMain) getActivity()).getClient().clear();
-                ActivityCompat.requestPermissions(getActivity(),new String[]{
+                ActivityCompat.requestPermissions(getActivity(), new String[]{
                         android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                        android.Manifest.permission.ACCESS_FINE_LOCATION},1);
+                        android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
         });
         main = (RecyclerView) view.findViewById(R.id.main);
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
         ArrayList<Client> arrayList = db.getContactsData();
-        AdapterList adapter = new AdapterList(getActivity(),arrayList);
+        AdapterList adapter = new AdapterList(getActivity(), arrayList);
         main.setAdapter(adapter);
         main.setLayoutManager(new GridLayoutManager(getContext(), 3));
         ((ActivityMain) getActivity()).mToolbar.setNavigationIcon(null);
@@ -64,6 +64,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener{
     public void onPermissionsGranted(String[] permission) {
         ((ActivityMain) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);
     }
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(true);
@@ -71,25 +72,27 @@ public class FragmentList extends Fragment implements OnPermissionsListener{
         menu.getItem(1).setVisible(true);
         menu.getItem(0).setTitle("DELETE ALL");
     }
+
     public boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
 
         if (id == R.id.delete_all) {
-            if(!isOnline())
+            if (!isOnline())
                 Toast.makeText(getActivity(), "You haven`t connected map not loading ,show uploading map", Toast.LENGTH_SHORT).show();
             ((ActivityMain) getActivity()).showScreen(new FragmentAllPoint(), FragmentAllPoint.TAG, true);
 
             return true;
         }
-        if(id==R.id.action_settings){
+        if (id == R.id.action_settings) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setMessage("Delete all contacts?")
                     .setCancelable(false)
@@ -110,7 +113,8 @@ public class FragmentList extends Fragment implements OnPermissionsListener{
         }
         return super.onOptionsItemSelected(item);
     }
-    public void delete_all(){
+
+    public void delete_all() {
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
         db.deleteall();
         ((AdapterList) main.getAdapter()).delete();
@@ -120,7 +124,8 @@ public class FragmentList extends Fragment implements OnPermissionsListener{
             Runtime runtime = Runtime.getRuntime();
             try {
                 runtime.exec(deleteCmd);
-            } catch (IOException e) { }
+            } catch (IOException e) {
+            }
         }
 
     }

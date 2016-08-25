@@ -56,9 +56,10 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
         }
         googleMap = mMapView.getMap();
         googleMap.setMyLocationEnabled(true);
-        if ((((ActivityMain) getActivity()).getClient().getLat()!=0)&&(((ActivityMain) getActivity()).getClient().getLonget()!=0)){
+        if ((((ActivityMain) getActivity()).getClient().getLat() != 0) && (((ActivityMain) getActivity()).getClient().getLonget() != 0)) {
             setmarker();
-        camera=false;}
+            camera = false;
+        }
 
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
@@ -169,12 +170,9 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
                 alert.show();
                 ((ActivityMain) getActivity()).getClient().setLat(position.latitude);
                 ((ActivityMain) getActivity()).getClient().setLonget(position.longitude);
-            }
-            else if((((ActivityMain) getActivity()).getClient().getLat()!=0)&&(((ActivityMain) getActivity()).getClient().getLonget()!=0))
-                {
+            } else if ((((ActivityMain) getActivity()).getClient().getLat() != 0) && (((ActivityMain) getActivity()).getClient().getLonget() != 0)) {
                 ((ActivityMain) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
-            }
-            else Toast.makeText(getActivity(), "Select point", Toast.LENGTH_SHORT).show();
+            } else Toast.makeText(getActivity(), "Select point", Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);

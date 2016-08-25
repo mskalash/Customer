@@ -62,7 +62,7 @@
                     android:text=" met met met met met met"
                     android:textColor="#fff"
                     android:textSize="12sp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
 
             </LinearLayout>

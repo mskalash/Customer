@@ -67,7 +67,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
                     .skipMemoryCache(true)
                     .bitmapTransform(new CropCircleTransformation(getActivity()))
                     .into(avatar);
-            Log.e("image",((ActivityMain) getActivity()).getClient().getImagename());
+            Log.e("image", ((ActivityMain) getActivity()).getClient().getImagename());
         }
         setMedia();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -98,9 +98,9 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         if (id == R.id.action_settings) {
 
             if (!((ActivityMain) getActivity()).getClient().isCheck()) {
-                if(mediaPlayer.isPlaying()) mediaPlayer.pause();
+                if (mediaPlayer.isPlaying()) mediaPlayer.pause();
                 addcon();
-                Toast.makeText(getActivity(),"Customer added",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Customer added", Toast.LENGTH_SHORT).show();
                 ((ActivityMain) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, true);
             } else {
                 ((ActivityMain) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);

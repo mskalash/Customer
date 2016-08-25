@@ -64,7 +64,7 @@ public class FragmentAllPoint extends Fragment {
             public void onInfoWindowClick(Marker marker) {
                 ((ActivityMain) getActivity()).getClient().setRecid(recId(marker.getId(), arrayList));
                 ((ActivityMain) getActivity()).getClient().setCheck(true);
-                  ((ActivityMain) getActivity()).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
+                ((ActivityMain) getActivity()).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
 
             }
         });

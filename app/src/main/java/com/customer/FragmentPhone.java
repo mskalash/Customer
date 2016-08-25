@@ -28,6 +28,7 @@ public class FragmentPhone extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         return view;
     }
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(1).setVisible(false);
@@ -42,5 +43,7 @@ public class FragmentPhone extends Fragment {
             ((ActivityMain) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
 
 
-        }return true;}
+        }
+        return true;
+    }
 }

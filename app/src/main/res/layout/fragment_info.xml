@@ -68,9 +68,9 @@
         android:textSize="20sp" />
 
     <LinearLayout
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <mehdi.sakout.fancybuttons.FancyButton xmlns:fancy="http://schemas.android.com/apk/res-auto"
@@ -78,9 +78,9 @@
             android:layout_width="115dp"
             android:layout_height="45dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="25dp"
             android:layout_marginRight="20dp"
             android:gravity="bottom"
-            android:layout_marginLeft="25dp"
             android:orientation="horizontal"
             fancy:fb_borderColor="#49AD05"
             fancy:fb_borderWidth="1dp"
@@ -128,12 +128,12 @@
 
     <FrameLayout
 
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp"
         android:id="@+id/profilemap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp" />
 
 </LinearLayout>

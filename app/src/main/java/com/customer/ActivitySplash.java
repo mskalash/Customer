@@ -19,6 +19,7 @@ public class ActivitySplash extends AppCompatActivity {
     TextView splashtext;
     AlphaAnimation alphaAnimation;
     ImageView splashimage;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,22 +27,23 @@ public class ActivitySplash extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
-        alphaAnimation=new AlphaAnimation(0,1);
+        alphaAnimation = new AlphaAnimation(0, 1);
         alphaAnimation.setDuration(2500);
-        splashtext=(TextView)findViewById(R.id.splashtext);
-      splashimage=(ImageView)findViewById(R.id.splashimage);
-        RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f,  Animation.RELATIVE_TO_SELF, 0.5f);
+        splashtext = (TextView) findViewById(R.id.splashtext);
+        splashimage = (ImageView) findViewById(R.id.splashimage);
+        RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(2500);
         splashimage.setAnimation(rotate);
 
         splashtext.setAnimation(alphaAnimation);
-        Thread thread=new Thread(){
+        Thread thread = new Thread() {
             @Override
             public void run() {
                 try {
                     sleep(2500);
-                    Intent intent = new Intent(getApplication(),ActivityMain.class);
-                    startActivity(intent); finish();
+                    Intent intent = new Intent(getApplication(), ActivityMain.class);
+                    startActivity(intent);
+                    finish();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -40,7 +40,7 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
         rec = (ImageView) view.findViewById(R.id.rec);
         stop = (ImageView) view.findViewById(R.id.pause);
         play = (ImageView) view.findViewById(R.id.play);
-        if (((ActivityMain) getActivity()).getClient().getFilename()!=null) visibl();
+        if (((ActivityMain) getActivity()).getClient().getFilename() != null) visibl();
         rec.setOnClickListener(this);
         play.setOnClickListener(this);
         stop.setOnClickListener(this);
@@ -48,7 +48,7 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
             id = ((ActivityMain) getActivity()).getClient().getFilename();
         else {
             DatabaseAdapter db = new DatabaseAdapter(getActivity());
-            id = Environment.getExternalStorageDirectory().getAbsolutePath() + "/."+getResources().getString(R.string.app_name)+"/record/"+"/record_"+db.insertDummyContact()+".3gp";
+            id = Environment.getExternalStorageDirectory().getAbsolutePath() + "/." + getResources().getString(R.string.app_name) + "/record/" + "/record_" + db.insertDummyContact() + ".3gp";
 
         }
         if (((ActivityMain) getActivity()).getClient().getFilename() != null) {
@@ -127,14 +127,14 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
             if (((ActivityMain) getActivity()).getClient().isCheck()) {
                 update();
                 Toast.makeText(getActivity(), "Customer updated", Toast.LENGTH_SHORT).show();
-               if(mediaPlayer.isPlaying()) mediaPlayer.pause();
+                if (mediaPlayer.isPlaying()) mediaPlayer.pause();
                 ((ActivityMain) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, true);
                 return true;
             }
             if (fileName == null) {
                 Toast.makeText(getActivity(), "Please Recodering info", Toast.LENGTH_SHORT).show();
             } else {
-                if(mediaPlayer.isPlaying()) mediaPlayer.pause();
+                if (mediaPlayer.isPlaying()) mediaPlayer.pause();
                 ((ActivityMain) getActivity()).getClient().setFilename(fileName);
                 ((ActivityMain) getActivity()).getClient().setCheck(false);
                 ((ActivityMain) getActivity()).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);

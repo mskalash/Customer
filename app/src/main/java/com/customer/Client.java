@@ -5,7 +5,7 @@ package com.customer;
  */
 public class Client {
 
-    private int recid=-1;
+    private int recid = -1;
     private String profilename;
     private String last;
     private String filename;
@@ -14,7 +14,7 @@ public class Client {
     private double longet;
     private String imagename;
     private String mapid;
-    private boolean check=false;
+    private boolean check = false;
     private String phone;
 
     public Client() {
@@ -140,7 +140,7 @@ public class Client {
         lat = 0;
         longet = 0;
         imagename = null;
-        check=false;
+        check = false;
     }
 
 

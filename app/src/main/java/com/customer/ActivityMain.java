@@ -52,7 +52,7 @@ public class ActivityMain extends AppCompatActivity {
         ft.commitAllowingStateLoss();
         if (tag.equals(FragmentList.TAG)) {
             fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            if (fm.getFragments() instanceof  FragmentList) {
+            if (fm.getFragments() instanceof FragmentList) {
                 mToolbar.setNavigationIcon(null);
             } else {
                 mToolbar.setNavigationIcon(R.drawable.backbutton);
@@ -85,14 +85,15 @@ public class ActivityMain extends AppCompatActivity {
 
     }
 
-    public void deleteprofile(int id, String filename,String imagename ) {
+    public void deleteprofile(int id, String filename, String imagename) {
         DatabaseAdapter db = new DatabaseAdapter(this);
         db.deleteContact(id);
         File file = new File(filename);
         file.delete();
-        if (imagename!=null){
-        File image=new File(Uri.parse(imagename).getPath());
-        image.delete();}
+        if (imagename != null) {
+            File image = new File(Uri.parse(imagename).getPath());
+            image.delete();
+        }
     }
 
     @Override
@@ -103,15 +104,17 @@ public class ActivityMain extends AppCompatActivity {
             if (result != PackageManager.PERMISSION_GRANTED) {
                 isAllPermissionsGranted = false;
             }
-            }
-        if(isAllPermissionsGranted){
-            switch (requestCode){
+        }
+        if (isAllPermissionsGranted) {
+            switch (requestCode) {
                 case 1:
                     ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentList.TAG)).onPermissionsGranted(permissions);
                     break;
-                case 2: ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentMap.TAG)).onPermissionsGranted(permissions);
+                case 2:
+                    ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentMap.TAG)).onPermissionsGranted(permissions);
                     break;
-                case 3: ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentNew.TAG)).onPermissionsGranted(permissions);
+                case 3:
+                    ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentNew.TAG)).onPermissionsGranted(permissions);
 
                     break;
             }

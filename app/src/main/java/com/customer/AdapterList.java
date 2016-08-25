@@ -92,7 +92,7 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
         public boolean onLongClick(View view) {
             int position = getAdapterPosition();
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-            builder.setMessage("Delete contact "+arrayList.get(position).getProfilename()+" ?")
+            builder.setMessage("Delete contact " + arrayList.get(position).getProfilename() + " ?")
                     .setCancelable(false)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
