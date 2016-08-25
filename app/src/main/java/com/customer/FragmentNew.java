@@ -14,7 +14,6 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -126,13 +125,12 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
         if (!folder.exists()) {
             folder.mkdir();
         }
-        if(((MainActivity) getActivity()).getClient().getImagename()!=null)
-               {
+        if (((MainActivity) getActivity()).getClient().getImagename() != null) {
 
-Uri uri=Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
+            Uri uri = Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
             return new File(uri.getPath());
         }
-         fileName = "image_" + imageid + ".jpg";
+        fileName = "image_" + imageid + ".jpg";
 
         return new File(folder, fileName);
     }
@@ -142,7 +140,7 @@ Uri uri=Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         myDialog.dismiss();
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        selectedImage=null;
+        selectedImage = null;
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case GALLERY_REQUEST:
@@ -155,7 +153,6 @@ Uri uri=Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
                     }
 
                     selectedImage = Uri.fromFile(new File(getTempFile().getPath()));
-                    Log.e("DJJFJFFJFHJ",selectedImage.toString());
 
 
                     break;
@@ -168,8 +165,6 @@ Uri uri=Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
                     .load(selectedImage).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).bitmapTransform(new CropCircleTransformation(getActivity()))
                     .into(newimage);
-
-
 
 
         }

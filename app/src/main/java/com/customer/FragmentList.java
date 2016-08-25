@@ -1,7 +1,10 @@
 package com.customer;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
@@ -9,12 +12,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,11 +37,12 @@ public class FragmentList extends Fragment implements OnPermissionsListener{
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_list, container, false);
-        Log.e("id", String.valueOf(((MainActivity) getActivity()).getClient().getRecid()));
         FloatingActionButton fab= (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!isOnline())
+                    Toast.makeText(getActivity(), "You haven`t connected map not loading ,show uploading map", Toast.LENGTH_SHORT).show();
                 ((MainActivity) getActivity()).getClient().clear();
                 ActivityCompat.requestPermissions(getActivity(),new String[]{
                         android.Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -67,19 +71,27 @@ public class FragmentList extends Fragment implements OnPermissionsListener{
         menu.getItem(1).setVisible(true);
         menu.getItem(0).setTitle("DELETE ALL");
     }
-
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.delete_all) {
 
+
+        if (id == R.id.delete_all) {
+            if(!isOnline())
+                Toast.makeText(getActivity(), "You haven`t connected map not loading ,show uploading map", Toast.LENGTH_SHORT).show();
             ((MainActivity) getActivity()).showScreen(new FragmentAllPoint(), FragmentAllPoint.TAG, true);
 
             return true;
         }
         if(id==R.id.action_settings){
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage("Are you sure you want delete all contact?")
+            builder.setMessage("Delete all contacts?")
                     .setCancelable(false)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {

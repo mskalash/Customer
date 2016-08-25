@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +25,9 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
     private LayoutInflater inflater;
     private Context mContext;
     ArrayList<Client> arrayList;
-public AdapterList(){}
+
     public AdapterList(Context context, ArrayList<Client> arrayList) {
         inflater = LayoutInflater.from(context);
-//        this.arrayList = arrayList;
         this.arrayList = new ArrayList<>(arrayList);
         mContext = context;
     }
@@ -47,7 +45,7 @@ public AdapterList(){}
         if (image != null) {
             Glide.with(mContext).load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).bitmapTransform(new CropCircleTransformation(mContext)).into(holder.avatar);
-            Log.e("image",image);}
+        }
         holder.username.setText(arrayList.get(position).getProfilename());
         holder.message.setText(arrayList.get(position).getDesc());
         holder.namelist.setText(arrayList.get(position).getLast());
@@ -60,7 +58,7 @@ public AdapterList(){}
     }
 
 
-    class FollowVH extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener {
+    class FollowVH extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         ImageView avatar;
         TextView username;
@@ -75,7 +73,8 @@ public AdapterList(){}
             username = (TextView) itemView.findViewById(R.id.firsname);
             message = (TextView) itemView.findViewById(R.id.desc);
             profile = (LinearLayout) itemView.findViewById(R.id.profileid);
-profile.setOnLongClickListener(this);
+            profile.setOnLongClickListener(this);
+            profile.setOnClickListener(this);
             profile.setOnClickListener(this);
         }
 
@@ -83,21 +82,22 @@ profile.setOnLongClickListener(this);
         public void onClick(View view) {
             int position = getAdapterPosition();
 
-                ((MainActivity) mContext).getClient().setCheck(true);
-                ((MainActivity) mContext).getClient().setRecid(arrayList.get(position).getRecid());
-                ((MainActivity) mContext).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
+            ((MainActivity) mContext).getClient().setCheck(true);
+            ((MainActivity) mContext).getClient().setRecid(arrayList.get(position).getRecid());
+            ((MainActivity) mContext).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
 
         }
 
         @Override
         public boolean onLongClick(View view) {
-
+            int position = getAdapterPosition();
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-            builder.setMessage("Are you sure you want to delete?")
+            builder.setMessage("Delete contact "+arrayList.get(position).getProfilename()+" ?")
                     .setCancelable(false)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {int position = getAdapterPosition();
-                            ((MainActivity) mContext).deleteprofile(arrayList.get(position).getRecid(), arrayList.get(position).getFilename(),arrayList.get(position).getImagename());
+                        public void onClick(DialogInterface dialog, int id) {
+                            int position = getAdapterPosition();
+                            ((MainActivity) mContext).deleteprofile(arrayList.get(position).getRecid(), arrayList.get(position).getFilename(), arrayList.get(position).getImagename());
                             arrayList.remove(position);
                             notifyItemRemoved(position);
                         }
@@ -114,7 +114,7 @@ profile.setOnLongClickListener(this);
         }
     }
 
-    public void delete(){
+    public void delete() {
         arrayList.clear();
         notifyDataSetChanged();
     }
