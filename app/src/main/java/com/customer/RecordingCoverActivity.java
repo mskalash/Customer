@@ -1,15 +1,18 @@
 package com.customer;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,7 +29,7 @@ public class RecordingCoverActivity extends AppCompatActivity {
     private String recordID;
     protected MediaRecorder recorder = null;
     protected String fileName = null;
-
+ Chronometer chronometer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,9 @@ public class RecordingCoverActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_cover_activity_layout);
+        chronometer=(Chronometer)findViewById(R.id.chronometer);
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometer.start();
         Intent intent=getIntent();
         fileName=intent.getStringExtra("recid");
         File folder1 = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/."+getResources().getString(R.string.app_name));
@@ -47,8 +53,10 @@ public class RecordingCoverActivity extends AppCompatActivity {
         }
 //
 //        fileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+        Log.e("chronometr","lal");
 
         startRecording();
+
         recordIcon = (ImageView) findViewById(R.id.mic);
         recordIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +94,6 @@ public class RecordingCoverActivity extends AppCompatActivity {
     }
 
     private void startRecording(){
-
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
@@ -103,9 +110,11 @@ public class RecordingCoverActivity extends AppCompatActivity {
         }
 
         recorder.start();
+
     }
 
     private void stopRecording(){
+        chronometer.stop();
         recorder.stop();
         recorder.release();
         recorder = null;

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -79,7 +78,6 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
         switch (view.getId()) {
             case R.id.rec:
                 Intent intent = new Intent(getActivity(), RecordingCoverActivity.class);
-                Log.e("recoder", String.valueOf(id));
                 intent.putExtra("recid", String.valueOf(id));
                 startActivityForResult(intent, REQUEST_CODE_FILE);
                 if (!recoder) visibl();
