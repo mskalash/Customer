@@ -62,9 +62,9 @@ public class FragmentAllPoint extends Fragment {
         googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                ((MainActivity) getActivity()).getClient().setRecid(recId(marker.getId(), arrayList));
-                ((MainActivity) getActivity()).getClient().setCheck(true);
-                  ((MainActivity) getActivity()).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
+                ((ActivityMain) getActivity()).getClient().setRecid(recId(marker.getId(), arrayList));
+                ((ActivityMain) getActivity()).getClient().setCheck(true);
+                  ((ActivityMain) getActivity()).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
 
             }
         });

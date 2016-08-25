@@ -39,7 +39,7 @@ public class FragmentPhone extends Fragment {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
 
-            ((MainActivity) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
+            ((ActivityMain) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
 
 
         }return true;}

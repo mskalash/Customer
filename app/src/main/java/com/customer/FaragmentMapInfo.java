@@ -38,7 +38,7 @@ public class FaragmentMapInfo extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        profilemap = new LatLng(((MainActivity) getActivity()).getClient().getLat(), ((MainActivity) getActivity()).getClient().getLonget());
+        profilemap = new LatLng(((ActivityMain) getActivity()).getClient().getLat(), ((ActivityMain) getActivity()).getClient().getLonget());
         maps = mMapView.getMap();
         marker = new MarkerOptions().position(
                 profilemap).draggable(false);

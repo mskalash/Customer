@@ -21,21 +21,21 @@
         android:supportsRtl="true"
 
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".SplashActivity"
+        <activity android:name=".ActivitySplash"
         android:screenOrientation="portrait">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
-        <activity android:name=".MainActivity"
+        <activity android:name=".ActivityMain"
             android:screenOrientation="portrait"
            >
 
         </activity>
 
         <activity
-            android:name=".RecordingCoverActivity"
+            android:name=".ActivityRecordingCover"
             android:theme="@style/Theme.Transparent"
             android:label=""
             android:screenOrientation="portrait"

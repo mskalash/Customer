@@ -16,7 +16,7 @@ import android.view.WindowManager;
 
 import java.io.File;
 
-public class MainActivity extends AppCompatActivity {
+public class ActivityMain extends AppCompatActivity {
     private Client client;
     Toolbar mToolbar;
     FragmentManager fm;

@@ -64,7 +64,7 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
         profiledesc = (EditText) v.findViewById(R.id.editdesc);
         profilephone = (EditText) v.findViewById(R.id.editphone);
         newimage = (ImageView) v.findViewById(R.id.editavatar);
-        if (((MainActivity) getActivity()).getClient().getProfilename() != null) settext();
+        if (((ActivityMain) getActivity()).getClient().getProfilename() != null) settext();
 
         newimage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,9 +125,9 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
         if (!folder.exists()) {
             folder.mkdir();
         }
-        if (((MainActivity) getActivity()).getClient().getImagename() != null) {
+        if (((ActivityMain) getActivity()).getClient().getImagename() != null) {
 
-            Uri uri = Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
+            Uri uri = Uri.parse(((ActivityMain) getActivity()).getClient().getImagename());
             return new File(uri.getPath());
         }
         fileName = "image_" + imageid + ".jpg";
@@ -211,15 +211,15 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
             else if (profilephone.getText().toString().isEmpty()) {
                 Toast.makeText(getActivity(), "Write person phone number", Toast.LENGTH_SHORT).show();
             } else {
-                ((MainActivity) getActivity()).getClient().setProfilename(profilename.getText().toString());
-                ((MainActivity) getActivity()).getClient().setLast(profilelast.getText().toString());
-                ((MainActivity) getActivity()).getClient().setDesc(profiledesc.getText().toString());
-                ((MainActivity) getActivity()).getClient().setPhone(profilephone.getText().toString());
+                ((ActivityMain) getActivity()).getClient().setProfilename(profilename.getText().toString());
+                ((ActivityMain) getActivity()).getClient().setLast(profilelast.getText().toString());
+                ((ActivityMain) getActivity()).getClient().setDesc(profiledesc.getText().toString());
+                ((ActivityMain) getActivity()).getClient().setPhone(profilephone.getText().toString());
                 ActivityCompat.requestPermissions(getActivity(), new String[]{
                         Manifest.permission.RECORD_AUDIO}, 3);
 
                 if (selectedImage != null)
-                    ((MainActivity) getActivity()).getClient().setImagename(selectedImage.toString());
+                    ((ActivityMain) getActivity()).getClient().setImagename(selectedImage.toString());
 
             }
 
@@ -230,8 +230,8 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
     }
 
     private void settext() {
-        if (((MainActivity) getActivity()).getClient().getImagename() != null) {
-            selectedImage = Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
+        if (((ActivityMain) getActivity()).getClient().getImagename() != null) {
+            selectedImage = Uri.parse(((ActivityMain) getActivity()).getClient().getImagename());
             Glide.with(getActivity())
                     .load(selectedImage)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -239,15 +239,15 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
                     .bitmapTransform(new CropCircleTransformation(getActivity()))
                     .into(newimage);
         }
-        profilelast.setText(((MainActivity) getActivity()).getClient().getLast());
-        profilename.setText(((MainActivity) getActivity()).getClient().getProfilename());
-        profiledesc.setText(((MainActivity) getActivity()).getClient().getDesc());
-        profilephone.setText(((MainActivity) getActivity()).getClient().getPhone());
+        profilelast.setText(((ActivityMain) getActivity()).getClient().getLast());
+        profilename.setText(((ActivityMain) getActivity()).getClient().getProfilename());
+        profiledesc.setText(((ActivityMain) getActivity()).getClient().getDesc());
+        profilephone.setText(((ActivityMain) getActivity()).getClient().getPhone());
 
     }
 
     @Override
     public void onPermissionsGranted(String[] permission) {
-        ((MainActivity) getActivity()).showScreen(new FragmentRecoder(), FragmentRecoder.TAG, true);
+        ((ActivityMain) getActivity()).showScreen(new FragmentRecoder(), FragmentRecoder.TAG, true);
     }
 }

@@ -7,7 +7,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -57,7 +56,7 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
         }
         googleMap = mMapView.getMap();
         googleMap.setMyLocationEnabled(true);
-        if ((((MainActivity) getActivity()).getClient().getLat()!=0)&&(((MainActivity) getActivity()).getClient().getLonget()!=0)){
+        if ((((ActivityMain) getActivity()).getClient().getLat()!=0)&&(((ActivityMain) getActivity()).getClient().getLonget()!=0)){
             setmarker();
         camera=false;}
 
@@ -102,7 +101,7 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
     }
 
     public void setmarker() {
-        LatLng markerposition = new LatLng(((MainActivity) getActivity()).getClient().getLat(), ((MainActivity) getActivity()).getClient().getLonget());
+        LatLng markerposition = new LatLng(((ActivityMain) getActivity()).getClient().getLat(), ((ActivityMain) getActivity()).getClient().getLonget());
         marker = new MarkerOptions().position(
                 markerposition);
         marker.icon(BitmapDescriptorFactory
@@ -157,7 +156,7 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                ((MainActivity) getActivity()).showScreen(new FragmentPhone(), FragmentPhone.TAG, true);
+                                ((ActivityMain) getActivity()).showScreen(new FragmentPhone(), FragmentPhone.TAG, true);
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -168,12 +167,12 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
                         });
                 AlertDialog alert = builder.create();
                 alert.show();
-                ((MainActivity) getActivity()).getClient().setLat(position.latitude);
-                ((MainActivity) getActivity()).getClient().setLonget(position.longitude);
+                ((ActivityMain) getActivity()).getClient().setLat(position.latitude);
+                ((ActivityMain) getActivity()).getClient().setLonget(position.longitude);
             }
-            else if((((MainActivity) getActivity()).getClient().getLat()!=0)&&(((MainActivity) getActivity()).getClient().getLonget()!=0))
+            else if((((ActivityMain) getActivity()).getClient().getLat()!=0)&&(((ActivityMain) getActivity()).getClient().getLonget()!=0))
                 {
-                ((MainActivity) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
+                ((ActivityMain) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
             }
             else Toast.makeText(getActivity(), "Select point", Toast.LENGTH_SHORT).show();
             return true;
@@ -183,6 +182,6 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
 
     @Override
     public void onPermissionsGranted(String[] permission) {
-        ((MainActivity) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
+        ((ActivityMain) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
     }
 }

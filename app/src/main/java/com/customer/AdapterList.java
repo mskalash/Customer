@@ -82,9 +82,9 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
         public void onClick(View view) {
             int position = getAdapterPosition();
 
-            ((MainActivity) mContext).getClient().setCheck(true);
-            ((MainActivity) mContext).getClient().setRecid(arrayList.get(position).getRecid());
-            ((MainActivity) mContext).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
+            ((ActivityMain) mContext).getClient().setCheck(true);
+            ((ActivityMain) mContext).getClient().setRecid(arrayList.get(position).getRecid());
+            ((ActivityMain) mContext).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
 
         }
 
@@ -97,7 +97,7 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             int position = getAdapterPosition();
-                            ((MainActivity) mContext).deleteprofile(arrayList.get(position).getRecid(), arrayList.get(position).getFilename(), arrayList.get(position).getImagename());
+                            ((ActivityMain) mContext).deleteprofile(arrayList.get(position).getRecid(), arrayList.get(position).getFilename(), arrayList.get(position).getImagename());
                             arrayList.remove(position);
                             notifyItemRemoved(position);
                         }

@@ -80,15 +80,15 @@ public class AdapterPhone extends RecyclerView.Adapter<AdapterPhone.FollowVH> {
 
         @Override
         public void onPermissionsGranted(String[] permission) {
-            ((MainActivity) mContext).showScreen(new FragmentNew(), FragmentNew.TAG, true);
+            ((ActivityMain) mContext).showScreen(new FragmentNew(), FragmentNew.TAG, true);
         }
 
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            ((MainActivity) mContext).getClient().setProfilename(arrayList.get(position).getProfilename());
-            ((MainActivity) mContext).getClient().setPhone(arrayList.get(position).getPhone());
-            ActivityCompat.requestPermissions((MainActivity) mContext, new String[]{
+            ((ActivityMain) mContext).getClient().setProfilename(arrayList.get(position).getProfilename());
+            ((ActivityMain) mContext).getClient().setPhone(arrayList.get(position).getPhone());
+            ActivityCompat.requestPermissions((ActivityMain) mContext, new String[]{
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
 
         }

@@ -43,7 +43,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener{
             public void onClick(View view) {
                 if(!isOnline())
                     Toast.makeText(getActivity(), "You haven`t connected map not loading ,show uploading map", Toast.LENGTH_SHORT).show();
-                ((MainActivity) getActivity()).getClient().clear();
+                ((ActivityMain) getActivity()).getClient().clear();
                 ActivityCompat.requestPermissions(getActivity(),new String[]{
                         android.Manifest.permission.ACCESS_COARSE_LOCATION,
                         android.Manifest.permission.ACCESS_FINE_LOCATION},1);
@@ -55,14 +55,14 @@ public class FragmentList extends Fragment implements OnPermissionsListener{
         AdapterList adapter = new AdapterList(getActivity(),arrayList);
         main.setAdapter(adapter);
         main.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        ((MainActivity) getActivity()).mToolbar.setNavigationIcon(null);
+        ((ActivityMain) getActivity()).mToolbar.setNavigationIcon(null);
         return view;
 
     }
 
     @Override
     public void onPermissionsGranted(String[] permission) {
-        ((MainActivity) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);
+        ((ActivityMain) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);
     }
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
@@ -85,7 +85,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener{
         if (id == R.id.delete_all) {
             if(!isOnline())
                 Toast.makeText(getActivity(), "You haven`t connected map not loading ,show uploading map", Toast.LENGTH_SHORT).show();
-            ((MainActivity) getActivity()).showScreen(new FragmentAllPoint(), FragmentAllPoint.TAG, true);
+            ((ActivityMain) getActivity()).showScreen(new FragmentAllPoint(), FragmentAllPoint.TAG, true);
 
             return true;
         }

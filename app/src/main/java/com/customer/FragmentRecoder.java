@@ -40,20 +40,20 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
         rec = (ImageView) view.findViewById(R.id.rec);
         stop = (ImageView) view.findViewById(R.id.pause);
         play = (ImageView) view.findViewById(R.id.play);
-        if (((MainActivity) getActivity()).getClient().getFilename()!=null) visibl();
+        if (((ActivityMain) getActivity()).getClient().getFilename()!=null) visibl();
         rec.setOnClickListener(this);
         play.setOnClickListener(this);
         stop.setOnClickListener(this);
-        if (((MainActivity) getActivity()).getClient().isCheck())
-            id = ((MainActivity) getActivity()).getClient().getFilename();
+        if (((ActivityMain) getActivity()).getClient().isCheck())
+            id = ((ActivityMain) getActivity()).getClient().getFilename();
         else {
             DatabaseAdapter db = new DatabaseAdapter(getActivity());
             id = Environment.getExternalStorageDirectory().getAbsolutePath() + "/."+getResources().getString(R.string.app_name)+"/record/"+"/record_"+db.insertDummyContact()+".3gp";
 
         }
-        if (((MainActivity) getActivity()).getClient().getFilename() != null) {
+        if (((ActivityMain) getActivity()).getClient().getFilename() != null) {
             visibl();
-            fileName = ((MainActivity) getActivity()).getClient().getFilename();
+            fileName = ((ActivityMain) getActivity()).getClient().getFilename();
             mediaPlayer = new MediaPlayer();
             try {
                 mediaPlayer.setDataSource(fileName);
@@ -67,7 +67,7 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        if (((MainActivity) getActivity()).getClient().isCheck()) {
+        if (((ActivityMain) getActivity()).getClient().isCheck()) {
             menu.getItem(0).setTitle("FINISH");
         }
         menu.getItem(1).setVisible(false);
@@ -77,7 +77,7 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rec:
-                Intent intent = new Intent(getActivity(), RecordingCoverActivity.class);
+                Intent intent = new Intent(getActivity(), ActivityRecordingCover.class);
                 intent.putExtra("recid", String.valueOf(id));
                 startActivityForResult(intent, REQUEST_CODE_FILE);
                 if (!recoder) visibl();
@@ -124,20 +124,20 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            if (((MainActivity) getActivity()).getClient().isCheck()) {
+            if (((ActivityMain) getActivity()).getClient().isCheck()) {
                 update();
                 Toast.makeText(getActivity(), "Customer updated", Toast.LENGTH_SHORT).show();
                if(mediaPlayer.isPlaying()) mediaPlayer.pause();
-                ((MainActivity) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, true);
+                ((ActivityMain) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, true);
                 return true;
             }
             if (fileName == null) {
                 Toast.makeText(getActivity(), "Please Recodering info", Toast.LENGTH_SHORT).show();
             } else {
                 if(mediaPlayer.isPlaying()) mediaPlayer.pause();
-                ((MainActivity) getActivity()).getClient().setFilename(fileName);
-                ((MainActivity) getActivity()).getClient().setCheck(false);
-                ((MainActivity) getActivity()).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
+                ((ActivityMain) getActivity()).getClient().setFilename(fileName);
+                ((ActivityMain) getActivity()).getClient().setCheck(false);
+                ((ActivityMain) getActivity()).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
             }
 
             return true;
@@ -147,18 +147,18 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
 
     public void update() {
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
-        String name = ((MainActivity) getActivity()).getClient().getProfilename();
-        String lastname = ((MainActivity) getActivity()).getClient().getLast();
-        String desc = ((MainActivity) getActivity()).getClient().getDesc();
-        double lat = ((MainActivity) getActivity()).getClient().getLat();
-        double longet = ((MainActivity) getActivity()).getClient().getLonget();
-        String filename = ((MainActivity) getActivity()).getClient().getFilename();
+        String name = ((ActivityMain) getActivity()).getClient().getProfilename();
+        String lastname = ((ActivityMain) getActivity()).getClient().getLast();
+        String desc = ((ActivityMain) getActivity()).getClient().getDesc();
+        double lat = ((ActivityMain) getActivity()).getClient().getLat();
+        double longet = ((ActivityMain) getActivity()).getClient().getLonget();
+        String filename = ((ActivityMain) getActivity()).getClient().getFilename();
         String image = null;
-        String phone = ((MainActivity) getActivity()).getClient().getPhone();
-        int id = ((MainActivity) getActivity()).getClient().getRecid();
-        if (((MainActivity) getActivity()).getClient().getImagename() != null)
-            image = ((MainActivity) getActivity()).getClient().getImagename();
+        String phone = ((ActivityMain) getActivity()).getClient().getPhone();
+        int id = ((ActivityMain) getActivity()).getClient().getRecid();
+        if (((ActivityMain) getActivity()).getClient().getImagename() != null)
+            image = ((ActivityMain) getActivity()).getClient().getImagename();
         db.updateContact(name, lastname, desc, lat, longet, filename, image, phone, id);
-        ((MainActivity) getActivity()).getClient().clear();
+        ((ActivityMain) getActivity()).getClient().clear();
     }
 }

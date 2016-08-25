@@ -56,18 +56,18 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         avatar = (ImageView) view.findViewById(R.id.profile_avatar);
         call = (FancyButton) view.findViewById(R.id.callphone);
         send = (FancyButton) view.findViewById(R.id.messege);
-        if (((MainActivity) getActivity()).getClient().isCheck()) {
+        if (((ActivityMain) getActivity()).getClient().isCheck()) {
             DatabaseAdapter db = new DatabaseAdapter(getActivity());
-            db.selectprofile(((MainActivity) getActivity()).getClient().getRecid());
+            db.selectprofile(((ActivityMain) getActivity()).getClient().getRecid());
         }
-        if (((MainActivity) getActivity()).getClient().getImagename() != null) {
-            Uri image = Uri.parse(((MainActivity) getActivity()).getClient().getImagename());
+        if (((ActivityMain) getActivity()).getClient().getImagename() != null) {
+            Uri image = Uri.parse(((ActivityMain) getActivity()).getClient().getImagename());
             Glide.with(getActivity())
                     .load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .bitmapTransform(new CropCircleTransformation(getActivity()))
                     .into(avatar);
-            Log.e("image",((MainActivity) getActivity()).getClient().getImagename());
+            Log.e("image",((ActivityMain) getActivity()).getClient().getImagename());
         }
         setMedia();
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -79,10 +79,10 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
             }
 
         });
-        phone = ((MainActivity) getActivity()).getClient().getPhone();
-        lastname.setText(((MainActivity) getActivity()).getClient().getLast());
-        name.setText(((MainActivity) getActivity()).getClient().getProfilename());
-        description.setText(((MainActivity) getActivity()).getClient().getDesc());
+        phone = ((ActivityMain) getActivity()).getClient().getPhone();
+        lastname.setText(((ActivityMain) getActivity()).getClient().getLast());
+        name.setText(((ActivityMain) getActivity()).getClient().getProfilename());
+        description.setText(((ActivityMain) getActivity()).getClient().getDesc());
         call.setOnClickListener(this);
         play.setOnClickListener(this);
         send.setOnClickListener(this);
@@ -97,13 +97,13 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
 
-            if (!((MainActivity) getActivity()).getClient().isCheck()) {
+            if (!((ActivityMain) getActivity()).getClient().isCheck()) {
                 if(mediaPlayer.isPlaying()) mediaPlayer.pause();
                 addcon();
                 Toast.makeText(getActivity(),"Customer added",Toast.LENGTH_SHORT).show();
-                ((MainActivity) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, true);
+                ((ActivityMain) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, true);
             } else {
-                ((MainActivity) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);
+                ((ActivityMain) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);
             }
             return true;
         }
@@ -112,16 +112,16 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
 
     public void addcon() {
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
-        String name = ((MainActivity) getActivity()).getClient().getProfilename();
-        String lastname = ((MainActivity) getActivity()).getClient().getLast();
-        String desc = ((MainActivity) getActivity()).getClient().getDesc();
-        double lat = ((MainActivity) getActivity()).getClient().getLat();
-        double longet = ((MainActivity) getActivity()).getClient().getLonget();
-        String filename = ((MainActivity) getActivity()).getClient().getFilename();
+        String name = ((ActivityMain) getActivity()).getClient().getProfilename();
+        String lastname = ((ActivityMain) getActivity()).getClient().getLast();
+        String desc = ((ActivityMain) getActivity()).getClient().getDesc();
+        double lat = ((ActivityMain) getActivity()).getClient().getLat();
+        double longet = ((ActivityMain) getActivity()).getClient().getLonget();
+        String filename = ((ActivityMain) getActivity()).getClient().getFilename();
         String image = null;
-        String phone = ((MainActivity) getActivity()).getClient().getPhone();
-        if (((MainActivity) getActivity()).getClient().getImagename() != null)
-            image = ((MainActivity) getActivity()).getClient().getImagename();
+        String phone = ((ActivityMain) getActivity()).getClient().getPhone();
+        if (((ActivityMain) getActivity()).getClient().getImagename() != null)
+            image = ((ActivityMain) getActivity()).getClient().getImagename();
         db.addcontact(name, lastname, desc, lat, longet, filename, image, phone);
 
     }
@@ -129,7 +129,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setTitle("DONE");
-        if (((MainActivity) getActivity()).getClient().isCheck())
+        if (((ActivityMain) getActivity()).getClient().isCheck())
             menu.getItem(0).setTitle("EDIT");
         menu.getItem(1).setVisible(false);
 
@@ -139,7 +139,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         mediaPlayer = new MediaPlayer();
         try {
 
-            mediaPlayer.setDataSource(((MainActivity) getActivity()).getClient().getFilename());
+            mediaPlayer.setDataSource(((ActivityMain) getActivity()).getClient().getFilename());
             mediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();

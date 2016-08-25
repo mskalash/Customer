@@ -15,7 +15,7 @@ import android.widget.TextView;
 /**
  * Created by Максим on 12.08.2016.
  */
-public class SplashActivity extends AppCompatActivity {
+public class ActivitySplash extends AppCompatActivity {
     TextView splashtext;
     AlphaAnimation alphaAnimation;
     ImageView splashimage;
@@ -25,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.splash_activity);
+        setContentView(R.layout.activity_splash);
         alphaAnimation=new AlphaAnimation(0,1);
         alphaAnimation.setDuration(2500);
         splashtext=(TextView)findViewById(R.id.splashtext);
@@ -40,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 try {
                     sleep(2500);
-                    Intent intent = new Intent(getApplication(),MainActivity.class);
+                    Intent intent = new Intent(getApplication(),ActivityMain.class);
                     startActivity(intent); finish();
                 } catch (InterruptedException e) {
                     e.printStackTrace();

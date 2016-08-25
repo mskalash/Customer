@@ -23,7 +23,7 @@ import java.io.IOException;
 /**
  * Created by oleh on 10/28/15.
  */
-public class RecordingCoverActivity extends AppCompatActivity {
+public class ActivityRecordingCover extends AppCompatActivity {
 
     private ImageView recordIcon;
     private String recordID;

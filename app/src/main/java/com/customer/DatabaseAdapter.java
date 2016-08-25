@@ -46,14 +46,14 @@ public class DatabaseAdapter {
             double longet = cursor.getDouble(longIndex);
             String phone=cursor.getString(phoneIndex);
 
-            ((MainActivity) context).getClient().setProfilename(name);
-            ((MainActivity) context).getClient().setLast(last);
-            ((MainActivity) context).getClient().setFilename(filename);
-            ((MainActivity) context).getClient().setDesc(desc);
-            ((MainActivity) context).getClient().setImagename(icon);
-            ((MainActivity) context).getClient().setLat(lat);
-            ((MainActivity) context).getClient().setLonget(longet);
-            ((MainActivity) context).getClient().setPhone(phone);
+            ((ActivityMain) context).getClient().setProfilename(name);
+            ((ActivityMain) context).getClient().setLast(last);
+            ((ActivityMain) context).getClient().setFilename(filename);
+            ((ActivityMain) context).getClient().setDesc(desc);
+            ((ActivityMain) context).getClient().setImagename(icon);
+            ((ActivityMain) context).getClient().setLat(lat);
+            ((ActivityMain) context).getClient().setLonget(longet);
+            ((ActivityMain) context).getClient().setPhone(phone);
         }
 
         cursor.close();
