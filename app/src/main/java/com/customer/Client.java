@@ -16,6 +16,15 @@ public class Client {
     private String mapid;
     private boolean check = false;
     private String phone;
+private boolean favorite;
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
 
     public Client() {
     }
@@ -28,13 +37,14 @@ public class Client {
         this.phone = phone;
     }
 
-    public Client(int id, String profilename, String last, String desc, String icon, String rec) {
+    public Client(int id, String profilename, String last, String desc, String icon, String rec,boolean favorite) {
         this.recid = id;
         this.profilename = profilename;
         this.last = last;
         this.desc = desc;
         this.imagename = icon;
         this.filename = rec;
+       this.favorite=favorite;
     }
 
     public Client(int id, double lat, double longet, String name, String lastname) {

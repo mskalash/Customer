@@ -25,6 +25,7 @@
         android:layout_margin="10dp"
         android:gravity="center"
         android:hint="Name"
+        android:backgroundTint="#fff"
         android:singleLine="true"
         android:textColor="#fff"
         android:textColorHint="#fff"
@@ -41,7 +42,8 @@
         android:singleLine="true"
         android:textColor="#fff"
         android:textColorHint="#fff"
-        android:textSize="13sp" />
+        android:textSize="13sp"
+        android:backgroundTint="#fff"/>
 
     <EditText
         android:id="@+id/editdesc"
@@ -54,7 +56,8 @@
         android:singleLine="true"
         android:textColor="#fff"
         android:textColorHint="#fff"
-        android:textSize="13sp" />
+        android:textSize="13sp"
+        android:backgroundTint="#fff"/>
 
     <EditText
         android:id="@+id/editphone"
@@ -71,5 +74,6 @@
         android:maxLength="16"
         android:textColor="#fff"
         android:textColorHint="#fff"
-        android:textSize="13sp" />
+        android:textSize="13sp"
+        android:backgroundTint="#fff"/>
 </LinearLayout>

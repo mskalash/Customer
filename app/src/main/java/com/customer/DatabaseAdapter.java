@@ -34,7 +34,7 @@ public class DatabaseAdapter {
             int fileIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
             int latIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_LAT);
             int longIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_LONGET);
-            int phoneIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_PHONE);
+            int phoneIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_PHONE);
 
 
             String filename = cursor.getString(fileIndex);
@@ -44,7 +44,7 @@ public class DatabaseAdapter {
             String icon = cursor.getString(iconIndex);
             double lat = cursor.getDouble(latIndex);
             double longet = cursor.getDouble(longIndex);
-            String phone=cursor.getString(phoneIndex);
+            String phone = cursor.getString(phoneIndex);
 
             ((ActivityMain) context).getClient().setProfilename(name);
             ((ActivityMain) context).getClient().setLast(last);
@@ -62,7 +62,7 @@ public class DatabaseAdapter {
 
     public ArrayList<Client> getContactsData() {
         SQLiteDatabase db = helper.getWritableDatabase();
-        String[] columns = {SQLHelper.CONTACTS_ID, SQLHelper.CONTACTS_NAME, SQLHelper.CONTACTS_LAST, SQLHelper.CONTACTS_DESCRIPTION, SQLHelper.CONTACTS_ICON, SQLHelper.CONTACTS_REC};
+        String[] columns = {SQLHelper.CONTACTS_ID, SQLHelper.CONTACTS_NAME, SQLHelper.CONTACTS_LAST, SQLHelper.CONTACTS_DESCRIPTION, SQLHelper.CONTACTS_ICON, SQLHelper.CONTACTS_REC,SQLHelper.CONTACTS_FAVORITE};
         Cursor cursor = db.query(SQLHelper.TABLE_NAME_CONTACTS, columns, null, null, null, null, null);
         ArrayList<Client> result = new ArrayList<>();
         while (cursor.moveToNext()) {
@@ -71,14 +71,16 @@ public class DatabaseAdapter {
             int nameIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_NAME);
             int descIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_DESCRIPTION);
             int iconIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_ICON);
-int reIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
+            int reIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
+            int favIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_FAVORITE);
             int id = cursor.getInt(idIndex);
             String last = cursor.getString(lastIndex);
             String name = cursor.getString(nameIndex);
             String desc = cursor.getString(descIndex);
             String icon = cursor.getString(iconIndex);
-            String rec=cursor.getString(reIndex);
-            result.add(new Client(id, name, last, desc, icon,rec));
+            String rec = cursor.getString(reIndex);
+            boolean fav=cursor.getInt(favIndex)>0;
+            result.add(new Client(id, name, last, desc, icon, rec,fav));
         }
         cursor.close();
         db.close();
@@ -120,7 +122,7 @@ int reIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
         return id;
     }
 
-    public void addcontact(String name, String lastname, String description, double lat, double longet, String filename, String imagename,String telephone) {
+    public void addcontact(String name, String lastname, String description, double lat, double longet, String filename, String imagename, String telephone) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(SQLHelper.CONTACTS_NAME, name);
@@ -130,7 +132,7 @@ int reIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
         contentValues.put(SQLHelper.CONTACTS_LONGET, longet);
         contentValues.put(SQLHelper.CONTACTS_REC, filename);
         contentValues.put(SQLHelper.CONTACTS_ICON, imagename);
-        contentValues.put(SQLHelper.CONTACTS_PHONE,telephone);
+        contentValues.put(SQLHelper.CONTACTS_PHONE, telephone);
         db.insert(SQLHelper.TABLE_NAME_CONTACTS, null, contentValues);
         db.close();
     }
@@ -142,9 +144,19 @@ int reIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
         db.close();
         return count;
 
-
     }
-    public int updateContact(String name, String lastname, String description, double lat, double longet, String filename, String imagename,String telephone, int id){
+
+    public void updatefavorites(int id, boolean favorites) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(SQLHelper.CONTACTS_FAVORITE, favorites);
+        String[] whereArgs = {String.valueOf(id)};
+        int count = db.update(SQLHelper.TABLE_NAME_CONTACTS, contentValues, SQLHelper.CONTACTS_ID + " =?", whereArgs);
+
+        db.close();
+    }
+
+    public int updateContact(String name, String lastname, String description, double lat, double longet, String filename, String imagename, String telephone, int id) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(SQLHelper.CONTACTS_NAME, name);
@@ -154,23 +166,25 @@ int reIndex=cursor.getColumnIndex(SQLHelper.CONTACTS_REC);
         contentValues.put(SQLHelper.CONTACTS_LONGET, longet);
         contentValues.put(SQLHelper.CONTACTS_REC, filename);
         contentValues.put(SQLHelper.CONTACTS_ICON, imagename);
-        contentValues.put(SQLHelper.CONTACTS_PHONE,telephone);
+        contentValues.put(SQLHelper.CONTACTS_PHONE, telephone);
         String[] whereArgs = {String.valueOf(id)};
-        int count = db.update(SQLHelper.TABLE_NAME_CONTACTS, contentValues, SQLHelper.CONTACTS_ID+" =?", whereArgs);
+        int count = db.update(SQLHelper.TABLE_NAME_CONTACTS, contentValues, SQLHelper.CONTACTS_ID + " =?", whereArgs);
 
         db.close();
         return count;
     }
-public void deleteall(){
-    SQLiteDatabase db = helper.getWritableDatabase();
-    db.delete(SQLHelper.TABLE_NAME_CONTACTS, null, null);
-    db.close();
-}
+
+    public void deleteall() {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        db.delete(SQLHelper.TABLE_NAME_CONTACTS, null, null);
+        db.close();
+    }
+
     static class SQLHelper extends SQLiteOpenHelper {
 
         private Context context;
         private static final String DATABASE_NAME = "customer";
-        private static final int DATABASE_VERSION = 9;
+        private static final int DATABASE_VERSION = 10;
 
         // Table contacts
         private static final String TABLE_NAME_CONTACTS = "customer";
@@ -183,6 +197,7 @@ public void deleteall(){
         private static final String CONTACTS_LAT = "lat";
         private static final String CONTACTS_LONGET = "longet";
         private static final String CONTACTS_PHONE = "phone";
+        private static final String CONTACTS_FAVORITE = "favorite";
 
         private static final String CREATE_TABLE_CONTACTS = "CREATE TABLE IF not exists " + TABLE_NAME_CONTACTS + "("
                 + CONTACTS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -193,7 +208,8 @@ public void deleteall(){
                 + CONTACTS_LONGET + " VARCHAR(255), "
                 + CONTACTS_ICON + " VARCHAR(255), " +
                 CONTACTS_REC + " VARCHAR(255), " +
-                CONTACTS_PHONE+" VARCHAR(255)"+
+                CONTACTS_PHONE + " VARCHAR(255), " +
+                CONTACTS_FAVORITE + " BOOLEAN" +
                 ");";
         private static final String DROP_TABLE_CONTACTS = "DROP TABLE IF EXISTS " + TABLE_NAME_CONTACTS;
 

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.util.ArrayList;
 
@@ -42,14 +45,17 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
     @Override
     public void onBindViewHolder(FollowVH holder, final int position) {
         String image = arrayList.get(position).getImagename();
-        if (image != null) {
+
+        if (image != null) {  Log.e("Image",arrayList.get(position).getImagename());
             Glide.with(mContext).load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).bitmapTransform(new CropCircleTransformation(mContext)).into(holder.avatar);
         }
-        holder.username.setText(arrayList.get(position).getProfilename());
+        else{  Glide.with(mContext).load(R.drawable.newprofile).into(holder.avatar);}
+        holder.username.setText(arrayList.get(position).getProfilename()+ " "+arrayList.get(position).getLast());
         holder.message.setText(arrayList.get(position).getDesc());
-        holder.namelist.setText(arrayList.get(position).getLast());
-
+        if(arrayList.get(position).isFavorite())
+            holder.fav.setLiked(true);
+        else { holder.fav.setLiked(false);}
     }
 
     @Override
@@ -64,17 +70,32 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
         TextView username;
         TextView message;
         LinearLayout profile;
-        TextView namelist;
-
+LikeButton fav;
+        DatabaseAdapter db=new DatabaseAdapter(mContext);
         public FollowVH(View itemView) {
             super(itemView);
-            namelist = (TextView) itemView.findViewById(R.id.namelist);
             avatar = (ImageView) itemView.findViewById(R.id.avatar);
             username = (TextView) itemView.findViewById(R.id.firsname);
             message = (TextView) itemView.findViewById(R.id.desc);
             profile = (LinearLayout) itemView.findViewById(R.id.profileid);
+            fav=(LikeButton)itemView.findViewById(R.id.star_button);
+            fav.setOnLikeListener(new OnLikeListener() {
+                @Override
+                public void liked(LikeButton likeButton) {
+                    int position = getAdapterPosition();
+
+                    arrayList.get(position).setFavorite(true);
+                    db.updatefavorites(arrayList.get(position).getRecid(),true);
+                }
+
+                @Override
+                public void unLiked(LikeButton likeButton) {
+                    int position = getAdapterPosition();
+                    arrayList.get(position).setFavorite(false);
+                    db.updatefavorites(arrayList.get(position).getRecid(),false);
+                }
+            });
             profile.setOnLongClickListener(this);
-            profile.setOnClickListener(this);
             profile.setOnClickListener(this);
         }
 
@@ -117,6 +138,24 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
     public void delete() {
         arrayList.clear();
         notifyDataSetChanged();
+    }
+    public void unfavorite(){
+arrayList= new ArrayList<>(first);
+        Log.e("----------","----------------------------");
+        notifyDataSetChanged();
+    }
+    ArrayList<Client> first;
+    public void favorite(){
+         first=new ArrayList<>(arrayList);
+
+        for (int i = 0; i <arrayList.size() ; i++) {
+
+            if(!arrayList.get(i).isFavorite()){
+                notifyItemRemoved(i);
+                arrayList.remove(i);
+i--;
+            }Log.e("Delete", String.valueOf(arrayList.size()));
+        }
     }
 }
 

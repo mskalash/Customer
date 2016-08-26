@@ -10,7 +10,7 @@ import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -54,7 +54,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         ArrayList<Client> arrayList = db.getContactsData();
         AdapterList adapter = new AdapterList(getActivity(), arrayList);
         main.setAdapter(adapter);
-        main.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        main.setLayoutManager(new LinearLayoutManager(getActivity()));
         ((ActivityMain) getActivity()).mToolbar.setNavigationIcon(null);
         return view;
 
@@ -68,9 +68,11 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(true);
-        menu.getItem(1).setTitle("MAP");
+        menu.getItem(1).setIcon(R.drawable.map);
         menu.getItem(1).setVisible(true);
-        menu.getItem(0).setTitle("DELETE ALL");
+        menu.getItem(2).setVisible(true);
+        menu.getItem(0).setTitle("DELETE ALL").setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+
     }
 
     public boolean isOnline() {
@@ -83,8 +85,6 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-
         if (id == R.id.delete_all) {
             if (!isOnline())
                 Toast.makeText(getActivity(), "You haven`t connected map not loading ,show uploading map", Toast.LENGTH_SHORT).show();
@@ -111,9 +111,17 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
 
             return true;
         }
+        if (id==R.id.favorite){
+            if (!star){
+                ((AdapterList) main.getAdapter()).favorite();
+            star=true;
+                return true;}
+            else{  ((AdapterList) main.getAdapter()).unfavorite();
+            star=false;}
+        return true;}
         return super.onOptionsItemSelected(item);
     }
-
+    boolean star=false;
     public void delete_all() {
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
         db.deleteall();
@@ -129,4 +137,5 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         }
 
     }
+
 }
