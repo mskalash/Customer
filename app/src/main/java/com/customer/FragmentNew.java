@@ -14,11 +14,14 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -80,9 +83,10 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
 
     public void messageDialog() {
         myDialog = new Dialog(getContext());
+        myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         myDialog.setContentView(R.layout.dialogscreen);
         myDialog.setCancelable(true);
-        myDialog.setTitle("Select Image");
+
         Button image = (Button) myDialog.findViewById(R.id.images);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +106,14 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
                 startActivityForResult(intent, ACTIVITY_TAKE_PHOTO);
             }
         });
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(myDialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.gravity = Gravity.CENTER;
+
+        myDialog.getWindow().setAttributes(lp);
+        myDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         myDialog.show();
 
     }

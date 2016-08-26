@@ -7,20 +7,29 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorPrimary">#fff</item>
         <item name="android:textColorSecondary">#fff</item>
         <item name="android:textColor">#fff</item>
         <item name="actionMenuTextColor">#fff</item>
-    </style>`
+    </style>
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
+        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
+    </style>
+
     <style name="TransparentBackground" parent="android:Theme.Light">
         <item name="android:windowIsTranslucent">true</item> <!-- подлупрозрачность окна -->
-        <item name="android:windowBackground">@android:color/transparent</item> <!-- прозрачный цвет бэкграунда -->
-        <item name="android:windowContentOverlay">@null</item> <!-- отключаем оверлей содержимого окна -->
+        <item name="android:windowBackground">@android:color/transparent
+        </item> <!-- прозрачный цвет бэкграунда -->
+        <item name="android:windowContentOverlay">@null
+        </item> <!-- отключаем оверлей содержимого окна -->
         <item name="android:windowNoTitle">true</item> <!-- отключаем заголовок -->
         <item name="android:windowIsFloating">true</item> <!-- окно в любой части экрана -->
         <item name="android:backgroundDimEnabled">false</item> <!-- отключаем затемнение -->
     </style>
+
     <style name="Theme.Transparent" parent="Theme.AppCompat.Dialog">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
