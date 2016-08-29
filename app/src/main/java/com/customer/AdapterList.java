@@ -76,9 +76,11 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
         LinearLayout profile;
         LikeButton fav;
         DatabaseAdapter db = new DatabaseAdapter(mContext);
+        TextView more;
 
         public FollowVH(View itemView) {
             super(itemView);
+            more=(TextView)itemView.findViewById(R.id.more);
             avatar = (ImageView) itemView.findViewById(R.id.avatar);
             username = (TextView) itemView.findViewById(R.id.firsname);
             message = (TextView) itemView.findViewById(R.id.desc);
@@ -101,7 +103,7 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
                 }
             });
             profile.setOnLongClickListener(this);
-            profile.setOnClickListener(this);
+            more.setOnClickListener(this);
         }
 
         @Override
