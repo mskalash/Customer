@@ -68,11 +68,10 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(true);
-        menu.getItem(1).setIcon(R.drawable.map);
+        menu.getItem(1).setIcon(R.mipmap.map);
         menu.getItem(1).setVisible(true);
         menu.getItem(2).setVisible(true);
         menu.getItem(0).setTitle(R.string.del).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-
     }
 
     public boolean isOnline() {
@@ -108,20 +107,27 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
                     });
             AlertDialog alert = builder.create();
             alert.show();
-
             return true;
         }
-        if (id==R.id.favorite){
-            if (!star){
+        if (id == R.id.favorite) {
+            if (!star) {
                 ((AdapterList) main.getAdapter()).favorite();
-            star=true;
-                return true;}
-            else{  ((AdapterList) main.getAdapter()).unfavorite();
-            star=false;}
-        return true;}
+                star = true;
+
+                return true;
+
+            } else {
+                ((AdapterList) main.getAdapter()).unfavorite();
+                star = false;
+            }
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
-    boolean star=false;
+
+    boolean star = false;
+
     public void delete_all() {
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
         db.deleteall();

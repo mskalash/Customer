@@ -35,7 +35,7 @@
 
                 <TextView
                     android:id="@+id/firsname"
-                    android:layout_width="240dp"
+                    android:layout_width="230dp"
                     android:layout_height="wrap_content"
                     android:text="Princess "
                     android:textColor="#fff"
@@ -45,7 +45,7 @@
 
                 <TextView
                     android:id="@+id/desc"
-                    android:layout_width="240dp"
+                    android:layout_width="230dp"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
@@ -65,11 +65,14 @@
 
             <com.like.LikeButton
                 android:id="@+id/star_button"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginRight="15dp"
                 app:icon_size="30dp"
-                app:icon_type="star" />
+                app:icon_type="star"
+                app:like_drawable="@drawable/staron"
+                app:unlike_drawable="@drawable/favorite"/>
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

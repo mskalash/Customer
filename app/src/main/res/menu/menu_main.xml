@@ -13,10 +13,11 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/favorite"
+        android:icon="@mipmap/favorite"
         android:orderInCategory="100"
         android:title="Favorite"
-        app:showAsAction="ifRoom"
         android:visible="false"
-        android:icon="@drawable/favorite"
+        app:showAsAction="ifRoom"
         />
+
 </menu>

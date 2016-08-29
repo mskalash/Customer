@@ -146,13 +146,12 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
         notifyDataSetChanged();
     }
 
+    ArrayList<Client> first;
     public void unfavorite() {
         arrayList = new ArrayList<>(first);
         Log.e("----------", "----------------------------");
         notifyDataSetChanged();
     }
-
-    ArrayList<Client> first;
 
     public void favorite() {
         first = new ArrayList<>(arrayList);
@@ -167,5 +166,7 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
             Log.e("Delete", String.valueOf(arrayList.size()));
         }
     }
+
 }
+
 
