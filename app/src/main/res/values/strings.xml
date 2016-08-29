@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">"Customer"</string>
+    <string name="deletecont">Delete contact </string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="deleteall">Delete all contacts?</string>
+    <string name="persenname">Write person name</string>
+    <string name="persenlast">Write person last name</string>
+    <string name="persendesc">Write person description</string>
+    <string name="persentel">Write person phone number</string>
+    <string name="showcont">Show contact?</string>
+    <string name="selectpoint">Select point</string>
+    <string name="search">Waiting search your position</string>
+    <string name="add">Customer added</string>
+    <string name="update">Customer updated</string>
+    <string name="record">Please Recodering info</string>
+    <string name="namep">Name</string>
+    <string name="lastp">Last name</string>
+    <string name="descp">Description</string>
+    <string name="tel">Telephone namber</string>
+    <string name="more">MORE</string>
+    <string name="del">DELETE ALL</string>
 </resources>

@@ -219,13 +219,13 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             if (profilename.getText().toString().isEmpty())
-                Toast.makeText(getActivity(), "Write person name", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.persenname, Toast.LENGTH_SHORT).show();
             else if (profilelast.getText().toString().isEmpty())
-                Toast.makeText(getActivity(), "Write person last name", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.persenlast, Toast.LENGTH_SHORT).show();
             else if (profiledesc.getText().toString().isEmpty())
-                Toast.makeText(getActivity(), "Write person description", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.persendesc, Toast.LENGTH_SHORT).show();
             else if (profilephone.getText().toString().isEmpty()) {
-                Toast.makeText(getActivity(), "Write person phone number", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.persentel, Toast.LENGTH_SHORT).show();
             } else {
                 ((ActivityMain) getActivity()).getClient().setProfilename(profilename.getText().toString());
                 ((ActivityMain) getActivity()).getClient().setLast(profilelast.getText().toString());

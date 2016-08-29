@@ -71,7 +71,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         menu.getItem(1).setIcon(R.drawable.map);
         menu.getItem(1).setVisible(true);
         menu.getItem(2).setVisible(true);
-        menu.getItem(0).setTitle("DELETE ALL").setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        menu.getItem(0).setTitle(R.string.del).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
 
     }
 
@@ -94,14 +94,14 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         }
         if (id == R.id.action_settings) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage("Delete all contacts?")
+            builder.setMessage(R.string.deleteall)
                     .setCancelable(false)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             delete_all();
                         }
                     })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
                         }

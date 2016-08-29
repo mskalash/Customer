@@ -35,14 +35,13 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
     double lat;
     LatLng position;
     boolean camera = true;
-    boolean info = false;
     public final static String TAG = "FragmentMap";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        Toast.makeText(getActivity(), "Waiting search your position", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.search, Toast.LENGTH_SHORT).show();
         View v = inflater.inflate(R.layout.fragment_map, container,
                 false);
         mMapView = (MapView) v.findViewById(R.id.mapView);
@@ -153,14 +152,14 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
             if (position != null) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setMessage("Show contact?")
+                builder.setMessage(R.string.showcont)
                         .setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 ((ActivityMain) getActivity()).showScreen(new FragmentPhone(), FragmentPhone.TAG, true);
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 ActivityCompat.requestPermissions(getActivity(), new String[]{
                                         Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
@@ -172,7 +171,7 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
                 ((ActivityMain) getActivity()).getClient().setLonget(position.longitude);
             } else if ((((ActivityMain) getActivity()).getClient().getLat() != 0) && (((ActivityMain) getActivity()).getClient().getLonget() != 0)) {
                 ((ActivityMain) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
-            } else Toast.makeText(getActivity(), "Select point", Toast.LENGTH_SHORT).show();
+            } else Toast.makeText(getActivity(), R.string.selectpoint, Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);

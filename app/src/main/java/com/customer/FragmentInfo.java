@@ -100,7 +100,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
             if (!((ActivityMain) getActivity()).getClient().isCheck()) {
                 if (mediaPlayer.isPlaying()) mediaPlayer.pause();
                 addcon();
-                Toast.makeText(getActivity(), "Customer added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.add, Toast.LENGTH_SHORT).show();
                 ((ActivityMain) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, true);
             } else {
                 ((ActivityMain) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);

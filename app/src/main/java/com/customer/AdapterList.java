@@ -46,16 +46,20 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
     public void onBindViewHolder(FollowVH holder, final int position) {
         String image = arrayList.get(position).getImagename();
 
-        if (image != null) {  Log.e("Image",arrayList.get(position).getImagename());
+        if (image != null) {
+            Log.e("Image", arrayList.get(position).getImagename());
             Glide.with(mContext).load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).bitmapTransform(new CropCircleTransformation(mContext)).into(holder.avatar);
+        } else {
+            Glide.with(mContext).load(R.drawable.newprofile).into(holder.avatar);
         }
-        else{  Glide.with(mContext).load(R.drawable.newprofile).into(holder.avatar);}
-        holder.username.setText(arrayList.get(position).getProfilename()+ " "+arrayList.get(position).getLast());
+        holder.username.setText(arrayList.get(position).getProfilename() + " " + arrayList.get(position).getLast());
         holder.message.setText(arrayList.get(position).getDesc());
-        if(arrayList.get(position).isFavorite())
+        if (arrayList.get(position).isFavorite())
             holder.fav.setLiked(true);
-        else { holder.fav.setLiked(false);}
+        else {
+            holder.fav.setLiked(false);
+        }
     }
 
     @Override
@@ -70,29 +74,30 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
         TextView username;
         TextView message;
         LinearLayout profile;
-LikeButton fav;
-        DatabaseAdapter db=new DatabaseAdapter(mContext);
+        LikeButton fav;
+        DatabaseAdapter db = new DatabaseAdapter(mContext);
+
         public FollowVH(View itemView) {
             super(itemView);
             avatar = (ImageView) itemView.findViewById(R.id.avatar);
             username = (TextView) itemView.findViewById(R.id.firsname);
             message = (TextView) itemView.findViewById(R.id.desc);
             profile = (LinearLayout) itemView.findViewById(R.id.profileid);
-            fav=(LikeButton)itemView.findViewById(R.id.star_button);
+            fav = (LikeButton) itemView.findViewById(R.id.star_button);
             fav.setOnLikeListener(new OnLikeListener() {
                 @Override
                 public void liked(LikeButton likeButton) {
                     int position = getAdapterPosition();
 
                     arrayList.get(position).setFavorite(true);
-                    db.updatefavorites(arrayList.get(position).getRecid(),true);
+                    db.updatefavorites(arrayList.get(position).getRecid(), true);
                 }
 
                 @Override
                 public void unLiked(LikeButton likeButton) {
                     int position = getAdapterPosition();
                     arrayList.get(position).setFavorite(false);
-                    db.updatefavorites(arrayList.get(position).getRecid(),false);
+                    db.updatefavorites(arrayList.get(position).getRecid(), false);
                 }
             });
             profile.setOnLongClickListener(this);
@@ -113,9 +118,10 @@ LikeButton fav;
         public boolean onLongClick(View view) {
             int position = getAdapterPosition();
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-            builder.setMessage("Delete contact " + arrayList.get(position).getProfilename() + " ?")
+
+            builder.setMessage(mContext.getResources().getString(R.string.deletecont) + " " + arrayList.get(position).getProfilename() + " ?")
                     .setCancelable(false)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             int position = getAdapterPosition();
                             ((ActivityMain) mContext).deleteprofile(arrayList.get(position).getRecid(), arrayList.get(position).getFilename(), arrayList.get(position).getImagename());
@@ -123,7 +129,7 @@ LikeButton fav;
                             notifyItemRemoved(position);
                         }
                     })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
                         }
@@ -139,22 +145,26 @@ LikeButton fav;
         arrayList.clear();
         notifyDataSetChanged();
     }
-    public void unfavorite(){
-arrayList= new ArrayList<>(first);
-        Log.e("----------","----------------------------");
+
+    public void unfavorite() {
+        arrayList = new ArrayList<>(first);
+        Log.e("----------", "----------------------------");
         notifyDataSetChanged();
     }
+
     ArrayList<Client> first;
-    public void favorite(){
-         first=new ArrayList<>(arrayList);
 
-        for (int i = 0; i <arrayList.size() ; i++) {
+    public void favorite() {
+        first = new ArrayList<>(arrayList);
 
-            if(!arrayList.get(i).isFavorite()){
+        for (int i = 0; i < arrayList.size(); i++) {
+
+            if (!arrayList.get(i).isFavorite()) {
                 notifyItemRemoved(i);
                 arrayList.remove(i);
-i--;
-            }Log.e("Delete", String.valueOf(arrayList.size()));
+                i--;
+            }
+            Log.e("Delete", String.valueOf(arrayList.size()));
         }
     }
 }

@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Name"
+        android:text="@string/namep"
         android:textColor="#fff"
         android:textSize="17sp" />
 
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingTop="@dimen/texpadding"
-        android:text="Last name"
+        android:text="@string/lastp"
         android:textColor="#fff"
         android:textSize="17sp" />
 
@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingTop="@dimen/texpadding"
-        android:text="Description"
+        android:text="@string/descp"
         android:textColor="#fff"
         android:textSize="17sp" />
 

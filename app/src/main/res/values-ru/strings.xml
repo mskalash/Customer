@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">"Customer"</string>
+    <string name="add">Пользователь добавлен</string>
+    <string name="deletecont">Удалить контакт </string>
+    <string name="deleteall">Удалить все контакты?</string>
+    <string name="no">Нет</string>
+    <string name="persendesc">Напишите описание</string>
+    <string name="persenlast">Напишите фамилию</string>
+    <string name="persenname">Напишите имя</string>
+    <string name="persentel">Напишите телефон</string>
+    <string name="record">Сделайте аудио запись</string>
+    <string name="search">Ожидайте, поиск мета расположения</string>
+    <string name="selectpoint">Выберите точку</string>
+    <string name="showcont">Отобразить контакты?</string>
+    <string name="update">Пользователь обновлён</string>
+    <string name="yes">Да</string>
+    <string name="descp">Описание</string>
+    <string name="lastp">Фамилия</string>
+    <string name="namep">Имя</string>
+    <string name="tel">Номер телефона</string>
+    <string name="more">ПОДРОБНЕЕ</string>
+    <string name="del">УДАЛИТЬ ВСЁ</string>
+</resources>
