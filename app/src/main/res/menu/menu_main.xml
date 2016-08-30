@@ -4,7 +4,7 @@
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="NEXT"
+        android:title="@string/next"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/delete_all"

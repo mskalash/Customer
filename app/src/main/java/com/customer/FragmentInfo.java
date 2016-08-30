@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,8 +24,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.io.IOException;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
-import mehdi.sakout.fancybuttons.FancyButton;
 
 /**
  * Created by Максим on 08.08.2016.
@@ -38,8 +39,9 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
     ImageView avatar;
     MediaPlayer mediaPlayer;
     String phone;
-    FancyButton call;
-    FancyButton send;
+    Button call;
+    Button send;
+    ImageView imagebackgraund;
     public final static String TAG = "FragmentInfo";
     boolean playrec = false;
 
@@ -54,8 +56,9 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         name = (TextView) view.findViewById(R.id.name);
         description = (TextView) view.findViewById(R.id.description);
         avatar = (ImageView) view.findViewById(R.id.profile_avatar);
-        call = (FancyButton) view.findViewById(R.id.callphone);
-        send = (FancyButton) view.findViewById(R.id.messege);
+        call = (Button) view.findViewById(R.id.callphone);
+        send = (Button) view.findViewById(R.id.messege);
+        imagebackgraund=(ImageView)view.findViewById(R.id.imagebackgraund);
         if (((ActivityMain) getActivity()).getClient().isCheck()) {
             DatabaseAdapter db = new DatabaseAdapter(getActivity());
             db.selectprofile(((ActivityMain) getActivity()).getClient().getRecid());
@@ -67,6 +70,11 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
                     .skipMemoryCache(true)
                     .bitmapTransform(new CropCircleTransformation(getActivity()))
                     .into(avatar);
+            Glide.with(getActivity())
+                    .load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .bitmapTransform(new BlurTransformation(getActivity()))
+                    .into(imagebackgraund);
             Log.e("image", ((ActivityMain) getActivity()).getClient().getImagename());
         }
         setMedia();
@@ -74,14 +82,14 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
 
             @Override
             public void onCompletion(MediaPlayer mp) {
-                play.setImageResource(R.drawable.play);
+                play.setImageResource(R.drawable.playprofile);
                 playrec = false;
             }
 
         });
         phone = ((ActivityMain) getActivity()).getClient().getPhone();
-        lastname.setText(((ActivityMain) getActivity()).getClient().getLast());
-        name.setText(((ActivityMain) getActivity()).getClient().getProfilename());
+        lastname.setText(phone);
+        name.setText(((ActivityMain) getActivity()).getClient().getProfilename()+" "+((ActivityMain) getActivity()).getClient().getLast());
         description.setText(((ActivityMain) getActivity()).getClient().getDesc());
         call.setOnClickListener(this);
         play.setOnClickListener(this);
@@ -128,9 +136,9 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        menu.getItem(0).setTitle("DONE");
+        menu.getItem(0).setTitle(R.string.finish);
         if (((ActivityMain) getActivity()).getClient().isCheck())
-            menu.getItem(0).setTitle("EDIT");
+            menu.getItem(0).setTitle(R.string.edit);
         menu.getItem(1).setVisible(false);
 
     }
@@ -151,12 +159,12 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.plaer:
                 if (playrec == false) {
-                    play.setImageResource(R.drawable.pause);
+                    play.setImageResource(R.drawable.pauseprofile);
                     mediaPlayer.start();
                     playrec = true;
                     return;
                 } else {
-                    play.setImageResource(R.drawable.play);
+                    play.setImageResource(R.drawable.playprofile);
                     mediaPlayer.pause();
                     playrec = false;
                 }

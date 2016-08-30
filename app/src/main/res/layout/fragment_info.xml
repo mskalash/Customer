@@ -1,139 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/profile_avatar"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_gravity="center"
-        android:layout_margin="8dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/newprofile" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.45">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/namep"
-        android:textColor="#fff"
-        android:textSize="17sp" />
+        <ImageView
+            android:id="@+id/imagebackgraund"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+<View
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:alpha="0.3"
+    android:layout_margin="4dp"/>
+        <ImageView
+            android:id="@+id/profile_avatar"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/newprofile" />
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Maxim"
-        android:textColor="#fff"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/lastname"
+            android:layout_alignLeft="@+id/profile_avatar"
+            android:layout_alignRight="@+id/lastname"
+            android:layout_alignStart="@+id/profile_avatar"
+            android:layout_below="@+id/profile_avatar"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Maxim"
+            android:textColor="#fff"
+            android:textSize="20sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:paddingTop="@dimen/texpadding"
-        android:text="@string/lastp"
-        android:textColor="#fff"
-        android:textSize="17sp" />
+        <TextView
+            android:id="@+id/lastname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/profile_avatar"
+            android:layout_alignLeft="@+id/profile_avatar"
+            android:layout_alignRight="@+id/profile_avatar"
+            android:layout_alignStart="@+id/profile_avatar"
+            android:layout_below="@+id/name"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Khlebnikov"
+            android:textColor="#fff"
+            android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/lastname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Khlebnikov"
-        android:textColor="#fff"
-        android:textSize="20sp" />
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:orientation="horizontal"
+            android:layout_marginBottom="15dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:paddingTop="@dimen/texpadding"
-        android:text="@string/descp"
-        android:textColor="#fff"
-        android:textSize="17sp" />
+            <Button
+                android:id="@+id/callphone"
+                android:layout_width="115dp"
+                android:layout_height="37dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="55dp"
+                android:text="Make a call"
+                android:textColor="@android:color/white"
+                android:background="#FF5252"/>
+
+            <Button
+                android:id="@+id/messege"
+                android:textColor="@android:color/white"
+                android:layout_width="120dp"
+                android:layout_height="37dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:text="Send messege"
+                android:background="@color/toolbarcolor"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:gravity="center_horizontal"
         android:text="Bla Bla Bla"
         android:textColor="#fff"
-        android:textSize="20sp" />
+        android:textSize="12dp"
+        android:padding="7dp"
+        android:background="@color/toolbarcolor"/>
 
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="0.45">
 
-        <mehdi.sakout.fancybuttons.FancyButton xmlns:fancy="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/callphone"
-            android:layout_width="115dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="20dp"
-            android:gravity="bottom"
-            android:orientation="horizontal"
-            fancy:fb_borderColor="#00d2cf"
-            fancy:fb_borderWidth="1dp"
-            fancy:fb_defaultColor="#00d2cf"
-            fancy:fb_focusColor="#00d2cf"
-            fancy:fb_iconPosition="left"
-            fancy:fb_radius="25dp"
-            fancy:fb_text="CALL"
-            fancy:fb_textColor="@color/background"
-            fancy:fb_textGravity="center_horizontal"
-            fancy:fb_textSize="18sp"
+        <FrameLayout
+            android:id="@+id/profilemap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            />
-
-        <ImageView
-
-            android:id="@+id/plaer"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center"
-            android:src="@drawable/play" />
-
-        <mehdi.sakout.fancybuttons.FancyButton xmlns:fancy="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/messege"
-            android:layout_width="115dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
-            android:gravity="bottom"
-            android:orientation="horizontal"
-            fancy:fb_borderColor="#00d2cf"
-            fancy:fb_borderWidth="1dp"
-            fancy:fb_defaultColor="#00d2cf"
-            fancy:fb_focusColor="#00d2cf"
-            fancy:fb_iconPosition="left"
-            fancy:fb_radius="25dp"
-            fancy:fb_text="SEND"
-            fancy:fb_textColor="@color/background"
-            fancy:fb_textGravity="center_horizontal"
-            fancy:fb_textSize="18sp"
-
-            />
-    </LinearLayout>
-
-    <FrameLayout
-
-        android:id="@+id/profilemap"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp" />
-
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/plaer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/playprofile"
+                fab:backgroundTint="#FF5252" />
+        </FrameLayout>
+    </RelativeLayout>
 </LinearLayout>

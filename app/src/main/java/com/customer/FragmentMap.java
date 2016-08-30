@@ -7,6 +7,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -140,7 +141,6 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(true);
-        menu.getItem(0).setTitle("NEXT");
         menu.getItem(1).setVisible(false);
     }
 
@@ -156,8 +156,8 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
                         .setCancelable(false)
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                ((ActivityMain) getActivity()).showScreen(new FragmentPhone(), FragmentPhone.TAG, true);
-                            }
+                                ActivityCompat.requestPermissions(getActivity(), new String[]{
+                                        Manifest.permission.READ_CONTACTS,Manifest.permission.WRITE_EXTERNAL_STORAGE,}, 4);      }
                         })
                         .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -179,6 +179,9 @@ public class FragmentMap extends Fragment implements OnPermissionsListener {
 
     @Override
     public void onPermissionsGranted(String[] permission) {
-        ((ActivityMain) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
+        if(!permission[0].equals(Manifest.permission.READ_CONTACTS)){
+        ((ActivityMain) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);}
+        else{
+            ((ActivityMain) getActivity()).showScreen(new FragmentPhone(), FragmentPhone.TAG, true);}
     }
 }

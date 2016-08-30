@@ -115,8 +115,11 @@ public class ActivityMain extends AppCompatActivity {
                     break;
                 case 3:
                     ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentNew.TAG)).onPermissionsGranted(permissions);
-
                     break;
+                case 4:
+                    ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentMap.TAG)).onPermissionsGranted(permissions);
+                    break;
+
             }
         }
     }

@@ -42,7 +42,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
             @Override
             public void onClick(View view) {
                 if (!isOnline())
-                    Toast.makeText(getActivity(), "You haven`t connected map not loading ,show uploading map", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),  R.string.noinet, Toast.LENGTH_LONG).show();
                 ((ActivityMain) getActivity()).getClient().clear();
                 ActivityCompat.requestPermissions(getActivity(), new String[]{
                         android.Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -86,7 +86,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         int id = item.getItemId();
         if (id == R.id.delete_all) {
             if (!isOnline())
-                Toast.makeText(getActivity(), "You haven`t connected map not loading ,show uploading map", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.noinet, Toast.LENGTH_LONG).show();
             ((ActivityMain) getActivity()).showScreen(new FragmentAllPoint(), FragmentAllPoint.TAG, true);
 
             return true;

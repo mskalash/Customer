@@ -21,4 +21,8 @@
     <string name="tel">Номер телефона</string>
     <string name="more">ПОДРОБНЕЕ</string>
     <string name="del">УДАЛИТЬ ВСЁ</string>
+    <string name="finish">ФИНИШ</string>
+    <string name="next">ДАЛЕЕ</string>
+    <string name="noinet">Отсутствует интернет соединение,отоброжение загруженой карты.</string>
+    <string name="edit">ПРАВКА</string>
 </resources>

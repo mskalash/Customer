@@ -43,7 +43,7 @@ public class FaragmentMapInfo extends Fragment {
         marker = new MarkerOptions().position(
                 profilemap).draggable(false);
         marker.icon(BitmapDescriptorFactory
-                .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                .defaultMarker(BitmapDescriptorFactory.HUE_RED));
         maps.addMarker(marker);
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(profilemap).zoom(16).build();

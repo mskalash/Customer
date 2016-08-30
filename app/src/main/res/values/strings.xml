@@ -20,4 +20,8 @@
     <string name="tel">Telephone namber</string>
     <string name="more">MORE</string>
     <string name="del">DELETE ALL</string>
+    <string name="next">NEXT</string>
+    <string name="finish">FINISH</string>
+    <string name="noinet">You haven`t connected map not loading ,show uploading map.</string>
+    <string name="edit">EDIT</string>
 </resources>

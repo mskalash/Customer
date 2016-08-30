@@ -68,7 +68,7 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         if (((ActivityMain) getActivity()).getClient().isCheck()) {
-            menu.getItem(0).setTitle("FINISH");
+            menu.getItem(0).setTitle(R.string.finish);
         }
         menu.getItem(1).setVisible(false);
     }
