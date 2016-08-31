@@ -25,4 +25,7 @@
     <string name="next">ДАЛЕЕ</string>
     <string name="noinet">Отсутствует интернет соединение,отоброжение загруженой карты.</string>
     <string name="edit">ПРАВКА</string>
+    <string name="delete">УДАЛИТЬ</string>
+    <string name="call">ПОЗВОНИТЬ</string>
+    <string name="send">СООБЩЕНИЕ</string>
 </resources>

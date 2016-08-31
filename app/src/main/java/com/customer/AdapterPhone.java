@@ -87,7 +87,7 @@ public class AdapterPhone extends RecyclerView.Adapter<AdapterPhone.FollowVH> {
         public void onClick(View view) {
             int position = getAdapterPosition();
             ((ActivityMain) mContext).getClient().setProfilename(arrayList.get(position).getProfilename());
-            ((ActivityMain) mContext).getClient().setPhone(arrayList.get(position).getPhone());
+            ((ActivityMain) mContext).getClient().setPhone(arrayList.get(position).getPhone().replaceAll(" ",""));
             ActivityCompat.requestPermissions((ActivityMain) mContext, new String[]{
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
 

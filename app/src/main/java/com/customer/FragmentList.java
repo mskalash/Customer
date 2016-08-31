@@ -37,6 +37,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_list, container, false);
+        ((ActivityMain) getActivity()).mToolbar.setTitle(R.string.app_name);
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

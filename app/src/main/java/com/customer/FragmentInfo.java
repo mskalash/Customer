@@ -1,5 +1,7 @@
 package com.customer;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -89,6 +91,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         });
         phone = ((ActivityMain) getActivity()).getClient().getPhone();
         lastname.setText(phone);
+        ((ActivityMain) getActivity()).mToolbar.setTitle(((ActivityMain) getActivity()).getClient().getProfilename()+" "+((ActivityMain) getActivity()).getClient().getLast());
         name.setText(((ActivityMain) getActivity()).getClient().getProfilename()+" "+((ActivityMain) getActivity()).getClient().getLast());
         description.setText(((ActivityMain) getActivity()).getClient().getDesc());
         call.setOnClickListener(this);
@@ -115,6 +118,30 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
             }
             return true;
         }
+        if(id==R.id.delete_all){
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            builder.setMessage(getActivity().getResources().getString(R.string.deletecont) +" ?")
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            String recoder= ((ActivityMain) getActivity()).getClient().getFilename();
+                            String image=((ActivityMain) getActivity()).getClient().getImagename();
+                            int idinfo=((ActivityMain) getActivity()).getClient().getRecid();
+                            ((ActivityMain) getActivity()).deleteprofile(idinfo,recoder,image);
+                            getActivity().onBackPressed();
+                        }
+                    })
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+
+
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -138,8 +165,8 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setTitle(R.string.finish);
         if (((ActivityMain) getActivity()).getClient().isCheck())
-            menu.getItem(0).setTitle(R.string.edit);
-        menu.getItem(1).setVisible(false);
+            menu.getItem(0).setTitle(R.string.edit).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        menu.getItem(1).setVisible(true).setTitle(R.string.delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
 
     }
 

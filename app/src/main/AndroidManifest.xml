@@ -40,8 +40,6 @@
             android:name=".ActivityRecordingCover"
             android:label=""
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Transparent"
-
             />
 
         <meta-data

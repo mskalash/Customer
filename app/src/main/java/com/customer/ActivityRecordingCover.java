@@ -26,7 +26,6 @@ import java.io.IOException;
 public class ActivityRecordingCover extends AppCompatActivity {
 
     private ImageView recordIcon;
-    private String recordID;
     protected MediaRecorder recorder = null;
     protected String fileName = null;
     Chronometer chronometer;
@@ -34,8 +33,8 @@ public class ActivityRecordingCover extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_cover_activity_layout);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
@@ -51,12 +50,7 @@ public class ActivityRecordingCover extends AppCompatActivity {
         if (!folder.exists()) {
             folder.mkdir();
         }
-//
-//        fileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        Log.e("chronometr", "lal");
-
         startRecording();
-
         recordIcon = (ImageView) findViewById(R.id.mic);
         recordIcon.setOnClickListener(new View.OnClickListener() {
             @Override

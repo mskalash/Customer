@@ -37,6 +37,7 @@ public class FragmentAllPoint extends Fragment {
         View v = inflater.inflate(R.layout.fragment_map, container,
                 false);
         setHasOptionsMenu(true);
+        ((ActivityMain) getActivity()).mToolbar.setTitle(R.string.app_name);
         mMapView = (MapView) v.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();

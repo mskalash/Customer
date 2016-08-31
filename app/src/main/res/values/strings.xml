@@ -24,4 +24,7 @@
     <string name="finish">FINISH</string>
     <string name="noinet">You haven`t connected map not loading ,show uploading map.</string>
     <string name="edit">EDIT</string>
+    <string name="delete">DELETE</string>
+    <string name="call">MAKE A CALL</string>
+    <string name="send">SEND MESSEGE</string>
 </resources>

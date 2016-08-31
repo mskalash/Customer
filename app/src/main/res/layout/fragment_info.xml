@@ -37,31 +37,25 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/lastname"
-            android:layout_alignLeft="@+id/profile_avatar"
-            android:layout_alignRight="@+id/lastname"
-            android:layout_alignStart="@+id/profile_avatar"
+            android:layout_centerHorizontal="true"
             android:layout_below="@+id/profile_avatar"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Maxim"
             android:textColor="#fff"
-            android:textSize="20sp" />
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/lastname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/profile_avatar"
-            android:layout_alignLeft="@+id/profile_avatar"
-            android:layout_alignRight="@+id/profile_avatar"
-            android:layout_alignStart="@+id/profile_avatar"
+            android:layout_centerHorizontal="true"
             android:layout_below="@+id/name"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Khlebnikov"
             android:textColor="#fff"
-            android:textSize="20sp" />
+            android:textSize="12sp"/>
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -79,7 +73,7 @@
                 android:layout_height="37dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="55dp"
-                android:text="Make a call"
+                android:text="@string/call"
                 android:textColor="@android:color/white"
                 android:background="#FF5252"/>
 
@@ -91,7 +85,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="30dp"
-                android:text="Send messege"
+                android:text="@string/send"
                 android:background="@color/toolbarcolor"
                 />
         </LinearLayout>
