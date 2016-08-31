@@ -164,10 +164,12 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setTitle(R.string.finish);
-        if (((ActivityMain) getActivity()).getClient().isCheck())
-            menu.getItem(0).setTitle(R.string.edit).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-        menu.getItem(1).setVisible(true).setTitle(R.string.delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
 
+        if (((ActivityMain) getActivity()).getClient().isCheck()) {
+            menu.getItem(0).setTitle(R.string.edit).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+            menu.getItem(1).setVisible(true).setTitle(R.string.delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        }
+        else {menu.getItem(1).setVisible(false);}
     }
 
     public void setMedia() {

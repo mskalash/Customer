@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">"Customer"</string>
+    <string name="app_name">Customer</string>
     <string name="deletecont">Delete contact </string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
