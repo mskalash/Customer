@@ -3,6 +3,7 @@ package com.customer;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -46,7 +48,7 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
     public void onBindViewHolder(FollowVH holder, final int position) {
         String image = arrayList.get(position).getImagename();
 
-        if (image != null) {
+        if ((image != null)&&(new File(Uri.parse(image).getPath()).exists())) {
             Log.e("Image", arrayList.get(position).getImagename());
             Glide.with(mContext).load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).bitmapTransform(new CropCircleTransformation(mContext)).into(holder.avatar);

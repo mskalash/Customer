@@ -91,10 +91,12 @@ public class ActivityMain extends AppCompatActivity {
         DatabaseAdapter db = new DatabaseAdapter(this);
         db.deleteContact(id);
         File file = new File(filename);
-        file.delete();
+        if (file.exists())
+            file.delete();
         if (imagename != null) {
             File image = new File(Uri.parse(imagename).getPath());
-            image.delete();
+            if (image.exists())
+                image.delete();
         }
     }
 

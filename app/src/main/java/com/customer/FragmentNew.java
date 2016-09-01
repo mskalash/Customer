@@ -246,7 +246,7 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
     }
 
     private void settext() {
-        if (((ActivityMain) getActivity()).getClient().getImagename() != null) {
+        if (((ActivityMain) getActivity()).getClient().getImagename() != null&&(new File(Uri.parse(((ActivityMain) getActivity()).getClient().getImagename()).getPath()).exists())) {
             selectedImage = Uri.parse(((ActivityMain) getActivity()).getClient().getImagename());
             Glide.with(getActivity())
                     .load(selectedImage)

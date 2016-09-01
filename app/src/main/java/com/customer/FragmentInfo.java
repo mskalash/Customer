@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.io.File;
 import java.io.IOException;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
@@ -34,7 +36,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 public class FragmentInfo extends Fragment implements View.OnClickListener {
     View view;
-    ImageView play;
+    FloatingActionButton play;
     TextView lastname;
     TextView name;
     TextView description;
@@ -53,19 +55,19 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         super.onCreateView(inflater, container, savedInstanceState);
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_info, container, false);
-        play = (ImageView) view.findViewById(R.id.plaer);
+        play = (FloatingActionButton) view.findViewById(R.id.plaer);
         lastname = (TextView) view.findViewById(R.id.lastname);
         name = (TextView) view.findViewById(R.id.name);
         description = (TextView) view.findViewById(R.id.description);
         avatar = (ImageView) view.findViewById(R.id.profile_avatar);
         call = (Button) view.findViewById(R.id.callphone);
         send = (Button) view.findViewById(R.id.messege);
-        imagebackgraund=(ImageView)view.findViewById(R.id.imagebackgraund);
+        imagebackgraund = (ImageView) view.findViewById(R.id.imagebackgraund);
         if (((ActivityMain) getActivity()).getClient().isCheck()) {
             DatabaseAdapter db = new DatabaseAdapter(getActivity());
             db.selectprofile(((ActivityMain) getActivity()).getClient().getRecid());
         }
-        if (((ActivityMain) getActivity()).getClient().getImagename() != null) {
+        if ((((ActivityMain) getActivity()).getClient().getImagename() != null) && (new File(Uri.parse(((ActivityMain) getActivity()).getClient().getImagename()).getPath()).exists())) {
             Uri image = Uri.parse(((ActivityMain) getActivity()).getClient().getImagename());
             Glide.with(getActivity())
                     .load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -91,8 +93,8 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         });
         phone = ((ActivityMain) getActivity()).getClient().getPhone();
         lastname.setText(phone);
-        ((ActivityMain) getActivity()).mToolbar.setTitle(((ActivityMain) getActivity()).getClient().getProfilename()+" "+((ActivityMain) getActivity()).getClient().getLast());
-        name.setText(((ActivityMain) getActivity()).getClient().getProfilename()+" "+((ActivityMain) getActivity()).getClient().getLast());
+        ((ActivityMain) getActivity()).mToolbar.setTitle(((ActivityMain) getActivity()).getClient().getProfilename() + " " + ((ActivityMain) getActivity()).getClient().getLast());
+        name.setText(((ActivityMain) getActivity()).getClient().getProfilename() + " " + ((ActivityMain) getActivity()).getClient().getLast());
         description.setText(((ActivityMain) getActivity()).getClient().getDesc());
         call.setOnClickListener(this);
         play.setOnClickListener(this);
@@ -118,17 +120,17 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
             }
             return true;
         }
-        if(id==R.id.delete_all){
+        if (id == R.id.delete_all) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-            builder.setMessage(getActivity().getResources().getString(R.string.deletecont) +" ?")
+            builder.setMessage(getActivity().getResources().getString(R.string.deletecont) + " ?")
                     .setCancelable(false)
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            String recoder= ((ActivityMain) getActivity()).getClient().getFilename();
-                            String image=((ActivityMain) getActivity()).getClient().getImagename();
-                            int idinfo=((ActivityMain) getActivity()).getClient().getRecid();
-                            ((ActivityMain) getActivity()).deleteprofile(idinfo,recoder,image);
+                            String recoder = ((ActivityMain) getActivity()).getClient().getFilename();
+                            String image = ((ActivityMain) getActivity()).getClient().getImagename();
+                            int idinfo = ((ActivityMain) getActivity()).getClient().getRecid();
+                            ((ActivityMain) getActivity()).deleteprofile(idinfo, recoder, image);
                             getActivity().onBackPressed();
                         }
                     })
@@ -152,10 +154,12 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         String desc = ((ActivityMain) getActivity()).getClient().getDesc();
         double lat = ((ActivityMain) getActivity()).getClient().getLat();
         double longet = ((ActivityMain) getActivity()).getClient().getLonget();
-        String filename = ((ActivityMain) getActivity()).getClient().getFilename();
+        String filename = null;
+        if (new File(((ActivityMain) getActivity()).getClient().getFilename()).exists())
+            filename = ((ActivityMain) getActivity()).getClient().getFilename();
         String image = null;
         String phone = ((ActivityMain) getActivity()).getClient().getPhone();
-        if (((ActivityMain) getActivity()).getClient().getImagename() != null)
+        if ((((ActivityMain) getActivity()).getClient().getImagename() != null) && (new File(((ActivityMain) getActivity()).getClient().getImagename()).exists()))
             image = ((ActivityMain) getActivity()).getClient().getImagename();
         db.addcontact(name, lastname, desc, lat, longet, filename, image, phone);
 
@@ -168,8 +172,9 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         if (((ActivityMain) getActivity()).getClient().isCheck()) {
             menu.getItem(0).setTitle(R.string.edit).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
             menu.getItem(1).setVisible(true).setTitle(R.string.delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        } else {
+            menu.getItem(1).setVisible(false);
         }
-        else {menu.getItem(1).setVisible(false);}
     }
 
     public void setMedia() {
@@ -179,7 +184,8 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
             mediaPlayer.setDataSource(((ActivityMain) getActivity()).getClient().getFilename());
             mediaPlayer.prepare();
         } catch (IOException e) {
-            e.printStackTrace();
+            play.setVisibility(View.GONE);
+//            e.printStackTrace();
         }
     }
 

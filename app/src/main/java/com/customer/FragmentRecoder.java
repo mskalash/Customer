@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -40,7 +41,6 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
         rec = (ImageView) view.findViewById(R.id.rec);
         stop = (ImageView) view.findViewById(R.id.pause);
         play = (ImageView) view.findViewById(R.id.play);
-        if (((ActivityMain) getActivity()).getClient().getFilename() != null) visibl();
         rec.setOnClickListener(this);
         play.setOnClickListener(this);
         stop.setOnClickListener(this);
@@ -51,7 +51,7 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
             id = Environment.getExternalStorageDirectory().getAbsolutePath() + "/." + getResources().getString(R.string.app_name) + "/record/" + "/record_" + db.insertDummyContact() + ".3gp";
 
         }
-        if (((ActivityMain) getActivity()).getClient().getFilename() != null) {
+        if ((((ActivityMain) getActivity()).getClient().getFilename() != null)&& (new File(((ActivityMain) getActivity()).getClient().getFilename()).exists())) {
             visibl();
             fileName = ((ActivityMain) getActivity()).getClient().getFilename();
             mediaPlayer = new MediaPlayer();
