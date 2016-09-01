@@ -3,6 +3,7 @@ package com.customer;
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -124,16 +125,17 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-            if (((ActivityMain) getActivity()).getClient().isCheck()) {
+            if (fileName == null) {
+                Toast.makeText(getActivity(), R.string.record, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            if ((((ActivityMain) getActivity()).getClient().isCheck())) {
                 update();
                 Toast.makeText(getActivity(), R.string.update, Toast.LENGTH_SHORT).show();
                 if (mediaPlayer.isPlaying()) mediaPlayer.pause();
                 ((ActivityMain) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, true);
                 return true;
             }
-            if (fileName == null) {
-                Toast.makeText(getActivity(), R.string.record, Toast.LENGTH_SHORT).show();
-            } else {
                 if (mediaPlayer.isPlaying()) mediaPlayer.pause();
                 ((ActivityMain) getActivity()).getClient().setFilename(fileName);
                 ((ActivityMain) getActivity()).getClient().setCheck(false);
@@ -142,8 +144,7 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
 
             return true;
         }
-        return super.onOptionsItemSelected(item);
-    }
+
 
     public void update() {
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
@@ -156,7 +157,7 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
         String image = null;
         String phone = ((ActivityMain) getActivity()).getClient().getPhone();
         int id = ((ActivityMain) getActivity()).getClient().getRecid();
-        if (((ActivityMain) getActivity()).getClient().getImagename() != null)
+        if (((ActivityMain) getActivity()).getClient().getImagename() != null&&(new File(Uri.parse(((ActivityMain) getActivity()).getClient().getImagename()).getPath()).exists()))
             image = ((ActivityMain) getActivity()).getClient().getImagename();
         db.updateContact(name, lastname, desc, lat, longet, filename, image, phone, id);
         ((ActivityMain) getActivity()).getClient().clear();
