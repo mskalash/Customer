@@ -53,7 +53,7 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
             Glide.with(mContext).load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).bitmapTransform(new CropCircleTransformation(mContext)).into(holder.avatar);
         } else {
-            Glide.with(mContext).load(R.drawable.newprofile).into(holder.avatar);
+            Glide.with(mContext).load(R.drawable.ava).into(holder.avatar);
         }
         holder.username.setText(arrayList.get(position).getProfilename() + " " + arrayList.get(position).getLast());
         holder.message.setText(arrayList.get(position).getDesc());

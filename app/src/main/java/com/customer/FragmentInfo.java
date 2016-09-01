@@ -159,7 +159,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
             filename = ((ActivityMain) getActivity()).getClient().getFilename();
         String image = null;
         String phone = ((ActivityMain) getActivity()).getClient().getPhone();
-        if ((((ActivityMain) getActivity()).getClient().getImagename() != null) && (new File(((ActivityMain) getActivity()).getClient().getImagename()).exists()))
+        if ((((ActivityMain) getActivity()).getClient().getImagename() != null) && (new File(Uri.parse(((ActivityMain) getActivity()).getClient().getImagename()).getPath()).exists()))
             image = ((ActivityMain) getActivity()).getClient().getImagename();
         db.addcontact(name, lastname, desc, lat, longet, filename, image, phone);
 
