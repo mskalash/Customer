@@ -1,4 +1,4 @@
-package com.customer;
+package com.customer.map;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,6 +7,11 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.customer.ActivityMain;
+import com.customer.ClientItem;
+import com.customer.DatabaseAdapter;
+import com.customer.FragmentInfo;
+import com.customer.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -19,52 +24,36 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Максим on 08.08.2016.
- */
-public class FragmentAllPoint extends Fragment {
-    MapView mMapView;
-    private GoogleMap googleMap;
 
-    private Map<Marker, Client> maps = new HashMap<>();
-    ArrayList<Client> arrayList;
+public class FragmentAllPoint extends Fragment {
     public static final String TAG = "FragmentAllPoint";
+    MapView mapView;
+
+    private GoogleMap googleMap;
+    private Map<Marker, ClientItem> maps = new HashMap<>();
+    ArrayList<ClientItem> arrayList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         maps.clear();
-        View v = inflater.inflate(R.layout.fragment_map, container,
-                false);
+        View v = inflater.inflate(R.layout.fragment_map, container, false);
         setHasOptionsMenu(true);
-        ((ActivityMain) getActivity()).mToolbar.setTitle(R.string.app_name);
-        mMapView = (MapView) v.findViewById(R.id.mapView);
-        mMapView.onCreate(savedInstanceState);
-        mMapView.onResume();
-        try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        googleMap = mMapView.getMap();
+        ((ActivityMain) getActivity()).toolbar.setTitle(R.string.app_name);
+        mapView = (MapView) v.findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
+        mapView.onResume();
+        MapsInitializer.initialize(getActivity().getApplicationContext());
+        googleMap = mapView.getMap();
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
         arrayList = db.getmapdata();
-        for (int i = 0; i < arrayList.size(); i++) {
-            Marker marker = googleMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(arrayList.get(i).getLat(), arrayList.get(i).getLonget()))
-                    .title(arrayList.get(i).getProfilename())
-                    .snippet(arrayList.get(i).getLast())
-                    .icon(BitmapDescriptorFactory
-                            .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-            arrayList.get(i).setMapid(marker.getId());
-        }
-
+        setMarker();
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                ((ActivityMain) getActivity()).getClient().setRecid(recId(marker.getId(), arrayList));
-                ((ActivityMain) getActivity()).getClient().setCheck(true);
+                ((ActivityMain) getActivity()).getClientItem().setRecid(recId(marker.getId(), arrayList));
+                ((ActivityMain) getActivity()).getClientItem().setCheck(true);
                 ((ActivityMain) getActivity()).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
 
             }
@@ -72,39 +61,48 @@ public class FragmentAllPoint extends Fragment {
         return v;
     }
 
+    public void setMarker() {
+        for (int i = 0; i < arrayList.size(); i++) {
+            Marker marker = googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(arrayList.get(i).getLat(), arrayList.get(i).getLonget()))
+                    .title(arrayList.get(i).getProfilename())
+                    .snippet(arrayList.get(i).getLast())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+            arrayList.get(i).setMapid(marker.getId());
+        }
+    }
 
-    private int recId(String markerid, ArrayList<Client> arrayList) {
-        for (Client client : arrayList) {
-            if (client.getMapid().equals(markerid)) {
-                return client.getRecid();
+    private int recId(String markerId, ArrayList<ClientItem> arrayList) {
+        for (ClientItem clientItem : arrayList) {
+            if (clientItem.getMapid().equals(markerId)) {
+                return clientItem.getRecid();
             }
         }
-
         return -1;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mMapView.onResume();
+        mapView.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mMapView.onPause();
+        mapView.onPause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mMapView.onDestroy();
+        mapView.onDestroy();
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        mMapView.onLowMemory();
+        mapView.onLowMemory();
     }
 
     @Override

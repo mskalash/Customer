@@ -19,32 +19,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.customer.map.FragmentAllPoint;
+import com.customer.map.FragmentMap;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by Максим on 08.08.2016.
- */
 public class FragmentList extends Fragment implements OnPermissionsListener {
+    public final static String TAG = "FragmentList";
     RecyclerView main;
     View view;
-
-    public final static String TAG = "FragmentList";
+    boolean star = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_list, container, false);
-        ((ActivityMain) getActivity()).mToolbar.setTitle(R.string.app_name);
+        ((ActivityMain) getActivity()).toolbar.setTitle(R.string.app_name);
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!isOnline())
                     Toast.makeText(getActivity(),  R.string.noinet, Toast.LENGTH_LONG).show();
-                ((ActivityMain) getActivity()).getClient().clear();
+                ((ActivityMain) getActivity()).getClientItem().clear();
                 ActivityCompat.requestPermissions(getActivity(), new String[]{
                         android.Manifest.permission.ACCESS_COARSE_LOCATION,
                         android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
@@ -52,13 +52,20 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         });
         main = (RecyclerView) view.findViewById(R.id.main);
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
-        ArrayList<Client> arrayList = db.getContactsData();
+        ArrayList<ClientItem> arrayList = db.getContactsData();
         AdapterList adapter = new AdapterList(getActivity(), arrayList);
         main.setAdapter(adapter);
         main.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ((ActivityMain) getActivity()).mToolbar.setNavigationIcon(null);
+        ((ActivityMain) getActivity()).toolbar.setNavigationIcon(null);
         return view;
 
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     @Override
@@ -75,24 +82,19 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         menu.getItem(0).setTitle(R.string.del).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
     }
 
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.delete_all) {
+        if (id == R.id.deleteAll) {
             if (!isOnline())
                 Toast.makeText(getActivity(), R.string.noinet, Toast.LENGTH_LONG).show();
             ((ActivityMain) getActivity()).showScreen(new FragmentAllPoint(), FragmentAllPoint.TAG, true);
 
             return true;
         }
-        if (id == R.id.action_settings) {
+        if (id == R.id.actionSettings) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setMessage(R.string.deleteall)
                     .setCancelable(false)
@@ -127,7 +129,6 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         return super.onOptionsItemSelected(item);
     }
 
-    boolean star = false;
 
     public void delete_all() {
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
@@ -144,5 +145,6 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         }
 
     }
+
 
 }

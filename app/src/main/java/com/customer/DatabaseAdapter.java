@@ -10,9 +10,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-/**
- * Created by oleh on 10/17/15.
- */
+
 public class DatabaseAdapter {
 
     SQLHelper helper;
@@ -46,25 +44,25 @@ public class DatabaseAdapter {
             double longet = cursor.getDouble(longIndex);
             String phone = cursor.getString(phoneIndex);
 
-            ((ActivityMain) context).getClient().setProfilename(name);
-            ((ActivityMain) context).getClient().setLast(last);
-            ((ActivityMain) context).getClient().setFilename(filename);
-            ((ActivityMain) context).getClient().setDesc(desc);
-            ((ActivityMain) context).getClient().setImagename(icon);
-            ((ActivityMain) context).getClient().setLat(lat);
-            ((ActivityMain) context).getClient().setLonget(longet);
-            ((ActivityMain) context).getClient().setPhone(phone);
+            ((ActivityMain) context).getClientItem().setProfilename(name);
+            ((ActivityMain) context).getClientItem().setLast(last);
+            ((ActivityMain) context).getClientItem().setFilename(filename);
+            ((ActivityMain) context).getClientItem().setDesc(desc);
+            ((ActivityMain) context).getClientItem().setImagename(icon);
+            ((ActivityMain) context).getClientItem().setLat(lat);
+            ((ActivityMain) context).getClientItem().setLonget(longet);
+            ((ActivityMain) context).getClientItem().setPhone(phone);
         }
 
         cursor.close();
         db.close();
     }
 
-    public ArrayList<Client> getContactsData() {
+    public ArrayList<ClientItem> getContactsData() {
         SQLiteDatabase db = helper.getWritableDatabase();
         String[] columns = {SQLHelper.CONTACTS_ID, SQLHelper.CONTACTS_NAME, SQLHelper.CONTACTS_LAST, SQLHelper.CONTACTS_DESCRIPTION, SQLHelper.CONTACTS_ICON, SQLHelper.CONTACTS_REC,SQLHelper.CONTACTS_FAVORITE};
         Cursor cursor = db.query(SQLHelper.TABLE_NAME_CONTACTS, columns, null, null, null, null, null);
-        ArrayList<Client> result = new ArrayList<>();
+        ArrayList<ClientItem> result = new ArrayList<>();
         while (cursor.moveToNext()) {
             int idIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_ID);
             int lastIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_LAST);
@@ -80,18 +78,18 @@ public class DatabaseAdapter {
             String icon = cursor.getString(iconIndex);
             String rec = cursor.getString(reIndex);
             boolean fav=cursor.getInt(favIndex)>0;
-            result.add(new Client(id, name, last, desc, icon, rec,fav));
+            result.add(new ClientItem(id, name, last, desc, icon, rec,fav));
         }
         cursor.close();
         db.close();
         return result;
     }
 
-    public ArrayList<Client> getmapdata() {
+    public ArrayList<ClientItem> getmapdata() {
         SQLiteDatabase db = helper.getWritableDatabase();
         String[] columns = {SQLHelper.CONTACTS_ID, SQLHelper.CONTACTS_NAME, SQLHelper.CONTACTS_LAST, SQLHelper.CONTACTS_DESCRIPTION, SQLHelper.CONTACTS_LAT, SQLHelper.CONTACTS_LONGET};
         Cursor cursor = db.query(SQLHelper.TABLE_NAME_CONTACTS, columns, null, null, null, null, null);
-        ArrayList<Client> result = new ArrayList<>();
+        ArrayList<ClientItem> result = new ArrayList<>();
         while (cursor.moveToNext()) {
             int idIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_ID);
             int lastIndex = cursor.getColumnIndex(SQLHelper.CONTACTS_LAST);
@@ -103,7 +101,7 @@ public class DatabaseAdapter {
             String name = cursor.getString(nameIndex);
             double lat = cursor.getDouble(latIndex);
             double longet = cursor.getDouble(longetIndex);
-            result.add(new Client(id, lat, longet, name, last));
+            result.add(new ClientItem(id, lat, longet, name, last));
         }
         cursor.close();
         db.close();

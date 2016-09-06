@@ -23,18 +23,16 @@ import java.util.ArrayList;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
-/**
- * Created by Максим on 16.08.2016.
- */
+
 public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
     private LayoutInflater inflater;
-    private Context mContext;
-    ArrayList<Client> arrayList;
+    private Context context;
+    ArrayList<ClientItem> arrayList;
 
-    public AdapterList(Context context, ArrayList<Client> arrayList) {
+    public AdapterList(Context context, ArrayList<ClientItem> arrayList) {
         inflater = LayoutInflater.from(context);
         this.arrayList = new ArrayList<>(arrayList);
-        mContext = context;
+        this.context = context;
     }
 
     @Override
@@ -50,10 +48,10 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
 
         if ((image != null)&&(new File(Uri.parse(image).getPath()).exists())) {
             Log.e("Image", arrayList.get(position).getImagename());
-            Glide.with(mContext).load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true).bitmapTransform(new CropCircleTransformation(mContext)).into(holder.avatar);
+            Glide.with(context).load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true).bitmapTransform(new CropCircleTransformation(context)).into(holder.avatar);
         } else {
-            Glide.with(mContext).load(R.drawable.ava).into(holder.avatar);
+            Glide.with(context).load(R.drawable.ava).into(holder.avatar);
         }
         holder.username.setText(arrayList.get(position).getProfilename() + " " + arrayList.get(position).getLast());
         holder.message.setText(arrayList.get(position).getDesc());
@@ -77,7 +75,7 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
         TextView message;
         LinearLayout profile;
         LikeButton fav;
-        DatabaseAdapter db = new DatabaseAdapter(mContext);
+        DatabaseAdapter db = new DatabaseAdapter(context);
         TextView more;
 
         public FollowVH(View itemView) {
@@ -112,23 +110,23 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
         public void onClick(View view) {
             int position = getAdapterPosition();
 
-            ((ActivityMain) mContext).getClient().setCheck(true);
-            ((ActivityMain) mContext).getClient().setRecid(arrayList.get(position).getRecid());
-            ((ActivityMain) mContext).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
+            ((ActivityMain) context).getClientItem().setCheck(true);
+            ((ActivityMain) context).getClientItem().setRecid(arrayList.get(position).getRecid());
+            ((ActivityMain) context).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
 
         }
 
         @Override
         public boolean onLongClick(View view) {
             int position = getAdapterPosition();
-            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-            builder.setMessage(mContext.getResources().getString(R.string.deletecont) + " " + arrayList.get(position).getProfilename() + " ?")
+            builder.setMessage(context.getResources().getString(R.string.deletecont) + " " + arrayList.get(position).getProfilename() + " ?")
                     .setCancelable(false)
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             int position = getAdapterPosition();
-                            ((ActivityMain) mContext).deleteprofile(arrayList.get(position).getRecid(), arrayList.get(position).getFilename(), arrayList.get(position).getImagename());
+                            ((ActivityMain) context).deleteProfile(arrayList.get(position).getRecid(), arrayList.get(position).getFilename(), arrayList.get(position).getImagename());
                             arrayList.remove(position);
                             notifyItemRemoved(position);
                         }
@@ -145,29 +143,26 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
         }
     }
 
+
     public void delete() {
         arrayList.clear();
         notifyDataSetChanged();
     }
 
-    ArrayList<Client> first;
+    ArrayList<ClientItem> first;
     public void unfavorite() {
         arrayList = new ArrayList<>(first);
-        Log.e("----------", "----------------------------");
         notifyDataSetChanged();
     }
 
     public void favorite() {
         first = new ArrayList<>(arrayList);
-
         for (int i = 0; i < arrayList.size(); i++) {
-
             if (!arrayList.get(i).isFavorite()) {
                 notifyItemRemoved(i);
                 arrayList.remove(i);
                 i--;
             }
-            Log.e("Delete", String.valueOf(arrayList.size()));
         }
     }
 

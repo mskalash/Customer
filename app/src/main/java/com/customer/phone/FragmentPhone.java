@@ -1,4 +1,4 @@
-package com.customer;
+package com.customer.phone;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,9 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by Максим on 22.08.2016.
- */
+import com.customer.ActivityMain;
+import com.customer.FragmentNew;
+import com.customer.R;
+
 public class FragmentPhone extends Fragment {
     public final static String TAG = "FragmentPhone";
     View view;
@@ -38,7 +39,7 @@ public class FragmentPhone extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.actionSettings) {
 
             ((ActivityMain) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
 

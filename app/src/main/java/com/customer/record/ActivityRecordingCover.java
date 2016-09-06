@@ -1,4 +1,4 @@
-package com.customer;
+package com.customer.record;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,13 +16,11 @@ import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.customer.R;
+
 import java.io.File;
 import java.io.IOException;
 
-
-/**
- * Created by oleh on 10/28/15.
- */
 public class ActivityRecordingCover extends AppCompatActivity {
 
     private ImageView recordIcon;

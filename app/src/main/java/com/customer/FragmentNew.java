@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.customer.record.FragmentRecoder;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,13 +44,13 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  * Created by Максим on 08.08.2016.
  */
 public class FragmentNew extends Fragment implements OnPermissionsListener {
-    ImageView newimage;
-    View v;
+    ImageView new_image;
+    View view;
     Uri selectedImage;
-    EditText profilename;
-    EditText profilelast;
-    EditText profiledesc;
-    EditText profilephone;
+    EditText profileName;
+    EditText profileLast;
+    EditText profileDesc;
+    EditText profilePhone;
     public final static String TAG = "FragmentNew";
     static final int GALLERY_REQUEST = 1;
     private final static int ACTIVITY_TAKE_PHOTO = 0;
@@ -60,31 +61,31 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         setHasOptionsMenu(true);
-
-        v = inflater.inflate(R.layout.fragment_new, container, false);
-        profilename = (EditText) v.findViewById(R.id.editname);
-        profilelast = (EditText) v.findViewById(R.id.editlast);
-        profiledesc = (EditText) v.findViewById(R.id.editdesc);
-        profilephone = (EditText) v.findViewById(R.id.editphone);
-        newimage = (ImageView) v.findViewById(R.id.editavatar);
-        if (((ActivityMain) getActivity()).getClient().getProfilename() != null) settext();
-
-        newimage.setOnClickListener(new View.OnClickListener() {
+        view = inflater.inflate(R.layout.fragment_new, container, false);
+        setView();
+        if (((ActivityMain) getActivity()).getClientItem().getProfilename() != null) settext();
+        new_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 messageDialog();
-
-
             }
         });
 
-        return v;
+        return view;
+    }
+
+    public void setView() {
+        profileName = (EditText) view.findViewById(R.id.edit_name);
+        profileLast = (EditText) view.findViewById(R.id.edit_last);
+        profileDesc = (EditText) view.findViewById(R.id.edit_desc);
+        profilePhone = (EditText) view.findViewById(R.id.edit_phone);
+        new_image = (ImageView) view.findViewById(R.id.edit_avatar);
     }
 
     public void messageDialog() {
         myDialog = new Dialog(getContext());
         myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        myDialog.setContentView(R.layout.dialogscreen);
+        myDialog.setContentView(R.layout.dialog_screen);
         myDialog.setCancelable(true);
 
         Button image = (Button) myDialog.findViewById(R.id.images);
@@ -137,16 +138,16 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
         if (!folder.exists()) {
             folder.mkdir();
         }
-        if (((ActivityMain) getActivity()).getClient().getImagename() != null) {
+        if (((ActivityMain) getActivity()).getClientItem().getImagename() != null) {
 
-            Uri uri = Uri.parse(((ActivityMain) getActivity()).getClient().getImagename());
+            Uri uri = Uri.parse(((ActivityMain) getActivity()).getClientItem().getImagename());
             return new File(uri.getPath());
         }
-        if(((ActivityMain) getActivity()).getClient().getRecid()!=-1){
-            fileName = "image_" + ((ActivityMain) getActivity()).getClient().getRecid() + ".jpg";
+        if (((ActivityMain) getActivity()).getClientItem().getRecid() != -1) {
+            fileName = "image_" + ((ActivityMain) getActivity()).getClientItem().getRecid() + ".jpg";
+        } else {
+            fileName = "image_" + imageid + ".jpg";
         }
-        else{
-        fileName = "image_" + imageid + ".jpg";}
 
         return new File(folder, fileName);
     }
@@ -169,20 +170,15 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
                     }
 
                     selectedImage = Uri.fromFile(new File(getTempFile().getPath()));
-
-
                     break;
                 case ACTIVITY_TAKE_PHOTO:
                     selectedImage = Uri.fromFile(new File(getTempFile().getPath()));
                     break;
-
             }
             Glide.with(getActivity())
                     .load(selectedImage).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).bitmapTransform(new CropCircleTransformation(getActivity()))
-                    .into(newimage);
-
-
+                    .into(new_image);
         }
 
     }
@@ -217,25 +213,25 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            if (profilename.getText().toString().isEmpty())
+        if (id == R.id.actionSettings) {
+            if (profileName.getText().toString().isEmpty())
                 Toast.makeText(getActivity(), R.string.persenname, Toast.LENGTH_SHORT).show();
-            else if (profilelast.getText().toString().isEmpty())
+            else if (profileLast.getText().toString().isEmpty())
                 Toast.makeText(getActivity(), R.string.persenlast, Toast.LENGTH_SHORT).show();
-            else if (profiledesc.getText().toString().isEmpty())
+            else if (profileDesc.getText().toString().isEmpty())
                 Toast.makeText(getActivity(), R.string.persendesc, Toast.LENGTH_SHORT).show();
-            else if (profilephone.getText().toString().isEmpty()) {
+            else if (profilePhone.getText().toString().isEmpty()) {
                 Toast.makeText(getActivity(), R.string.persentel, Toast.LENGTH_SHORT).show();
             } else {
-                ((ActivityMain) getActivity()).getClient().setProfilename(profilename.getText().toString());
-                ((ActivityMain) getActivity()).getClient().setLast(profilelast.getText().toString());
-                ((ActivityMain) getActivity()).getClient().setDesc(profiledesc.getText().toString());
-                ((ActivityMain) getActivity()).getClient().setPhone(profilephone.getText().toString());
+                ((ActivityMain) getActivity()).getClientItem().setProfilename(profileName.getText().toString());
+                ((ActivityMain) getActivity()).getClientItem().setLast(profileLast.getText().toString());
+                ((ActivityMain) getActivity()).getClientItem().setDesc(profileDesc.getText().toString());
+                ((ActivityMain) getActivity()).getClientItem().setPhone(profilePhone.getText().toString());
                 ActivityCompat.requestPermissions(getActivity(), new String[]{
                         Manifest.permission.RECORD_AUDIO}, 3);
 
                 if (selectedImage != null)
-                    ((ActivityMain) getActivity()).getClient().setImagename(selectedImage.toString());
+                    ((ActivityMain) getActivity()).getClientItem().setImagename(selectedImage.toString());
 
             }
 
@@ -246,19 +242,19 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
     }
 
     private void settext() {
-        if (((ActivityMain) getActivity()).getClient().getImagename() != null&&(new File(Uri.parse(((ActivityMain) getActivity()).getClient().getImagename()).getPath()).exists())) {
-            selectedImage = Uri.parse(((ActivityMain) getActivity()).getClient().getImagename());
+        if (((ActivityMain) getActivity()).getClientItem().getImagename() != null && (new File(Uri.parse(((ActivityMain) getActivity()).getClientItem().getImagename()).getPath()).exists())) {
+            selectedImage = Uri.parse(((ActivityMain) getActivity()).getClientItem().getImagename());
             Glide.with(getActivity())
                     .load(selectedImage)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .bitmapTransform(new CropCircleTransformation(getActivity()))
-                    .into(newimage);
+                    .into(new_image);
         }
-        profilelast.setText(((ActivityMain) getActivity()).getClient().getLast());
-        profilename.setText(((ActivityMain) getActivity()).getClient().getProfilename());
-        profiledesc.setText(((ActivityMain) getActivity()).getClient().getDesc());
-        profilephone.setText(((ActivityMain) getActivity()).getClient().getPhone());
+        profileLast.setText(((ActivityMain) getActivity()).getClientItem().getLast());
+        profileName.setText(((ActivityMain) getActivity()).getClientItem().getProfilename());
+        profileDesc.setText(((ActivityMain) getActivity()).getClientItem().getDesc());
+        profilePhone.setText(((ActivityMain) getActivity()).getClientItem().getPhone());
 
     }
 

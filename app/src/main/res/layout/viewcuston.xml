@@ -44,19 +44,19 @@
                         android:id="@+id/firsname"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:text="Princess "
-                        android:textSize="23sp"
                         android:ellipsize="end"
-                        android:maxLines="1"/>
+                        android:maxLines="1"
+                        android:text="Princess "
+                        android:textSize="23sp" />
 
                     <com.like.LikeButton
                         android:id="@+id/star_button"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
                         android:padding="5dp"
                         app:icon_size="30dp"
                         app:icon_type="heart"
-                        android:layout_marginLeft="5dp"
                         app:like_drawable="@drawable/staron"
                         app:unlike_drawable="@drawable/staroff" />
                 </LinearLayout>
@@ -68,33 +68,21 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text=" met met met met met met"
-                    android:textSize="13sp"
-                    android:textColor="#DBD7D2"/>
+                    android:textColor="#DBD7D2"
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
+                    android:layout_marginRight="30dp"
                     android:layout_marginTop="5dp"
                     android:text="@string/more"
                     android:textColor="#FF5252"
-                    android:textSize="16sp"
-                    android:layout_marginRight="30dp"/>
+                    android:textSize="16sp" />
 
             </LinearLayout>
-
-            <!--<com.like.LikeButton-->
-            <!--android:id="@+id/star_button"-->
-            <!--android:layout_width="35dp"-->
-            <!--android:layout_height="35dp"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:layout_marginRight="25dp"-->
-            <!--android:padding="5dp"-->
-            <!--app:icon_size="30dp"-->
-            <!--app:icon_type="star"-->
-            <!--app:like_drawable="@drawable/staron"-->
-            <!--app:unlike_drawable="@drawable/staroff"/>-->
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

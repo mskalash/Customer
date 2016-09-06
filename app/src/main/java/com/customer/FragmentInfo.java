@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.customer.map.FragmentMapInfo;
+import com.customer.map.FragmentMap;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,13 +33,10 @@ import java.io.IOException;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
-/**
- * Created by Максим on 08.08.2016.
- */
 public class FragmentInfo extends Fragment implements View.OnClickListener {
     View view;
     FloatingActionButton play;
-    TextView lastname;
+    TextView lastName;
     TextView name;
     TextView description;
     ImageView avatar;
@@ -45,9 +44,9 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
     String phone;
     Button call;
     Button send;
-    ImageView imagebackgraund;
+    ImageView imageBackground;
     public final static String TAG = "FragmentInfo";
-    boolean playrec = false;
+    boolean playRec = false;
 
     @Nullable
     @Override
@@ -55,20 +54,45 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         super.onCreateView(inflater, container, savedInstanceState);
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_info, container, false);
+        setView();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                play.setImageResource(R.drawable.playprofile);
+                playRec = false;
+            }
+
+        });
+        phone = ((ActivityMain) getActivity()).getClientItem().getPhone();
+        lastName.setText(phone);
+        ((ActivityMain) getActivity()).toolbar.setTitle(((ActivityMain) getActivity()).getClientItem().getProfilename() + " " + ((ActivityMain) getActivity()).getClientItem().getLast());
+        name.setText(((ActivityMain) getActivity()).getClientItem().getProfilename() + " " + ((ActivityMain) getActivity()).getClientItem().getLast());
+        description.setText(((ActivityMain) getActivity()).getClientItem().getDesc());
+        call.setOnClickListener(this);
+        play.setOnClickListener(this);
+        send.setOnClickListener(this);
+        FragmentManager childFragMan = getChildFragmentManager();
+        FragmentTransaction childFragTrans = childFragMan.beginTransaction();
+        childFragTrans.add(R.id.profilemap, new FragmentMapInfo()).commit();
+        return view;
+    }
+
+    public void setView() {
         play = (FloatingActionButton) view.findViewById(R.id.plaer);
-        lastname = (TextView) view.findViewById(R.id.lastname);
+        lastName = (TextView) view.findViewById(R.id.lastname);
         name = (TextView) view.findViewById(R.id.name);
         description = (TextView) view.findViewById(R.id.description);
         avatar = (ImageView) view.findViewById(R.id.profile_avatar);
         call = (Button) view.findViewById(R.id.callphone);
         send = (Button) view.findViewById(R.id.messege);
-        imagebackgraund = (ImageView) view.findViewById(R.id.imagebackgraund);
-        if (((ActivityMain) getActivity()).getClient().isCheck()) {
+        imageBackground = (ImageView) view.findViewById(R.id.imagebackgraund);
+        if (((ActivityMain) getActivity()).getClientItem().isCheck()) {
             DatabaseAdapter db = new DatabaseAdapter(getActivity());
-            db.selectprofile(((ActivityMain) getActivity()).getClient().getRecid());
+            db.selectprofile(((ActivityMain) getActivity()).getClientItem().getRecid());
         }
-        if ((((ActivityMain) getActivity()).getClient().getImagename() != null) && (new File(Uri.parse(((ActivityMain) getActivity()).getClient().getImagename()).getPath()).exists())) {
-            Uri image = Uri.parse(((ActivityMain) getActivity()).getClient().getImagename());
+        if ((((ActivityMain) getActivity()).getClientItem().getImagename() != null) && (new File(Uri.parse(((ActivityMain) getActivity()).getClientItem().getImagename()).getPath()).exists())) {
+            Uri image = Uri.parse(((ActivityMain) getActivity()).getClientItem().getImagename());
             Glide.with(getActivity())
                     .load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
@@ -78,39 +102,18 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
                     .load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .bitmapTransform(new BlurTransformation(getActivity()))
-                    .into(imagebackgraund);
-            Log.e("image", ((ActivityMain) getActivity()).getClient().getImagename());
+                    .into(imageBackground);
+            Log.e("image", ((ActivityMain) getActivity()).getClientItem().getImagename());
         }
         setMedia();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                play.setImageResource(R.drawable.playprofile);
-                playrec = false;
-            }
-
-        });
-        phone = ((ActivityMain) getActivity()).getClient().getPhone();
-        lastname.setText(phone);
-        ((ActivityMain) getActivity()).mToolbar.setTitle(((ActivityMain) getActivity()).getClient().getProfilename() + " " + ((ActivityMain) getActivity()).getClient().getLast());
-        name.setText(((ActivityMain) getActivity()).getClient().getProfilename() + " " + ((ActivityMain) getActivity()).getClient().getLast());
-        description.setText(((ActivityMain) getActivity()).getClient().getDesc());
-        call.setOnClickListener(this);
-        play.setOnClickListener(this);
-        send.setOnClickListener(this);
-        FragmentManager childFragMan = getChildFragmentManager();
-        FragmentTransaction childFragTrans = childFragMan.beginTransaction();
-        childFragTrans.add(R.id.profilemap, new FaragmentMapInfo()).commit();
-        return view;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.actionSettings) {
 
-            if (!((ActivityMain) getActivity()).getClient().isCheck()) {
+            if (!((ActivityMain) getActivity()).getClientItem().isCheck()) {
                 if (mediaPlayer.isPlaying()) mediaPlayer.pause();
                 addcon();
                 Toast.makeText(getActivity(), R.string.add, Toast.LENGTH_SHORT).show();
@@ -120,47 +123,47 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
             }
             return true;
         }
-        if (id == R.id.delete_all) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-            builder.setMessage(getActivity().getResources().getString(R.string.deletecont) + " ?")
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            String recoder = ((ActivityMain) getActivity()).getClient().getFilename();
-                            String image = ((ActivityMain) getActivity()).getClient().getImagename();
-                            int idinfo = ((ActivityMain) getActivity()).getClient().getRecid();
-                            ((ActivityMain) getActivity()).deleteprofile(idinfo, recoder, image);
-                            getActivity().onBackPressed();
-                        }
-                    })
-                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-            AlertDialog alert = builder.create();
-            alert.show();
-
-
+        if (id == R.id.deleteAll) {
+            dialogDeleteAll();
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void  dialogDeleteAll(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(getActivity().getResources().getString(R.string.deletecont) + " ?")
+                .setCancelable(false)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String recoder = ((ActivityMain) getActivity()).getClientItem().getFilename();
+                        String image = ((ActivityMain) getActivity()).getClientItem().getImagename();
+                        int idinfo = ((ActivityMain) getActivity()).getClientItem().getRecid();
+                        ((ActivityMain) getActivity()).deleteProfile(idinfo, recoder, image);
+                        getActivity().onBackPressed();
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public void addcon() {
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
-        String name = ((ActivityMain) getActivity()).getClient().getProfilename();
-        String lastname = ((ActivityMain) getActivity()).getClient().getLast();
-        String desc = ((ActivityMain) getActivity()).getClient().getDesc();
-        double lat = ((ActivityMain) getActivity()).getClient().getLat();
-        double longet = ((ActivityMain) getActivity()).getClient().getLonget();
+        String name = ((ActivityMain) getActivity()).getClientItem().getProfilename();
+        String lastname = ((ActivityMain) getActivity()).getClientItem().getLast();
+        String desc = ((ActivityMain) getActivity()).getClientItem().getDesc();
+        double lat = ((ActivityMain) getActivity()).getClientItem().getLat();
+        double longet = ((ActivityMain) getActivity()).getClientItem().getLonget();
         String filename = null;
-        if (new File(((ActivityMain) getActivity()).getClient().getFilename()).exists())
-            filename = ((ActivityMain) getActivity()).getClient().getFilename();
+        if (new File(((ActivityMain) getActivity()).getClientItem().getFilename()).exists())
+            filename = ((ActivityMain) getActivity()).getClientItem().getFilename();
         String image = null;
-        String phone = ((ActivityMain) getActivity()).getClient().getPhone();
-        if ((((ActivityMain) getActivity()).getClient().getImagename() != null) && (new File(Uri.parse(((ActivityMain) getActivity()).getClient().getImagename()).getPath()).exists()))
-            image = ((ActivityMain) getActivity()).getClient().getImagename();
+        String phone = ((ActivityMain) getActivity()).getClientItem().getPhone();
+        if ((((ActivityMain) getActivity()).getClientItem().getImagename() != null) && (new File(Uri.parse(((ActivityMain) getActivity()).getClientItem().getImagename()).getPath()).exists()))
+            image = ((ActivityMain) getActivity()).getClientItem().getImagename();
         db.addcontact(name, lastname, desc, lat, longet, filename, image, phone);
 
     }
@@ -169,7 +172,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setTitle(R.string.finish);
 
-        if (((ActivityMain) getActivity()).getClient().isCheck()) {
+        if (((ActivityMain) getActivity()).getClientItem().isCheck()) {
             menu.getItem(0).setTitle(R.string.edit).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
             menu.getItem(1).setVisible(true).setTitle(R.string.delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
         } else {
@@ -181,11 +184,10 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         mediaPlayer = new MediaPlayer();
         try {
 
-            mediaPlayer.setDataSource(((ActivityMain) getActivity()).getClient().getFilename());
+            mediaPlayer.setDataSource(((ActivityMain) getActivity()).getClientItem().getFilename());
             mediaPlayer.prepare();
         } catch (IOException e) {
             play.setVisibility(View.GONE);
-//            e.printStackTrace();
         }
     }
 
@@ -193,15 +195,15 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.plaer:
-                if (playrec == false) {
+                if (playRec == false) {
                     play.setImageResource(R.drawable.pauseprofile);
                     mediaPlayer.start();
-                    playrec = true;
+                    playRec = true;
                     return;
                 } else {
                     play.setImageResource(R.drawable.playprofile);
                     mediaPlayer.pause();
-                    playrec = false;
+                    playRec = false;
                 }
                 break;
             case R.id.callphone:

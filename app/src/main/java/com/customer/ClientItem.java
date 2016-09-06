@@ -1,9 +1,7 @@
 package com.customer;
 
-/**
- * Created by Максим on 10.08.2016.
- */
-public class Client {
+
+public class ClientItem {
 
     private int recid = -1;
     private String profilename;
@@ -26,7 +24,7 @@ private boolean favorite;
         this.favorite = favorite;
     }
 
-    public Client() {
+    public ClientItem() {
     }
 
     public String getPhone() {
@@ -37,7 +35,7 @@ private boolean favorite;
         this.phone = phone;
     }
 
-    public Client(int id, String profilename, String last, String desc, String icon, String rec,boolean favorite) {
+    public ClientItem(int id, String profilename, String last, String desc, String icon, String rec, boolean favorite) {
         this.recid = id;
         this.profilename = profilename;
         this.last = last;
@@ -47,7 +45,7 @@ private boolean favorite;
        this.favorite=favorite;
     }
 
-    public Client(int id, double lat, double longet, String name, String lastname) {
+    public ClientItem(int id, double lat, double longet, String name, String lastname) {
         this.recid = id;
         this.lat = lat;
         this.longet = longet;
@@ -56,7 +54,7 @@ private boolean favorite;
 
     }
 
-    public Client(String name, String phone) {
+    public ClientItem(String name, String phone) {
         this.profilename = name;
         this.phone = phone;
     }

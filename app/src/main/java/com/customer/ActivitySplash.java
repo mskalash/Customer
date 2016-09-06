@@ -12,13 +12,11 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/**
- * Created by Максим on 12.08.2016.
- */
+
 public class ActivitySplash extends AppCompatActivity {
-    TextView splashtext;
+    TextView splashText;
     AlphaAnimation alphaAnimation;
-    ImageView splashimage;
+    ImageView splashImage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,13 +27,13 @@ public class ActivitySplash extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         alphaAnimation = new AlphaAnimation(0, 1);
         alphaAnimation.setDuration(2500);
-        splashtext = (TextView) findViewById(R.id.splashtext);
-        splashimage = (ImageView) findViewById(R.id.splashimage);
+        splashText = (TextView) findViewById(R.id.splashtext);
+        splashImage = (ImageView) findViewById(R.id.splashimage);
         RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(2500);
-        splashimage.setAnimation(rotate);
+        splashImage.setAnimation(rotate);
 
-        splashtext.setAnimation(alphaAnimation);
+        splashText.setAnimation(alphaAnimation);
         Thread thread = new Thread() {
             @Override
             public void run() {

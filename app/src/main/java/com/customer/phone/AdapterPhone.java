@@ -1,4 +1,4 @@
-package com.customer;
+package com.customer.phone;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -11,25 +11,27 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.customer.ActivityMain;
+import com.customer.ClientItem;
+import com.customer.FragmentNew;
+import com.customer.OnPermissionsListener;
+import com.customer.R;
 
-/**
- * Created by Максим on 22.08.2016.
- */
+import java.util.ArrayList;
 public class AdapterPhone extends RecyclerView.Adapter<AdapterPhone.FollowVH> {
     LayoutInflater inflater;
-    private Context mContext;
-    ArrayList<Client> arrayList;
+    private Context context;
+    ArrayList<ClientItem> arrayList;
 
     public AdapterPhone(Context context) {
         inflater = LayoutInflater.from(context);
-        mContext = context;
+        this.context = context;
         getArrayList();
     }
 
     @Override
     public AdapterPhone.FollowVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.phoneview, parent, false);
+        View view = inflater.inflate(R.layout.phone_view, parent, false);
         FollowVH holder = new FollowVH(view);
         return holder;
     }
@@ -37,10 +39,9 @@ public class AdapterPhone extends RecyclerView.Adapter<AdapterPhone.FollowVH> {
     @Override
     public void onBindViewHolder(FollowVH holder, int position) {
         holder.username.setText(arrayList.get(position).getProfilename());
-        holder.message.setText(arrayList.get(position).getPhone());
+        holder.number.setText(arrayList.get(position).getPhone());
 
     }
-
 
     @Override
     public int getItemCount() {
@@ -49,7 +50,7 @@ public class AdapterPhone extends RecyclerView.Adapter<AdapterPhone.FollowVH> {
 
     protected void getArrayList() {
         arrayList = new ArrayList<>();
-        Cursor c = mContext.getContentResolver().query(
+        Cursor c = context.getContentResolver().query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                 null, null, null);
         while (c.moveToNext()) {
@@ -59,38 +60,35 @@ public class AdapterPhone extends RecyclerView.Adapter<AdapterPhone.FollowVH> {
             String phNumber = c
                     .getString(c
                             .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            arrayList.add(new Client(contactName, phNumber));
+            arrayList.add(new ClientItem(contactName, phNumber));
         }
         c.close();
     }
 
     class FollowVH extends RecyclerView.ViewHolder implements View.OnClickListener, OnPermissionsListener {
         TextView username;
-        TextView message;
+        TextView number;
         LinearLayout profile;
 
         public FollowVH(View itemView) {
             super(itemView);
-            username = (TextView) itemView.findViewById(R.id.phonename);
-            message = (TextView) itemView.findViewById(R.id.phonenamber);
-            profile = (LinearLayout) itemView.findViewById(R.id.phoneset);
+            username = (TextView) itemView.findViewById(R.id.phone_name);
+            number = (TextView) itemView.findViewById(R.id.phone_namber);
+            profile = (LinearLayout) itemView.findViewById(R.id.phone_set);
             profile.setOnClickListener(this);
 
         }
-
-        @Override
-        public void onPermissionsGranted(String[] permission) {
-            ((ActivityMain) mContext).showScreen(new FragmentNew(), FragmentNew.TAG, true);
-        }
-
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            ((ActivityMain) mContext).getClient().setProfilename(arrayList.get(position).getProfilename());
-            ((ActivityMain) mContext).getClient().setPhone(arrayList.get(position).getPhone().replaceAll(" ",""));
-            ActivityCompat.requestPermissions((ActivityMain) mContext, new String[]{
+            ((ActivityMain) context).getClientItem().setProfilename(arrayList.get(position).getProfilename());
+            ((ActivityMain) context).getClientItem().setPhone(arrayList.get(position).getPhone().replaceAll(" ",""));
+            ActivityCompat.requestPermissions((ActivityMain) context, new String[]{
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
-
+        }
+        @Override
+        public void onPermissionsGranted(String[] permission) {
+            ((ActivityMain) context).showScreen(new FragmentNew(), FragmentNew.TAG, true);
         }
     }
 }

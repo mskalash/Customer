@@ -14,16 +14,18 @@ import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.customer.map.FragmentMap;
+
 import java.io.File;
 
 public class ActivityMain extends AppCompatActivity {
-    private Client client;
-    Toolbar mToolbar;
+    private ClientItem clientItem;
+    public Toolbar toolbar;
     FragmentManager fm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        client = new Client();
+        clientItem = new ClientItem();
         super.onCreate(savedInstanceState);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -32,8 +34,8 @@ public class ActivityMain extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         showScreen(new FragmentList(), FragmentList.TAG, false);
     }
 
@@ -55,39 +57,16 @@ public class ActivityMain extends AppCompatActivity {
         if (tag.equals(FragmentList.TAG)) {
             fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             if (fm.getFragments() instanceof FragmentList) {
-                mToolbar.setNavigationIcon(null);
+                toolbar.setNavigationIcon(null);
             } else {
-                mToolbar.setNavigationIcon(R.drawable.backbutton);
+                toolbar.setNavigationIcon(R.drawable.backbutton);
             }
-            mToolbar.setNavigationIcon(null);
+            toolbar.setNavigationIcon(null);
         } else {
             showIcon();
         }
     }
-
-    public void showIcon() {
-        mToolbar.setNavigationIcon(R.drawable.backbutton);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (fm.getBackStackEntryCount() == 0) {
-            finish();
-        } else fm.popBackStack();
-
-    }
-
-    public void deleteprofile(int id, String filename, String imagename) {
+    public void deleteProfile(int id, String filename, String imagename) {
         DatabaseAdapter db = new DatabaseAdapter(this);
         db.deleteContact(id);
         File file = new File(filename);
@@ -99,6 +78,30 @@ public class ActivityMain extends AppCompatActivity {
                 image.delete();
         }
     }
+
+    public void showIcon() {
+        toolbar.setNavigationIcon(R.drawable.backbutton);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
+    public ClientItem getClientItem() {
+        return clientItem;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (fm.getBackStackEntryCount() == 0) {
+            finish();
+        } else fm.popBackStack();
+
+    }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
