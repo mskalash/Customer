@@ -4,13 +4,13 @@ package com.customer;
 public class ClientItem {
 
     private int recid = -1;
-    private String profilename;
+    private String profileName;
     private String last;
-    private String filename;
+    private String fileName;
     private String desc;
     private double lat;
     private double longet;
-    private String imagename;
+    private String imageName;
     private String mapid;
     private boolean check = false;
     private String phone;
@@ -35,13 +35,13 @@ private boolean favorite;
         this.phone = phone;
     }
 
-    public ClientItem(int id, String profilename, String last, String desc, String icon, String rec, boolean favorite) {
+    public ClientItem(int id, String profileName, String last, String desc, String icon, String rec, boolean favorite) {
         this.recid = id;
-        this.profilename = profilename;
+        this.profileName = profileName;
         this.last = last;
         this.desc = desc;
-        this.imagename = icon;
-        this.filename = rec;
+        this.imageName = icon;
+        this.fileName = rec;
        this.favorite=favorite;
     }
 
@@ -49,13 +49,13 @@ private boolean favorite;
         this.recid = id;
         this.lat = lat;
         this.longet = longet;
-        this.profilename = name;
+        this.profileName = name;
         this.last = lastname;
 
     }
 
     public ClientItem(String name, String phone) {
-        this.profilename = name;
+        this.profileName = name;
         this.phone = phone;
     }
 
@@ -83,12 +83,12 @@ private boolean favorite;
         this.recid = recid;
     }
 
-    public String getProfilename() {
-        return profilename;
+    public String getProfileName() {
+        return profileName;
     }
 
-    public void setProfilename(String profilename) {
-        this.profilename = profilename;
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
     }
 
     public String getLast() {
@@ -99,12 +99,12 @@ private boolean favorite;
         this.last = last;
     }
 
-    public String getFilename() {
-        return filename;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getDesc() {
@@ -131,23 +131,23 @@ private boolean favorite;
         this.longet = longet;
     }
 
-    public String getImagename() {
-        return imagename;
+    public String getImageName() {
+        return imageName;
     }
 
-    public void setImagename(String imagename) {
-        this.imagename = imagename;
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 
     public void clear() {
         recid = -1;
-        profilename = null;
+        profileName = null;
         last = null;
-        filename = null;
+        fileName = null;
         desc = null;
         lat = 0;
         longet = 0;
-        imagename = null;
+        imageName = null;
         check = false;
     }
 

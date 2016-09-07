@@ -63,7 +63,7 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_new, container, false);
         setView();
-        if (((ActivityMain) getActivity()).getClientItem().getProfilename() != null) settext();
+        if (((ActivityMain) getActivity()).getClientItem().getProfileName() != null) settext();
         new_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,9 +138,9 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
         if (!folder.exists()) {
             folder.mkdir();
         }
-        if (((ActivityMain) getActivity()).getClientItem().getImagename() != null) {
+        if (((ActivityMain) getActivity()).getClientItem().getImageName() != null) {
 
-            Uri uri = Uri.parse(((ActivityMain) getActivity()).getClientItem().getImagename());
+            Uri uri = Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName());
             return new File(uri.getPath());
         }
         if (((ActivityMain) getActivity()).getClientItem().getRecid() != -1) {
@@ -223,7 +223,7 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
             else if (profilePhone.getText().toString().isEmpty()) {
                 Toast.makeText(getActivity(), R.string.persentel, Toast.LENGTH_SHORT).show();
             } else {
-                ((ActivityMain) getActivity()).getClientItem().setProfilename(profileName.getText().toString());
+                ((ActivityMain) getActivity()).getClientItem().setProfileName(profileName.getText().toString());
                 ((ActivityMain) getActivity()).getClientItem().setLast(profileLast.getText().toString());
                 ((ActivityMain) getActivity()).getClientItem().setDesc(profileDesc.getText().toString());
                 ((ActivityMain) getActivity()).getClientItem().setPhone(profilePhone.getText().toString());
@@ -231,7 +231,7 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
                         Manifest.permission.RECORD_AUDIO}, 3);
 
                 if (selectedImage != null)
-                    ((ActivityMain) getActivity()).getClientItem().setImagename(selectedImage.toString());
+                    ((ActivityMain) getActivity()).getClientItem().setImageName(selectedImage.toString());
 
             }
 
@@ -242,8 +242,8 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
     }
 
     private void settext() {
-        if (((ActivityMain) getActivity()).getClientItem().getImagename() != null && (new File(Uri.parse(((ActivityMain) getActivity()).getClientItem().getImagename()).getPath()).exists())) {
-            selectedImage = Uri.parse(((ActivityMain) getActivity()).getClientItem().getImagename());
+        if (((ActivityMain) getActivity()).getClientItem().getImageName() != null && (new File(Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName()).getPath()).exists())) {
+            selectedImage = Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName());
             Glide.with(getActivity())
                     .load(selectedImage)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -252,7 +252,7 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
                     .into(new_image);
         }
         profileLast.setText(((ActivityMain) getActivity()).getClientItem().getLast());
-        profileName.setText(((ActivityMain) getActivity()).getClientItem().getProfilename());
+        profileName.setText(((ActivityMain) getActivity()).getClientItem().getProfileName());
         profileDesc.setText(((ActivityMain) getActivity()).getClientItem().getDesc());
         profilePhone.setText(((ActivityMain) getActivity()).getClientItem().getPhone());
 

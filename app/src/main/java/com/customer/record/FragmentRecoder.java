@@ -44,15 +44,15 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
         view = inflater.inflate(R.layout.fragment_recoder, container, false);
         setView();
         if (((ActivityMain) getActivity()).getClientItem().isCheck())
-            id = ((ActivityMain) getActivity()).getClientItem().getFilename();
+            id = ((ActivityMain) getActivity()).getClientItem().getFileName();
         else {
             DatabaseAdapter db = new DatabaseAdapter(getActivity());
             id = Environment.getExternalStorageDirectory().getAbsolutePath() + "/." + getResources().getString(R.string.app_name) + "/record/" + "/record_" + db.insertDummyContact() + ".3gp";
 
         }
-        if ((((ActivityMain) getActivity()).getClientItem().getFilename() != null) && (new File(((ActivityMain) getActivity()).getClientItem().getFilename()).exists())) {
+        if ((((ActivityMain) getActivity()).getClientItem().getFileName() != null) && (new File(((ActivityMain) getActivity()).getClientItem().getFileName()).exists())) {
             visibly();
-            fileName = ((ActivityMain) getActivity()).getClientItem().getFilename();
+            fileName = ((ActivityMain) getActivity()).getClientItem().getFileName();
             mediaPlayer = new MediaPlayer();
             try {
                 mediaPlayer.setDataSource(fileName);
@@ -121,17 +121,17 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
 
     public void update() {
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
-        String name = ((ActivityMain) getActivity()).getClientItem().getProfilename();
+        String name = ((ActivityMain) getActivity()).getClientItem().getProfileName();
         String lastname = ((ActivityMain) getActivity()).getClientItem().getLast();
         String desc = ((ActivityMain) getActivity()).getClientItem().getDesc();
         double lat = ((ActivityMain) getActivity()).getClientItem().getLat();
         double longet = ((ActivityMain) getActivity()).getClientItem().getLonget();
-        String filename = ((ActivityMain) getActivity()).getClientItem().getFilename();
+        String filename = ((ActivityMain) getActivity()).getClientItem().getFileName();
         String image = null;
         String phone = ((ActivityMain) getActivity()).getClientItem().getPhone();
         int id = ((ActivityMain) getActivity()).getClientItem().getRecid();
-        if (((ActivityMain) getActivity()).getClientItem().getImagename() != null && (new File(Uri.parse(((ActivityMain) getActivity()).getClientItem().getImagename()).getPath()).exists()))
-            image = ((ActivityMain) getActivity()).getClientItem().getImagename();
+        if (((ActivityMain) getActivity()).getClientItem().getImageName() != null && (new File(Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName()).getPath()).exists()))
+            image = ((ActivityMain) getActivity()).getClientItem().getImageName();
         db.updateContact(name, lastname, desc, lat, longet, filename, image, phone, id);
         ((ActivityMain) getActivity()).getClientItem().clear();
     }
@@ -160,7 +160,7 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
                 return true;
             }
             if (mediaPlayer.isPlaying()) mediaPlayer.pause();
-            ((ActivityMain) getActivity()).getClientItem().setFilename(fileName);
+            ((ActivityMain) getActivity()).getClientItem().setFileName(fileName);
             ((ActivityMain) getActivity()).getClientItem().setCheck(false);
             ((ActivityMain) getActivity()).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
         }

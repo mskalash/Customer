@@ -65,7 +65,7 @@ public class FragmentAllPoint extends Fragment {
         for (int i = 0; i < arrayList.size(); i++) {
             Marker marker = googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(arrayList.get(i).getLat(), arrayList.get(i).getLonget()))
-                    .title(arrayList.get(i).getProfilename())
+                    .title(arrayList.get(i).getProfileName())
                     .snippet(arrayList.get(i).getLast())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
             arrayList.get(i).setMapid(marker.getId());

@@ -20,6 +20,8 @@ import com.like.OnLikeListener;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -44,16 +46,16 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
 
     @Override
     public void onBindViewHolder(FollowVH holder, final int position) {
-        String image = arrayList.get(position).getImagename();
+        String image = arrayList.get(position).getImageName();
 
         if ((image != null)&&(new File(Uri.parse(image).getPath()).exists())) {
-            Log.e("Image", arrayList.get(position).getImagename());
+            Log.e("Image", arrayList.get(position).getImageName());
             Glide.with(context).load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).bitmapTransform(new CropCircleTransformation(context)).into(holder.avatar);
         } else {
             Glide.with(context).load(R.drawable.ava).into(holder.avatar);
         }
-        holder.username.setText(arrayList.get(position).getProfilename() + " " + arrayList.get(position).getLast());
+        holder.username.setText(arrayList.get(position).getProfileName() + " " + arrayList.get(position).getLast());
         holder.message.setText(arrayList.get(position).getDesc());
         if (arrayList.get(position).isFavorite())
             holder.fav.setLiked(true);
@@ -121,12 +123,12 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
             int position = getAdapterPosition();
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-            builder.setMessage(context.getResources().getString(R.string.deletecont) + " " + arrayList.get(position).getProfilename() + " ?")
+            builder.setMessage(context.getResources().getString(R.string.deletecont) + " " + arrayList.get(position).getProfileName() + " ?")
                     .setCancelable(false)
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             int position = getAdapterPosition();
-                            ((ActivityMain) context).deleteProfile(arrayList.get(position).getRecid(), arrayList.get(position).getFilename(), arrayList.get(position).getImagename());
+                            ((ActivityMain) context).deleteProfile(arrayList.get(position).getRecid(), arrayList.get(position).getFileName(), arrayList.get(position).getImageName());
                             arrayList.remove(position);
                             notifyItemRemoved(position);
                         }
@@ -144,19 +146,28 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
     }
 
 
-    public void delete() {
+    public void deleteAll() {
         arrayList.clear();
         notifyDataSetChanged();
     }
 
-    ArrayList<ClientItem> first;
-    public void unfavorite() {
-        arrayList = new ArrayList<>(first);
+    public void setArrayList(){
+        DatabaseAdapter db = new DatabaseAdapter(context);
+        arrayList=db.getContactsData();
+        notifyDataSetChanged();
+    }
+    public void sortName(){
+        Collections.sort(arrayList, new Comparator<ClientItem>() {
+            @Override
+            public int compare(ClientItem clientItem, ClientItem clientItem1) {
+                return clientItem.getProfileName().compareTo(clientItem1.getProfileName());
+            }
+        });
         notifyDataSetChanged();
     }
 
+
     public void favorite() {
-        first = new ArrayList<>(arrayList);
         for (int i = 0; i < arrayList.size(); i++) {
             if (!arrayList.get(i).isFavorite()) {
                 notifyItemRemoved(i);
@@ -165,6 +176,7 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
             }
         }
     }
+
 
 }
 

@@ -66,8 +66,8 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         });
         phone = ((ActivityMain) getActivity()).getClientItem().getPhone();
         lastName.setText(phone);
-        ((ActivityMain) getActivity()).toolbar.setTitle(((ActivityMain) getActivity()).getClientItem().getProfilename() + " " + ((ActivityMain) getActivity()).getClientItem().getLast());
-        name.setText(((ActivityMain) getActivity()).getClientItem().getProfilename() + " " + ((ActivityMain) getActivity()).getClientItem().getLast());
+        ((ActivityMain) getActivity()).toolbar.setTitle(((ActivityMain) getActivity()).getClientItem().getProfileName() + " " + ((ActivityMain) getActivity()).getClientItem().getLast());
+        name.setText(((ActivityMain) getActivity()).getClientItem().getProfileName() + " " + ((ActivityMain) getActivity()).getClientItem().getLast());
         description.setText(((ActivityMain) getActivity()).getClientItem().getDesc());
         call.setOnClickListener(this);
         play.setOnClickListener(this);
@@ -91,8 +91,8 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
             DatabaseAdapter db = new DatabaseAdapter(getActivity());
             db.selectprofile(((ActivityMain) getActivity()).getClientItem().getRecid());
         }
-        if ((((ActivityMain) getActivity()).getClientItem().getImagename() != null) && (new File(Uri.parse(((ActivityMain) getActivity()).getClientItem().getImagename()).getPath()).exists())) {
-            Uri image = Uri.parse(((ActivityMain) getActivity()).getClientItem().getImagename());
+        if ((((ActivityMain) getActivity()).getClientItem().getImageName() != null) && (new File(Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName()).getPath()).exists())) {
+            Uri image = Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName());
             Glide.with(getActivity())
                     .load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
@@ -103,7 +103,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
                     .skipMemoryCache(true)
                     .bitmapTransform(new BlurTransformation(getActivity()))
                     .into(imageBackground);
-            Log.e("image", ((ActivityMain) getActivity()).getClientItem().getImagename());
+            Log.e("image", ((ActivityMain) getActivity()).getClientItem().getImageName());
         }
         setMedia();
     }
@@ -115,7 +115,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
 
             if (!((ActivityMain) getActivity()).getClientItem().isCheck()) {
                 if (mediaPlayer.isPlaying()) mediaPlayer.pause();
-                addcon();
+                addContact();
                 Toast.makeText(getActivity(), R.string.add, Toast.LENGTH_SHORT).show();
                 ((ActivityMain) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, true);
             } else {
@@ -134,8 +134,8 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
                 .setCancelable(false)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        String recoder = ((ActivityMain) getActivity()).getClientItem().getFilename();
-                        String image = ((ActivityMain) getActivity()).getClientItem().getImagename();
+                        String recoder = ((ActivityMain) getActivity()).getClientItem().getFileName();
+                        String image = ((ActivityMain) getActivity()).getClientItem().getImageName();
                         int idinfo = ((ActivityMain) getActivity()).getClientItem().getRecid();
                         ((ActivityMain) getActivity()).deleteProfile(idinfo, recoder, image);
                         getActivity().onBackPressed();
@@ -150,20 +150,20 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         alert.show();
     }
 
-    public void addcon() {
+    public void addContact() {
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
-        String name = ((ActivityMain) getActivity()).getClientItem().getProfilename();
+        String name = ((ActivityMain) getActivity()).getClientItem().getProfileName();
         String lastname = ((ActivityMain) getActivity()).getClientItem().getLast();
         String desc = ((ActivityMain) getActivity()).getClientItem().getDesc();
         double lat = ((ActivityMain) getActivity()).getClientItem().getLat();
         double longet = ((ActivityMain) getActivity()).getClientItem().getLonget();
         String filename = null;
-        if (new File(((ActivityMain) getActivity()).getClientItem().getFilename()).exists())
-            filename = ((ActivityMain) getActivity()).getClientItem().getFilename();
+        if (new File(((ActivityMain) getActivity()).getClientItem().getFileName()).exists())
+            filename = ((ActivityMain) getActivity()).getClientItem().getFileName();
         String image = null;
         String phone = ((ActivityMain) getActivity()).getClientItem().getPhone();
-        if ((((ActivityMain) getActivity()).getClientItem().getImagename() != null) && (new File(Uri.parse(((ActivityMain) getActivity()).getClientItem().getImagename()).getPath()).exists()))
-            image = ((ActivityMain) getActivity()).getClientItem().getImagename();
+        if ((((ActivityMain) getActivity()).getClientItem().getImageName() != null) && (new File(Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName()).getPath()).exists()))
+            image = ((ActivityMain) getActivity()).getClientItem().getImageName();
         db.addcontact(name, lastname, desc, lat, longet, filename, image, phone);
 
     }
@@ -184,7 +184,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         mediaPlayer = new MediaPlayer();
         try {
 
-            mediaPlayer.setDataSource(((ActivityMain) getActivity()).getClientItem().getFilename());
+            mediaPlayer.setDataSource(((ActivityMain) getActivity()).getClientItem().getFileName());
             mediaPlayer.prepare();
         } catch (IOException e) {
             play.setVisibility(View.GONE);

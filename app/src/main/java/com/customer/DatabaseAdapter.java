@@ -44,11 +44,11 @@ public class DatabaseAdapter {
             double longet = cursor.getDouble(longIndex);
             String phone = cursor.getString(phoneIndex);
 
-            ((ActivityMain) context).getClientItem().setProfilename(name);
+            ((ActivityMain) context).getClientItem().setProfileName(name);
             ((ActivityMain) context).getClientItem().setLast(last);
-            ((ActivityMain) context).getClientItem().setFilename(filename);
+            ((ActivityMain) context).getClientItem().setFileName(filename);
             ((ActivityMain) context).getClientItem().setDesc(desc);
-            ((ActivityMain) context).getClientItem().setImagename(icon);
+            ((ActivityMain) context).getClientItem().setImageName(icon);
             ((ActivityMain) context).getClientItem().setLat(lat);
             ((ActivityMain) context).getClientItem().setLonget(longet);
             ((ActivityMain) context).getClientItem().setPhone(phone);

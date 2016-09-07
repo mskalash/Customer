@@ -12,11 +12,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.customer.map.FragmentAllPoint;
@@ -31,6 +35,9 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
     RecyclerView main;
     View view;
     boolean star = false;
+    boolean sortName = false;
+    ArrayList<ClientItem> arrayList;
+    EditText search;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,7 +50,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
             @Override
             public void onClick(View view) {
                 if (!isOnline())
-                    Toast.makeText(getActivity(),  R.string.noinet, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), R.string.noinet, Toast.LENGTH_LONG).show();
                 ((ActivityMain) getActivity()).getClientItem().clear();
                 ActivityCompat.requestPermissions(getActivity(), new String[]{
                         android.Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -52,10 +59,12 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         });
         main = (RecyclerView) view.findViewById(R.id.main);
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
-        ArrayList<ClientItem> arrayList = db.getContactsData();
+        arrayList = db.getContactsData();
         AdapterList adapter = new AdapterList(getActivity(), arrayList);
         main.setAdapter(adapter);
         main.setLayoutManager(new LinearLayoutManager(getActivity()));
+        search=(EditText)view.findViewById(R.id.search);
+        addTextListener();
         ((ActivityMain) getActivity()).toolbar.setNavigationIcon(null);
         return view;
 
@@ -69,19 +78,14 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
     }
 
     @Override
-    public void onPermissionsGranted(String[] permission) {
-        ((ActivityMain) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);
-    }
-
-    @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(true);
-        menu.getItem(1).setIcon(R.mipmap.map);
         menu.getItem(1).setVisible(true);
         menu.getItem(2).setVisible(true);
+        menu.getItem(3).setVisible(true);
+        menu.getItem(1).setIcon(R.mipmap.map);
         menu.getItem(0).setTitle(R.string.del).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
     }
-
 
 
     @Override
@@ -95,33 +99,35 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
             return true;
         }
         if (id == R.id.actionSettings) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage(R.string.deleteall)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            delete_all();
-                        }
-                    })
-                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-            AlertDialog alert = builder.create();
-            alert.show();
+            showDialog();
             return true;
         }
         if (id == R.id.favorite) {
             if (!star) {
+
                 ((AdapterList) main.getAdapter()).favorite();
                 star = true;
-
                 return true;
-
             } else {
-                ((AdapterList) main.getAdapter()).unfavorite();
+                ((AdapterList) main.getAdapter()).setArrayList();
+                if (sortName) {
+                    ((AdapterList) main.getAdapter()).sortName();
+                }
                 star = false;
+            }
+            return true;
+        }
+        Log.e("Start", String.valueOf(sortName));
+        if (id == R.id.sort) {
+
+            if (!sortName) {
+
+                ((AdapterList) main.getAdapter()).sortName();
+                sortName = true;
+                return true;
+            } else {
+                ((AdapterList) main.getAdapter()).setArrayList();
+                sortName = false;
             }
             return true;
         }
@@ -129,11 +135,29 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         return super.onOptionsItemSelected(item);
     }
 
+    public void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.deleteall)
+                .setCancelable(false)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteAll();
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 
-    public void delete_all() {
+
+    public void deleteAll() {
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
         db.deleteall();
-        ((AdapterList) main.getAdapter()).delete();
+        ((AdapterList) main.getAdapter()).deleteAll();
         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/." + getResources().getString(R.string.app_name));
         if (file.exists()) {
             String deleteCmd = "rm -r " + Environment.getExternalStorageDirectory().getAbsolutePath() + "/." + getResources().getString(R.string.app_name);
@@ -144,6 +168,45 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
             }
         }
 
+    }
+
+    public void addTextListener() {
+
+        search.addTextChangedListener(new TextWatcher() {
+
+
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence query, int start, int before, int count) {
+
+                query = query.toString().toLowerCase();
+                final ArrayList<ClientItem> filteredList = new ArrayList<>();
+
+                for (int i = 0; i < arrayList.size(); i++) {
+
+                    final String text = arrayList.get(i).getProfileName().toLowerCase();
+                    if (text.contains(query)) {
+
+                        filteredList.add(arrayList.get(i));
+                    }
+                }
+                AdapterList adapter = new AdapterList(getActivity(), filteredList);
+                main.setAdapter(adapter);
+                main.setLayoutManager(new LinearLayoutManager(getActivity()));
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+
+
+    @Override
+    public void onPermissionsGranted(String[] permission) {
+        ((ActivityMain) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);
     }
 
 

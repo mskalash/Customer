@@ -62,7 +62,7 @@ public class FragmentMapInfo extends Fragment {
     public void geo() {
         String query = "geo:" + marker.getPosition().latitude + "," + marker.getPosition().longitude + "?q=" +
                 marker.getPosition().latitude + "," + marker.getPosition().longitude + "(" +
-                ((ActivityMain) getActivity()).getClientItem().getProfilename() + " "
+                ((ActivityMain) getActivity()).getClientItem().getProfileName() + " "
                 + ((ActivityMain) getActivity()).getClientItem().getLast() + ")&z=10";
 
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(query));

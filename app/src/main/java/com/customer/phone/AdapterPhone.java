@@ -38,7 +38,7 @@ public class AdapterPhone extends RecyclerView.Adapter<AdapterPhone.FollowVH> {
 
     @Override
     public void onBindViewHolder(FollowVH holder, int position) {
-        holder.username.setText(arrayList.get(position).getProfilename());
+        holder.username.setText(arrayList.get(position).getProfileName());
         holder.number.setText(arrayList.get(position).getPhone());
 
     }
@@ -81,7 +81,7 @@ public class AdapterPhone extends RecyclerView.Adapter<AdapterPhone.FollowVH> {
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            ((ActivityMain) context).getClientItem().setProfilename(arrayList.get(position).getProfilename());
+            ((ActivityMain) context).getClientItem().setProfileName(arrayList.get(position).getProfileName());
             ((ActivityMain) context).getClientItem().setPhone(arrayList.get(position).getPhone().replaceAll(" ",""));
             ActivityCompat.requestPermissions((ActivityMain) context, new String[]{
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
