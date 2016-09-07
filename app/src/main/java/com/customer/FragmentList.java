@@ -14,13 +14,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.customer.map.FragmentAllPoint;
@@ -30,7 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class FragmentList extends Fragment implements OnPermissionsListener {
+public class FragmentList extends Fragment implements OnPermissionsListener, View.OnClickListener {
     public final static String TAG = "FragmentList";
     RecyclerView main;
     View view;
@@ -38,6 +38,8 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
     boolean sortName = false;
     ArrayList<ClientItem> arrayList;
     EditText search;
+    RelativeLayout mapView;
+    RelativeLayout sortArray;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,6 +47,25 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_list, container, false);
         ((ActivityMain) getActivity()).toolbar.setTitle(R.string.app_name);
+        mapView = (RelativeLayout) view.findViewById(R.id.map_view);
+        mapView.setOnClickListener(this);
+        sortArray=(RelativeLayout)view.findViewById(R.id.sort);
+        sortArray.setOnClickListener(this);
+        setFab();
+        main = (RecyclerView) view.findViewById(R.id.main);
+        DatabaseAdapter db = new DatabaseAdapter(getActivity());
+        arrayList = db.getContactsData();
+        AdapterList adapter = new AdapterList(getActivity(), arrayList);
+        main.setAdapter(adapter);
+        main.setLayoutManager(new LinearLayoutManager(getActivity()));
+        search = (EditText) view.findViewById(R.id.search);
+        addTextListener();
+        ((ActivityMain) getActivity()).toolbar.setNavigationIcon(null);
+        return view;
+
+    }
+
+    public void setFab() {
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,17 +78,6 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
                         android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
         });
-        main = (RecyclerView) view.findViewById(R.id.main);
-        DatabaseAdapter db = new DatabaseAdapter(getActivity());
-        arrayList = db.getContactsData();
-        AdapterList adapter = new AdapterList(getActivity(), arrayList);
-        main.setAdapter(adapter);
-        main.setLayoutManager(new LinearLayoutManager(getActivity()));
-        search=(EditText)view.findViewById(R.id.search);
-        addTextListener();
-        ((ActivityMain) getActivity()).toolbar.setNavigationIcon(null);
-        return view;
-
     }
 
     public boolean isOnline() {
@@ -78,12 +88,34 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
     }
 
     @Override
+    public void onClick(View view) {
+        int id=view.getId();
+        if (id == R.id.sort) {
+
+            if (!sortName) {
+
+                ((AdapterList) main.getAdapter()).sortName();
+                sortName = true;
+                return;
+            } else {
+                ((AdapterList) main.getAdapter()).setArrayList();
+                sortName = false;
+            }
+        }
+        if (id == R.id.map_view) {
+            if (!isOnline())
+                Toast.makeText(getActivity(), R.string.noinet, Toast.LENGTH_LONG).show();
+            ((ActivityMain) getActivity()).showScreen(new FragmentAllPoint(), FragmentAllPoint.TAG, true);
+
+            return ;
+        }
+
+    }
+
+    @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.getItem(0).setVisible(true);
         menu.getItem(1).setVisible(true);
-        menu.getItem(2).setVisible(true);
-        menu.getItem(3).setVisible(true);
-        menu.getItem(1).setIcon(R.mipmap.map);
         menu.getItem(0).setTitle(R.string.del).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
     }
 
@@ -91,18 +123,11 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.deleteAll) {
-            if (!isOnline())
-                Toast.makeText(getActivity(), R.string.noinet, Toast.LENGTH_LONG).show();
-            ((ActivityMain) getActivity()).showScreen(new FragmentAllPoint(), FragmentAllPoint.TAG, true);
-
-            return true;
-        }
         if (id == R.id.actionSettings) {
             showDialog();
             return true;
         }
-        if (id == R.id.favorite) {
+        if (id == R.id.deleteAll) {
             if (!star) {
 
                 ((AdapterList) main.getAdapter()).favorite();
@@ -117,21 +142,6 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
             }
             return true;
         }
-        Log.e("Start", String.valueOf(sortName));
-        if (id == R.id.sort) {
-
-            if (!sortName) {
-
-                ((AdapterList) main.getAdapter()).sortName();
-                sortName = true;
-                return true;
-            } else {
-                ((AdapterList) main.getAdapter()).setArrayList();
-                sortName = false;
-            }
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -201,7 +211,6 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
             }
         });
     }
-
 
 
     @Override

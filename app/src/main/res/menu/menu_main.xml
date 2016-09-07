@@ -11,24 +11,11 @@
     <item
         android:id="@+id/deleteAll"
         android:orderInCategory="100"
+        android:icon="@mipmap/favorite"
         android:title="Delete All"
         android:visible="false"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/favorite"
-        android:icon="@mipmap/favorite"
-        android:orderInCategory="100"
-        android:title="Favorite"
-        android:visible="false"
-        app:showAsAction="ifRoom"
-        />
-    <item
-        android:id="@+id/sort"
-        android:orderInCategory="100"
-        android:title="SORT"
-        android:visible="false"
-        app:showAsAction="collapseActionView"
-        />
+
 
 
     </menu>
