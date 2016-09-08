@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -102,12 +103,12 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
             @Override
             public void onTabSelected(int position, boolean wasSelected) {
                 boolean sort;
-
-
+                boolean check=false;
                 switch (position) {
                     case 0://Sort Name
 
-                        sort = ((AdapterList) main.getAdapter()).sortName();
+
+                        sort = ((AdapterList) main.getAdapter()).sortName(check);
                         if (sort) {
                             bottomBar.getItem(0).setDrawable(R.drawable.sort_name);
                         } else {
@@ -117,7 +118,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
                         sortViewName = true;
                         break;
                     case 1://Sort Date
-                        sort = ((AdapterList) main.getAdapter()).sortDate();
+                        sort = ((AdapterList) main.getAdapter()).sortDate(check,star);
                         if (sort) {
                             bottomBar.getItem(1).setDrawable(R.drawable.sort_date);
                         } else {
@@ -186,24 +187,35 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
             return true;
         }
         if (id == R.id.deleteAll) {
-            if (!star) {
 
-                ((AdapterList) main.getAdapter()).favorite();
-                star = true;
-                return true;
-            } else {
-                ((AdapterList) main.getAdapter()).setArrayList();
-                if (((AdapterList) main.getAdapter()).nameSort) {
-                    ((AdapterList) main.getAdapter()).sortName();
+                if (!star) {
+                    ((AdapterList) main.getAdapter()).favorite();
+                    checkSort();
+                    star = true;
+                    return true;
+                } else {
+                    ((AdapterList) main.getAdapter()).setArrayList();
+                    checkSort();
+                    star = false;
                 }
-                if (((AdapterList) main.getAdapter()).dateSort) {
-                    ((AdapterList) main.getAdapter()).sortDate();
-                }
-                star = false;
-            }
+
+
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void checkSort(){
+        boolean checkstar=true;
+
+        if (sortViewName) {
+            Log.e("Sort","Name");
+            ((AdapterList) main.getAdapter()).sortName(checkstar);
+        }
+        if (!sortViewName) {
+            Log.e("Sort","Date");
+            ((AdapterList) main.getAdapter()).sortDate(checkstar,!star);}
+
+
     }
 
     public void showDialog() {

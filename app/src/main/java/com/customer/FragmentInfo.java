@@ -89,7 +89,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         imageBackground = (ImageView) view.findViewById(R.id.imagebackgraund);
         if (((ActivityMain) getActivity()).getClientItem().isCheck()) {
             DatabaseAdapter db = new DatabaseAdapter(getActivity());
-            db.selectprofile(((ActivityMain) getActivity()).getClientItem().getRecid());
+            db.selectprofile(((ActivityMain) getActivity()).getClientItem().getId());
         }
         if ((((ActivityMain) getActivity()).getClientItem().getImageName() != null) && (new File(Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName()).getPath()).exists())) {
             Uri image = Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName());
@@ -136,7 +136,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int id) {
                         String recoder = ((ActivityMain) getActivity()).getClientItem().getFileName();
                         String image = ((ActivityMain) getActivity()).getClientItem().getImageName();
-                        int idinfo = ((ActivityMain) getActivity()).getClientItem().getRecid();
+                        int idinfo = ((ActivityMain) getActivity()).getClientItem().getId();
                         ((ActivityMain) getActivity()).deleteProfile(idinfo, recoder, image);
                         getActivity().onBackPressed();
                     }

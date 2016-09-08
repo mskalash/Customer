@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +50,6 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
         String image = arrayList.get(position).getImageName();
 
         if ((image != null) && (new File(Uri.parse(image).getPath()).exists())) {
-            Log.e("Image", arrayList.get(position).getImageName());
             Glide.with(context).load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).bitmapTransform(new CropCircleTransformation(context)).into(holder.avatar);
         } else {
@@ -96,14 +94,14 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
                     int position = getAdapterPosition();
 
                     arrayList.get(position).setFavorite(true);
-                    db.updatefavorites(arrayList.get(position).getRecid(), true);
+                    db.updatefavorites(arrayList.get(position).getId(), true);
                 }
 
                 @Override
                 public void unLiked(LikeButton likeButton) {
                     int position = getAdapterPosition();
                     arrayList.get(position).setFavorite(false);
-                    db.updatefavorites(arrayList.get(position).getRecid(), false);
+                    db.updatefavorites(arrayList.get(position).getId(), false);
                 }
             });
             profile.setOnLongClickListener(this);
@@ -115,7 +113,7 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
             int position = getAdapterPosition();
 
             ((ActivityMain) context).getClientItem().setCheck(true);
-            ((ActivityMain) context).getClientItem().setRecid(arrayList.get(position).getRecid());
+            ((ActivityMain) context).getClientItem().setRecid(arrayList.get(position).getId());
             ((ActivityMain) context).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
 
         }
@@ -130,7 +128,7 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             int position = getAdapterPosition();
-                            ((ActivityMain) context).deleteProfile(arrayList.get(position).getRecid(), arrayList.get(position).getFileName(), arrayList.get(position).getImageName());
+                            ((ActivityMain) context).deleteProfile(arrayList.get(position).getId(), arrayList.get(position).getFileName(), arrayList.get(position).getImageName());
                             arrayList.remove(position);
                             notifyItemRemoved(position);
                         }
@@ -159,8 +157,11 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
         notifyDataSetChanged();
     }
 
-    public boolean sortName() {
+    public boolean sortName(boolean star) {
         dateSort = false;
+        if (star) {
+            nameSort=!nameSort;
+        }
         Collections.sort(arrayList, new Comparator<ClientItem>() {
             @Override
             public int compare(ClientItem clientItem, ClientItem clientItem1) {
@@ -179,9 +180,15 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
         return nameSort;
     }
 
-    public boolean sortDate() {
+    public boolean sortDate(boolean checkStar,boolean star) {
         nameSort = false;
         setArrayList();
+        if (checkStar) {
+            dateSort=!dateSort;
+        }
+        if (star){
+            favorite();
+        }
         if (!dateSort) {
             dateSort = true;
             notifyDataSetChanged();

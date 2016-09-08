@@ -75,7 +75,7 @@ public class FragmentAllPoint extends Fragment {
     private int recId(String markerId, ArrayList<ClientItem> arrayList) {
         for (ClientItem clientItem : arrayList) {
             if (clientItem.getMapid().equals(markerId)) {
-                return clientItem.getRecid();
+                return clientItem.getId();
             }
         }
         return -1;

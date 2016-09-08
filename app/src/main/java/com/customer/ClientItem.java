@@ -75,7 +75,7 @@ private boolean favorite;
         this.check = check;
     }
 
-    public int getRecid() {
+    public int getId() {
         return recid;
     }
 

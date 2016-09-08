@@ -143,8 +143,8 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
             Uri uri = Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName());
             return new File(uri.getPath());
         }
-        if (((ActivityMain) getActivity()).getClientItem().getRecid() != -1) {
-            fileName = "image_" + ((ActivityMain) getActivity()).getClientItem().getRecid() + ".jpg";
+        if (((ActivityMain) getActivity()).getClientItem().getId() != -1) {
+            fileName = "image_" + ((ActivityMain) getActivity()).getClientItem().getId() + ".jpg";
         } else {
             fileName = "image_" + imageid + ".jpg";
         }

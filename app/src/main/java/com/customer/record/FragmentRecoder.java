@@ -129,7 +129,7 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
         String filename = ((ActivityMain) getActivity()).getClientItem().getFileName();
         String image = null;
         String phone = ((ActivityMain) getActivity()).getClientItem().getPhone();
-        int id = ((ActivityMain) getActivity()).getClientItem().getRecid();
+        int id = ((ActivityMain) getActivity()).getClientItem().getId();
         if (((ActivityMain) getActivity()).getClientItem().getImageName() != null && (new File(Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName()).getPath()).exists()))
             image = ((ActivityMain) getActivity()).getClientItem().getImageName();
         db.updateContact(name, lastname, desc, lat, longet, filename, image, phone, id);
