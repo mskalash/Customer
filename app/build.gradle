@@ -36,4 +36,5 @@ dependencies {
     compile "com.daimajia.swipelayout:library:1.2.0@aar"
     compile 'com.android.support:support-v4:24.+'
     compile 'com.github.jd-alexander:LikeButton:0.2.0'
+    compile 'com.aurelhubert:ahbottomnavigation:1.2.3'
 }

@@ -3,6 +3,7 @@ package com.customer;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -20,17 +21,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.customer.map.FragmentAllPoint;
 import com.customer.map.FragmentMap;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class FragmentList extends Fragment implements OnPermissionsListener, View.OnClickListener {
+public class FragmentList extends Fragment implements OnPermissionsListener {
     public final static String TAG = "FragmentList";
     RecyclerView main;
     View view;
@@ -38,8 +41,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener, Vie
     boolean sortName = false;
     ArrayList<ClientItem> arrayList;
     EditText search;
-    RelativeLayout mapView;
-    RelativeLayout sortArray;
+    AHBottomNavigation bottomBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,10 +49,6 @@ public class FragmentList extends Fragment implements OnPermissionsListener, Vie
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_list, container, false);
         ((ActivityMain) getActivity()).toolbar.setTitle(R.string.app_name);
-        mapView = (RelativeLayout) view.findViewById(R.id.map_view);
-        mapView.setOnClickListener(this);
-        sortArray=(RelativeLayout)view.findViewById(R.id.sort);
-        sortArray.setOnClickListener(this);
         setFab();
         main = (RecyclerView) view.findViewById(R.id.main);
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
@@ -61,8 +59,63 @@ public class FragmentList extends Fragment implements OnPermissionsListener, Vie
         search = (EditText) view.findViewById(R.id.search);
         addTextListener();
         ((ActivityMain) getActivity()).toolbar.setNavigationIcon(null);
+        bottomBar = (AHBottomNavigation) view.findViewById(R.id.bottombar);
+        defineBottomBar(bottomBar);
+
+
         return view;
 
+    }
+    private void defineBottomBar(AHBottomNavigation bottomBar) {
+        AHBottomNavigationItem[] navigationItems = defineNavigationItems();
+        setupNavigationItems(navigationItems);
+        setupBottomBarParams(bottomBar);
+        setupBottomBarListener(bottomBar);
+    }
+
+    private void setupNavigationItems(AHBottomNavigationItem[] navigationItems) {
+        bottomBar.addItems(Arrays.asList(navigationItems));
+    }
+
+
+    private AHBottomNavigationItem[] defineNavigationItems() {
+        return new AHBottomNavigationItem[]{
+                new AHBottomNavigationItem("All", R.drawable.favorite, R.color.colorPrimaryDark),
+                new AHBottomNavigationItem("Favorite", R.drawable.favorite, R.color.colorPrimaryDark),
+                new AHBottomNavigationItem("Maps", R.drawable.favorite, R.color.colorPrimaryDark),
+        };
+    }
+
+    private void setupBottomBarParams(AHBottomNavigation mBottomBar) {
+        mBottomBar.setDefaultBackgroundColor(Color.parseColor("#FFFFFF"));
+        mBottomBar.setBehaviorTranslationEnabled(true);
+        mBottomBar.setAccentColor(getResources().getColor(R.color.colorAccent));
+        mBottomBar.setInactiveColor(Color.parseColor("#727272"));
+        mBottomBar.setForceTint(true);
+        mBottomBar.setCurrentItem(0);
+    }
+
+    private void setupBottomBarListener(final AHBottomNavigation mBottomBar) {
+
+        mBottomBar.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(int position, boolean wasSelected) {
+                switch (position) {
+                    case 0://Top
+                        ((AdapterList) main.getAdapter()).setArrayList();
+
+                        break;
+                    case 1://Notifications
+                        ((AdapterList) main.getAdapter()).favorite();
+                        break;
+                    case 2://upload
+                        if (!isOnline())
+                            Toast.makeText(getActivity(), R.string.noinet, Toast.LENGTH_LONG).show();
+                        ((ActivityMain) getActivity()).showScreen(new FragmentAllPoint(), FragmentAllPoint.TAG, true);
+                        break;
+                }
+            }
+        });
     }
 
     public void setFab() {
@@ -87,30 +140,6 @@ public class FragmentList extends Fragment implements OnPermissionsListener, Vie
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
-    @Override
-    public void onClick(View view) {
-        int id=view.getId();
-        if (id == R.id.sort) {
-
-            if (!sortName) {
-
-                ((AdapterList) main.getAdapter()).sortName();
-                sortName = true;
-                return;
-            } else {
-                ((AdapterList) main.getAdapter()).setArrayList();
-                sortName = false;
-            }
-        }
-        if (id == R.id.map_view) {
-            if (!isOnline())
-                Toast.makeText(getActivity(), R.string.noinet, Toast.LENGTH_LONG).show();
-            ((ActivityMain) getActivity()).showScreen(new FragmentAllPoint(), FragmentAllPoint.TAG, true);
-
-            return ;
-        }
-
-    }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
