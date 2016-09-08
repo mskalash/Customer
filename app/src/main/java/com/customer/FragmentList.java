@@ -35,13 +35,13 @@ import java.util.Arrays;
 
 public class FragmentList extends Fragment implements OnPermissionsListener {
     public final static String TAG = "FragmentList";
-    RecyclerView main;
-    View view;
-    boolean star = false;
-    boolean sortName = false;
-    ArrayList<ClientItem> arrayList;
-    EditText search;
-    AHBottomNavigation bottomBar;
+    public RecyclerView main;
+    public View view;
+    public boolean star = false;
+    public ArrayList<ClientItem> arrayList;
+    public EditText search;
+    public AHBottomNavigation bottomBar;
+    public boolean sortViewName = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,6 +66,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         return view;
 
     }
+
     private void defineBottomBar(AHBottomNavigation bottomBar) {
         AHBottomNavigationItem[] navigationItems = defineNavigationItems();
         setupNavigationItems(navigationItems);
@@ -80,42 +81,70 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
 
     private AHBottomNavigationItem[] defineNavigationItems() {
         return new AHBottomNavigationItem[]{
-                new AHBottomNavigationItem("All", R.drawable.favorite, R.color.colorPrimaryDark),
-                new AHBottomNavigationItem("Favorite", R.drawable.favorite, R.color.colorPrimaryDark),
-                new AHBottomNavigationItem("Maps", R.drawable.favorite, R.color.colorPrimaryDark),
+                new AHBottomNavigationItem("Sort Name", R.drawable.list_icon, R.color.colorPrimaryDark),
+                new AHBottomNavigationItem("Sort Date", R.drawable.sort_date, R.color.colorPrimaryDark),
+                new AHBottomNavigationItem("Maps", R.mipmap.map, R.color.colorPrimaryDark),
         };
     }
 
-    private void setupBottomBarParams(AHBottomNavigation mBottomBar) {
-        mBottomBar.setDefaultBackgroundColor(Color.parseColor("#FFFFFF"));
-        mBottomBar.setBehaviorTranslationEnabled(true);
-        mBottomBar.setAccentColor(getResources().getColor(R.color.colorAccent));
-        mBottomBar.setInactiveColor(Color.parseColor("#727272"));
-        mBottomBar.setForceTint(true);
-        mBottomBar.setCurrentItem(0);
+    private void setupBottomBarParams(AHBottomNavigation bottomBar) {
+        bottomBar.setDefaultBackgroundColor(Color.parseColor("#303F9F"));
+        bottomBar.setBehaviorTranslationEnabled(true);
+        bottomBar.setAccentColor(Color.parseColor("#ffffff"));
+        bottomBar.setInactiveColor(Color.parseColor("#ffffff"));
+        bottomBar.setForceTint(true);
+        bottomBar.setCurrentItem(0);
     }
 
-    private void setupBottomBarListener(final AHBottomNavigation mBottomBar) {
+    private void setupBottomBarListener(final AHBottomNavigation bottomBar) {
 
-        mBottomBar.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+        bottomBar.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position, boolean wasSelected) {
-                switch (position) {
-                    case 0://Top
-                        ((AdapterList) main.getAdapter()).setArrayList();
+                boolean sort;
 
+
+                switch (position) {
+                    case 0://Sort Name
+
+                        sort = ((AdapterList) main.getAdapter()).sortName();
+                        if (sort) {
+                            bottomBar.getItem(0).setDrawable(R.drawable.sort_name);
+                        } else {
+                            bottomBar.getItem(0).setDrawable(R.drawable.revers_name);
+                        }
+
+                        sortViewName = true;
                         break;
-                    case 1://Notifications
-                        ((AdapterList) main.getAdapter()).favorite();
+                    case 1://Sort Date
+                        sort = ((AdapterList) main.getAdapter()).sortDate();
+                        if (sort) {
+                            bottomBar.getItem(1).setDrawable(R.drawable.sort_date);
+                        } else {
+                            bottomBar.getItem(1).setDrawable(R.drawable.revers_date);
+                        }
+                        sortViewName = false;
                         break;
-                    case 2://upload
+                    case 2://Map
                         if (!isOnline())
                             Toast.makeText(getActivity(), R.string.noinet, Toast.LENGTH_LONG).show();
                         ((ActivityMain) getActivity()).showScreen(new FragmentAllPoint(), FragmentAllPoint.TAG, true);
                         break;
                 }
+                setIconBottomBar();
+                bottomBar.refresh();
+
             }
+
         });
+    }
+
+    public void setIconBottomBar() {
+        if (sortViewName) {
+            bottomBar.getItem(1).setDrawable(R.drawable.list_icon);
+        } else {
+            bottomBar.getItem(0).setDrawable(R.drawable.list_icon);
+        }
     }
 
     public void setFab() {
@@ -164,8 +193,11 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
                 return true;
             } else {
                 ((AdapterList) main.getAdapter()).setArrayList();
-                if (sortName) {
+                if (((AdapterList) main.getAdapter()).nameSort) {
                     ((AdapterList) main.getAdapter()).sortName();
+                }
+                if (((AdapterList) main.getAdapter()).dateSort) {
+                    ((AdapterList) main.getAdapter()).sortDate();
                 }
                 star = false;
             }

@@ -30,6 +30,8 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
     private LayoutInflater inflater;
     private Context context;
     ArrayList<ClientItem> arrayList;
+    public boolean nameSort = false;
+    public boolean dateSort = true;
 
     public AdapterList(Context context, ArrayList<ClientItem> arrayList) {
         inflater = LayoutInflater.from(context);
@@ -48,7 +50,7 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
     public void onBindViewHolder(FollowVH holder, final int position) {
         String image = arrayList.get(position).getImageName();
 
-        if ((image != null)&&(new File(Uri.parse(image).getPath()).exists())) {
+        if ((image != null) && (new File(Uri.parse(image).getPath()).exists())) {
             Log.e("Image", arrayList.get(position).getImageName());
             Glide.with(context).load(image).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).bitmapTransform(new CropCircleTransformation(context)).into(holder.avatar);
@@ -82,7 +84,7 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
 
         public FollowVH(View itemView) {
             super(itemView);
-            more=(TextView)itemView.findViewById(R.id.more);
+            more = (TextView) itemView.findViewById(R.id.more);
             avatar = (ImageView) itemView.findViewById(R.id.avatar);
             username = (TextView) itemView.findViewById(R.id.firsname);
             message = (TextView) itemView.findViewById(R.id.desc);
@@ -151,19 +153,45 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
         notifyDataSetChanged();
     }
 
-    public void setArrayList(){
+    public void setArrayList() {
         DatabaseAdapter db = new DatabaseAdapter(context);
-        arrayList=db.getContactsData();
+        arrayList = db.getContactsData();
         notifyDataSetChanged();
     }
-    public void sortName(){
+
+    public boolean sortName() {
+        dateSort = false;
         Collections.sort(arrayList, new Comparator<ClientItem>() {
             @Override
             public int compare(ClientItem clientItem, ClientItem clientItem1) {
                 return clientItem.getProfileName().compareTo(clientItem1.getProfileName());
             }
         });
+        if (!nameSort) {
+            nameSort = true;
+            notifyDataSetChanged();
+            return nameSort;
+        } else {
+            Collections.reverse(arrayList);
+            nameSort = false;
+        }
         notifyDataSetChanged();
+        return nameSort;
+    }
+
+    public boolean sortDate() {
+        nameSort = false;
+        setArrayList();
+        if (!dateSort) {
+            dateSort = true;
+            notifyDataSetChanged();
+            return dateSort;
+        } else {
+            Collections.reverse(arrayList);
+            dateSort = false;
+        }
+        notifyDataSetChanged();
+        return dateSort;
     }
 
 
