@@ -103,7 +103,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
             @Override
             public void onTabSelected(int position, boolean wasSelected) {
                 boolean sort;
-                boolean check=false;
+                boolean check = false;
                 switch (position) {
                     case 0://Sort Name
 
@@ -118,7 +118,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
                         sortViewName = true;
                         break;
                     case 1://Sort Date
-                        sort = ((AdapterList) main.getAdapter()).sortDate(check,star);
+                        sort = ((AdapterList) main.getAdapter()).sortDate(check, star);
                         if (sort) {
                             bottomBar.getItem(1).setDrawable(R.drawable.sort_date);
                         } else {
@@ -188,32 +188,34 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         }
         if (id == R.id.deleteAll) {
 
-                if (!star) {
-                    ((AdapterList) main.getAdapter()).favorite();
-                    checkSort();
-                    star = true;
-                    return true;
-                } else {
-                    ((AdapterList) main.getAdapter()).setArrayList();
-                    checkSort();
-                    star = false;
-                }
+            if (!star) {
+                ((AdapterList) main.getAdapter()).favorite();
+                checkSort();
+                star = true;
+                return true;
+            } else {
+                ((AdapterList) main.getAdapter()).setArrayList();
+                checkSort();
+                star = false;
+            }
 
 
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-    public void checkSort(){
-        boolean checkstar=true;
+
+    public void checkSort() {
+        boolean checkstar = true;
 
         if (sortViewName) {
-            Log.e("Sort","Name");
+            Log.e("Sort", "Name");
             ((AdapterList) main.getAdapter()).sortName(checkstar);
         }
         if (!sortViewName) {
-            Log.e("Sort","Date");
-            ((AdapterList) main.getAdapter()).sortDate(checkstar,!star);}
+            Log.e("Sort", "Date");
+            ((AdapterList) main.getAdapter()).sortDate(checkstar, !star);
+        }
 
 
     }
@@ -271,7 +273,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
 
                 for (int i = 0; i < arrayList.size(); i++) {
 
-                    final String text = arrayList.get(i).getProfileName().toLowerCase();
+                    final String text = arrayList.get(i).getProfileName().toLowerCase() +" "+ arrayList.get(i).getLast().toLowerCase();
                     if (text.contains(query)) {
 
                         filteredList.add(arrayList.get(i));
