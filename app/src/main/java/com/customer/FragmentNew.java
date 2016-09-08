@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -79,6 +81,10 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
         profileLast = (EditText) view.findViewById(R.id.edit_last);
         profileDesc = (EditText) view.findViewById(R.id.edit_desc);
         profilePhone = (EditText) view.findViewById(R.id.edit_phone);
+        InputMethodManager imgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imgr.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+        imgr.showSoftInput(profileName, 0);
+        profileName.requestFocus();
         new_image = (ImageView) view.findViewById(R.id.edit_avatar);
     }
 

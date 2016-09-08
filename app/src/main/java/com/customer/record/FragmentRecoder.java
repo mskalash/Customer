@@ -1,6 +1,7 @@
 package com.customer.record;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -42,6 +44,10 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
         db = new DatabaseAdapter(getActivity());
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_recoder, container, false);
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        };
         setView();
         if (((ActivityMain) getActivity()).getClientItem().isCheck())
             id = ((ActivityMain) getActivity()).getClientItem().getFileName();
