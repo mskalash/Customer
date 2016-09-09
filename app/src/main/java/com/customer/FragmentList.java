@@ -28,6 +28,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.customer.map.FragmentAllPoint;
 import com.customer.map.FragmentMap;
+import com.customer.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,12 +37,12 @@ import java.util.Arrays;
 
 public class FragmentList extends Fragment implements OnPermissionsListener {
     public final static String TAG = "FragmentList";
-    public RecyclerView main;
+    public static RecyclerView main;
     public View view;
     public boolean star = false;
     public ArrayList<ClientItem> arrayList;
     public EditText search;
-    public AHBottomNavigation bottomBar;
+    public static AHBottomNavigation bottomBar;
     public boolean sortViewName = false;
 
     @Override
@@ -51,20 +52,28 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         view = inflater.inflate(R.layout.fragment_list, container, false);
         ((ActivityMain) getActivity()).toolbar.setTitle(R.string.app_name);
         setFab();
-        main = (RecyclerView) view.findViewById(R.id.main);
-        DatabaseAdapter db = new DatabaseAdapter(getActivity());
-        arrayList = db.getContactsData();
-        AdapterList adapter = new AdapterList(getActivity(), arrayList);
-        main.setAdapter(adapter);
-        main.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recicleView();
         search = (EditText) view.findViewById(R.id.search);
         addTextListener();
         ((ActivityMain) getActivity()).toolbar.setNavigationIcon(null);
         bottomBar = (AHBottomNavigation) view.findViewById(R.id.bottombar);
         defineBottomBar(bottomBar);
 
-
         return view;
+
+    }
+
+    public void recicleView() {
+        main = (RecyclerView) view.findViewById(R.id.main);
+        DatabaseAdapter db = new DatabaseAdapter(getActivity());
+        arrayList = db.getContactsData();
+        AdapterList adapter = new AdapterList(getActivity(), arrayList);
+        main.setAdapter(adapter);
+        main.setLayoutManager(new LinearLayoutManager(getActivity()));
+        float bottomDp = getResources().getDimension(R.dimen.bottom_offset_dp);
+        Utils.BottomOffsetDecoration bottomOffsetDecoration = new Utils.BottomOffsetDecoration((int) bottomDp);
+        main.addItemDecoration(bottomOffsetDecoration);
+
 
     }
 
@@ -94,7 +103,8 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         bottomBar.setAccentColor(Color.parseColor("#ffffff"));
         bottomBar.setInactiveColor(Color.parseColor("#ffffff"));
         bottomBar.setForceTint(true);
-        bottomBar.setCurrentItem(0);
+        bottomBar.setCurrentItem(1);
+
     }
 
     private void setupBottomBarListener(final AHBottomNavigation bottomBar) {
@@ -163,6 +173,39 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         });
     }
 
+    public void addTextListener() {
+
+        search.addTextChangedListener(new TextWatcher() {
+
+
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence query, int start, int before, int count) {
+
+                query = query.toString().toLowerCase();
+                final ArrayList<ClientItem> filteredList = new ArrayList<>();
+
+                for (int i = 0; i < arrayList.size(); i++) {
+
+                    final String text = arrayList.get(i).getProfileName().toLowerCase() + " " + arrayList.get(i).getLast().toLowerCase();
+                    if (text.contains(query)) {
+
+                        filteredList.add(arrayList.get(i));
+                    }
+                }
+                AdapterList adapter = new AdapterList(getActivity(), filteredList);
+                main.setAdapter(adapter);
+                main.setLayoutManager(new LinearLayoutManager(getActivity()));
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+
     public boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -189,16 +232,19 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         if (id == R.id.deleteAll) {
 
             if (!star) {
+                item.setIcon(R.mipmap.favorite);
                 ((AdapterList) main.getAdapter()).favorite();
                 checkSort();
+                bottomBar.restoreBottomNavigation();
+
                 star = true;
                 return true;
             } else {
+                item.setIcon(R.mipmap.unfavorite);
                 ((AdapterList) main.getAdapter()).setArrayList();
                 checkSort();
                 star = false;
             }
-
 
             return true;
         }
@@ -216,6 +262,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
             Log.e("Sort", "Date");
             ((AdapterList) main.getAdapter()).sortDate(checkstar, !star);
         }
+
 
 
     }
@@ -253,38 +300,6 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
             }
         }
 
-    }
-
-    public void addTextListener() {
-
-        search.addTextChangedListener(new TextWatcher() {
-
-
-            public void afterTextChanged(Editable s) {
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence query, int start, int before, int count) {
-
-                query = query.toString().toLowerCase();
-                final ArrayList<ClientItem> filteredList = new ArrayList<>();
-
-                for (int i = 0; i < arrayList.size(); i++) {
-
-                    final String text = arrayList.get(i).getProfileName().toLowerCase() +" "+ arrayList.get(i).getLast().toLowerCase();
-                    if (text.contains(query)) {
-
-                        filteredList.add(arrayList.get(i));
-                    }
-                }
-                AdapterList adapter = new AdapterList(getActivity(), filteredList);
-                main.setAdapter(adapter);
-                main.setLayoutManager(new LinearLayoutManager(getActivity()));
-                adapter.notifyDataSetChanged();
-            }
-        });
     }
 
 

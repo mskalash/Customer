@@ -131,6 +131,8 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
                             ((ActivityMain) context).deleteProfile(arrayList.get(position).getId(), arrayList.get(position).getFileName(), arrayList.get(position).getImageName());
                             arrayList.remove(position);
                             notifyItemRemoved(position);
+                            FragmentList.bottomBar.restoreBottomNavigation();
+
                         }
                     })
                     .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

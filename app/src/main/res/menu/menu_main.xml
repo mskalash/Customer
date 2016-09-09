@@ -10,7 +10,7 @@
     <item
         android:id="@+id/deleteAll"
         android:orderInCategory="100"
-        android:icon="@mipmap/favorite"
+        android:icon="@mipmap/unfavorite"
         android:title="Delete All"
         android:visible="false"
         app:showAsAction="ifRoom" />
