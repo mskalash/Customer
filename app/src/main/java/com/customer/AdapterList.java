@@ -130,7 +130,7 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
                             int position = getAdapterPosition();
                             ((ActivityMain) context).deleteProfile(arrayList.get(position).getId(), arrayList.get(position).getFileName(), arrayList.get(position).getImageName());
                             arrayList.remove(position);
-                            notifyItemRemoved(position);
+                            notifyDataSetChanged();
                             FragmentList.bottomBar.restoreBottomNavigation();
 
                         }

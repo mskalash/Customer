@@ -52,7 +52,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         view = inflater.inflate(R.layout.fragment_list, container, false);
         ((ActivityMain) getActivity()).toolbar.setTitle(R.string.app_name);
         setFab();
-        recicleView();
+        recyclerView();
         search = (EditText) view.findViewById(R.id.search);
         addTextListener();
         ((ActivityMain) getActivity()).toolbar.setNavigationIcon(null);
@@ -63,7 +63,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
 
     }
 
-    public void recicleView() {
+    public void recyclerView() {
         main = (RecyclerView) view.findViewById(R.id.main);
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
         arrayList = db.getContactsData();
@@ -73,8 +73,6 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         float bottomDp = getResources().getDimension(R.dimen.bottom_offset_dp);
         Utils.BottomOffsetDecoration bottomOffsetDecoration = new Utils.BottomOffsetDecoration((int) bottomDp);
         main.addItemDecoration(bottomOffsetDecoration);
-
-
     }
 
     private void defineBottomBar(AHBottomNavigation bottomBar) {
@@ -116,8 +114,6 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
                 boolean check = false;
                 switch (position) {
                     case 0://Sort Name
-
-
                         sort = ((AdapterList) main.getAdapter()).sortName(check);
                         if (sort) {
                             bottomBar.getItem(0).setDrawable(R.drawable.sort_name);
