@@ -56,6 +56,7 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
             Glide.with(context).load(R.drawable.ava).into(holder.avatar);
         }
         holder.username.setText(arrayList.get(position).getProfileName() + " " + arrayList.get(position).getLast());
+
         holder.message.setText(arrayList.get(position).getDesc());
         if (arrayList.get(position).isFavorite())
             holder.fav.setLiked(true);

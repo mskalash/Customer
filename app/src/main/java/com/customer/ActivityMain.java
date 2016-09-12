@@ -115,16 +115,16 @@ public class ActivityMain extends AppCompatActivity {
         if (isAllPermissionsGranted) {
             switch (requestCode) {
                 case 1:
-                    ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentList.TAG)).onPermissionsGranted(permissions);
-                    break;
-                case 2:
-                    ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentMap.TAG)).onPermissionsGranted(permissions);
-                    break;
-                case 3:
                     ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentNew.TAG)).onPermissionsGranted(permissions);
                     break;
-                case 4:
+                case 2:
+                    ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentList.TAG)).onPermissionsGranted(permissions);
+                    break;
+                case 3:
                     ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentMap.TAG)).onPermissionsGranted(permissions);
+                    break;
+                case 4:
+                    ((OnPermissionsListener) getSupportFragmentManager().findFragmentByTag(FragmentList.TAG)).onPermissionsGranted(permissions);
                     break;
 
             }

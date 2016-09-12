@@ -24,7 +24,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.customer.map.FragmentMap;
 import com.customer.map.FragmentMapInfo;
 
 import java.io.File;
@@ -138,10 +137,11 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
             if (!((ActivityMain) getActivity()).getClientItem().isCheck()) {
                 if (mediaPlayer.isPlaying()) mediaPlayer.pause();
                 addContact();
+
                 Toast.makeText(getActivity(), R.string.add, Toast.LENGTH_SHORT).show();
                 ((ActivityMain) getActivity()).showScreen(new FragmentList(), FragmentList.TAG, true);
             } else {
-                ((ActivityMain) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);
+                ((ActivityMain) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
             }
             return true;
         }

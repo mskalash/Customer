@@ -19,6 +19,8 @@ import com.customer.FragmentNew;
 import com.customer.phone.FragmentPhone;
 import com.customer.OnPermissionsListener;
 import com.customer.R;
+import com.customer.record.FragmentRecoder;
+import com.customer.utils.Utils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -145,44 +147,28 @@ public class FragmentMap extends Fragment implements OnPermissionsListener, Goog
         int id = item.getItemId();
         if (id == R.id.actionSettings) {
             if (position != null) {
-                dialogContact();
+                if (!Utils.isOnline(getActivity()))
+                    Toast.makeText(getActivity(), R.string.noinet, Toast.LENGTH_LONG).show();
+                ActivityCompat.requestPermissions(getActivity(), new String[]{
+                        Manifest.permission.RECORD_AUDIO}, 3);
+
+
                 ((ActivityMain) getActivity()).getClientItem().setLat(position.latitude);
                 ((ActivityMain) getActivity()).getClientItem().setLonget(position.longitude);
             } else if ((((ActivityMain) getActivity()).getClientItem().getLat() != 0) && (((ActivityMain) getActivity()).getClientItem().getLonget() != 0)) {
-                ((ActivityMain) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
+                ((ActivityMain) getActivity()).showScreen(new FragmentRecoder(), FragmentRecoder.TAG, true);
             } else Toast.makeText(getActivity(), R.string.selectpoint, Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void dialogContact() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.showcont)
-                .setCancelable(false)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{
-                                Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_EXTERNAL_STORAGE,}, 4);
-                    }
-                })
-                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
+
 
     @Override
     public void onPermissionsGranted(String[] permission) {
-        if (!permission[0].equals(Manifest.permission.READ_CONTACTS)) {
-            ((ActivityMain) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
-        } else {
-            ((ActivityMain) getActivity()).showScreen(new FragmentPhone(), FragmentPhone.TAG, true);
-        }
+        ((ActivityMain) getActivity()).showScreen(new FragmentRecoder(), FragmentRecoder.TAG, true);
+
     }
 
 

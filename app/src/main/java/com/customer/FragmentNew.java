@@ -1,6 +1,5 @@
 package com.customer;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -13,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,7 +29,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.customer.record.FragmentRecoder;
+import com.customer.map.FragmentMap;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -245,7 +245,12 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
                 ((ActivityMain) getActivity()).getClientItem().setDesc(profileDesc.getText().toString());
                 ((ActivityMain) getActivity()).getClientItem().setPhone(profilePhone.getText().toString());
                 ActivityCompat.requestPermissions(getActivity(), new String[]{
-                        Manifest.permission.RECORD_AUDIO}, 3);
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
 
                 if (selectedImage != null)
                     ((ActivityMain) getActivity()).getClientItem().setImageName(selectedImage.toString());
@@ -261,6 +266,7 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
 
     @Override
     public void onPermissionsGranted(String[] permission) {
-        ((ActivityMain) getActivity()).showScreen(new FragmentRecoder(), FragmentRecoder.TAG, true);
+        Log.e("map","work");
+        ((ActivityMain) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);
     }
 }

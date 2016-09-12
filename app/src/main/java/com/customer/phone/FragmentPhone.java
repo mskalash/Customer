@@ -1,5 +1,6 @@
 package com.customer.phone;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.customer.ActivityMain;
 import com.customer.FragmentNew;
@@ -23,6 +25,10 @@ public class FragmentPhone extends Fragment {
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_phone, container, false);
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.phonefeagment);
         AdapterPhone adapterPhone = new AdapterPhone(getActivity());
         recyclerView.setAdapter(adapterPhone);

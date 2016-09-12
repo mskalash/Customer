@@ -1,6 +1,7 @@
 package com.customer;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,13 +19,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.customer.map.FragmentAllPoint;
-import com.customer.map.FragmentMap;
+import com.customer.phone.FragmentPhone;
 import com.customer.utils.Utils;
 
 import java.io.File;
@@ -47,6 +49,11 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_list, container, false);
+
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
         ((ActivityMain) getActivity()).toolbar.setTitle(R.string.app_name);
         setFab();
         recyclerView();
@@ -156,14 +163,29 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!Utils.isOnline(getActivity()))
-                    Toast.makeText(getActivity(), R.string.noinet, Toast.LENGTH_LONG).show();
                 ((ActivityMain) getActivity()).getClientItem().clear();
-                ActivityCompat.requestPermissions(getActivity(), new String[]{
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                        android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                dialogContact();
             }
         });
+    }
+    public void dialogContact() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.showcont)
+                .setCancelable(false)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{
+                                android.Manifest.permission.READ_CONTACTS, android.Manifest.permission.WRITE_EXTERNAL_STORAGE,}, 4);
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ActivityCompat.requestPermissions(getActivity(), new String[]{
+                                android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public void addTextListener() {
@@ -289,7 +311,13 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
 
     @Override
     public void onPermissionsGranted(String[] permission) {
-        ((ActivityMain) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);
+        if (!permission[0].equals(android.Manifest.permission.READ_CONTACTS)) {
+            ((ActivityMain) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
+        } else {
+            ((ActivityMain) getActivity()).showScreen(new FragmentPhone(), FragmentPhone.TAG, true);
+        }
     }
+
+
 
 }
