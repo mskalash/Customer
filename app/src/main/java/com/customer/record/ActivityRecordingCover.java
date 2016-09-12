@@ -26,7 +26,7 @@ public class ActivityRecordingCover extends AppCompatActivity {
     private ImageView recordIcon;
     protected MediaRecorder recorder = null;
     protected String fileName = null;
-    Chronometer chronometer;
+    protected Chronometer chronometer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

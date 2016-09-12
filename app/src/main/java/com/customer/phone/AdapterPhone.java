@@ -19,14 +19,30 @@ import com.customer.R;
 
 import java.util.ArrayList;
 public class AdapterPhone extends RecyclerView.Adapter<AdapterPhone.FollowVH> {
-    LayoutInflater inflater;
+    private LayoutInflater inflater;
     private Context context;
-    ArrayList<ClientItem> arrayList;
+    private ArrayList<ClientItem> arrayList;
 
     public AdapterPhone(Context context) {
         inflater = LayoutInflater.from(context);
         this.context = context;
         getArrayList();
+    }
+    protected void getArrayList() {
+        arrayList = new ArrayList<>();
+        Cursor c = context.getContentResolver().query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                null, null, null);
+        while (c.moveToNext()) {
+            String contactName = c
+                    .getString(c
+                            .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+            String phNumber = c
+                    .getString(c
+                            .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            arrayList.add(new ClientItem(contactName, phNumber));
+        }
+        c.close();
     }
 
     @Override
@@ -48,22 +64,7 @@ public class AdapterPhone extends RecyclerView.Adapter<AdapterPhone.FollowVH> {
         return arrayList.size();
     }
 
-    protected void getArrayList() {
-        arrayList = new ArrayList<>();
-        Cursor c = context.getContentResolver().query(
-                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                null, null, null);
-        while (c.moveToNext()) {
-            String contactName = c
-                    .getString(c
-                            .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-            String phNumber = c
-                    .getString(c
-                            .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            arrayList.add(new ClientItem(contactName, phNumber));
-        }
-        c.close();
-    }
+
 
     class FollowVH extends RecyclerView.ViewHolder implements View.OnClickListener, OnPermissionsListener {
         TextView username;

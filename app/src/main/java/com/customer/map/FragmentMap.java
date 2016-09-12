@@ -32,14 +32,14 @@ public class FragmentMap extends Fragment implements OnPermissionsListener, Goog
 
     public final static String TAG = "FragmentMap";
 
-    MapView mapView;
-    MarkerOptions marker;
-    LatLng position;
+    private MapView mapView;
+    private MarkerOptions marker;
+    private LatLng position;
     private GoogleMap googleMap;
 
-    double longit;
-    double lat;
-    boolean camera = true;
+    private double longit;
+    private double lat;
+    private boolean camera = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -1,11 +1,21 @@
 package com.customer.utils;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Rect;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-
-
 public class Utils {
+
+    public static boolean isOnline( Activity activity) {
+        ConnectivityManager cm =
+                (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
     public static class BottomOffsetDecoration extends RecyclerView.ItemDecoration {
         private int mBottomOffset;
 

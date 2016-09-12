@@ -24,8 +24,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.customer.map.FragmentMapInfo;
 import com.customer.map.FragmentMap;
+import com.customer.map.FragmentMapInfo;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,19 +34,19 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class FragmentInfo extends Fragment implements View.OnClickListener {
-    View view;
-    FloatingActionButton play;
-    TextView lastName;
-    TextView name;
-    TextView description;
-    ImageView avatar;
-    MediaPlayer mediaPlayer;
-    String phone;
-    Button call;
-    Button send;
-    ImageView imageBackground;
     public final static String TAG = "FragmentInfo";
-    boolean playRec = false;
+    private View view;
+    private FloatingActionButton play;
+    private TextView lastName;
+    private TextView name;
+    private TextView description;
+    private ImageView avatar;
+    private MediaPlayer mediaPlayer;
+    private String phone;
+    private Button call;
+    private Button send;
+    private ImageView imageBackground;
+    private boolean playRec = false;
 
     @Nullable
     @Override
@@ -89,7 +89,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         imageBackground = (ImageView) view.findViewById(R.id.imagebackgraund);
         if (((ActivityMain) getActivity()).getClientItem().isCheck()) {
             DatabaseAdapter db = new DatabaseAdapter(getActivity());
-            db.selectprofile(((ActivityMain) getActivity()).getClientItem().getId());
+            db.selectProfile(((ActivityMain) getActivity()).getClientItem().getId());
         }
         if ((((ActivityMain) getActivity()).getClientItem().getImageName() != null) && (new File(Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName()).getPath()).exists())) {
             Uri image = Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName());
@@ -106,6 +106,28 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
             Log.e("image", ((ActivityMain) getActivity()).getClientItem().getImageName());
         }
         setMedia();
+    }
+    public void setMedia() {
+        mediaPlayer = new MediaPlayer();
+        try {
+
+            mediaPlayer.setDataSource(((ActivityMain) getActivity()).getClientItem().getFileName());
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            play.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.getItem(0).setTitle(R.string.finish);
+
+        if (((ActivityMain) getActivity()).getClientItem().isCheck()) {
+            menu.getItem(0).setTitle(R.string.edit).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+            menu.getItem(1).setVisible(true).setTitle(R.string.delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        } else {
+            menu.getItem(1).setVisible(false);
+        }
     }
 
     @Override
@@ -153,7 +175,7 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
     public void addContact() {
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
         String name = ((ActivityMain) getActivity()).getClientItem().getProfileName();
-        String lastname = ((ActivityMain) getActivity()).getClientItem().getLast();
+        String lastName = ((ActivityMain) getActivity()).getClientItem().getLast();
         String desc = ((ActivityMain) getActivity()).getClientItem().getDesc();
         double lat = ((ActivityMain) getActivity()).getClientItem().getLat();
         double longet = ((ActivityMain) getActivity()).getClientItem().getLonget();
@@ -164,32 +186,12 @@ public class FragmentInfo extends Fragment implements View.OnClickListener {
         String phone = ((ActivityMain) getActivity()).getClientItem().getPhone();
         if ((((ActivityMain) getActivity()).getClientItem().getImageName() != null) && (new File(Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName()).getPath()).exists()))
             image = ((ActivityMain) getActivity()).getClientItem().getImageName();
-        db.addcontact(name, lastname, desc, lat, longet, filename, image, phone);
+        db.addContact(name, lastName, desc, lat, longet, filename, image, phone);
 
     }
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        menu.getItem(0).setTitle(R.string.finish);
 
-        if (((ActivityMain) getActivity()).getClientItem().isCheck()) {
-            menu.getItem(0).setTitle(R.string.edit).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-            menu.getItem(1).setVisible(true).setTitle(R.string.delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-        } else {
-            menu.getItem(1).setVisible(false);
-        }
-    }
 
-    public void setMedia() {
-        mediaPlayer = new MediaPlayer();
-        try {
-
-            mediaPlayer.setDataSource(((ActivityMain) getActivity()).getClientItem().getFileName());
-            mediaPlayer.prepare();
-        } catch (IOException e) {
-            play.setVisibility(View.GONE);
-        }
-    }
 
     @Override
     public void onClick(View view) {

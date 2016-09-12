@@ -14,9 +14,9 @@ import android.widget.TextView;
 
 
 public class ActivitySplash extends AppCompatActivity {
-    TextView splashText;
-    AlphaAnimation alphaAnimation;
-    ImageView splashImage;
+    private TextView splashText;
+    private AlphaAnimation alphaAnimation;
+    private ImageView splashImage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

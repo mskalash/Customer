@@ -21,7 +21,7 @@ import java.io.File;
 public class ActivityMain extends AppCompatActivity {
     private ClientItem clientItem;
     public Toolbar toolbar;
-    FragmentManager fm;
+    private FragmentManager fm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -21,44 +21,39 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class FragmentAllPoint extends Fragment {
     public static final String TAG = "FragmentAllPoint";
-    MapView mapView;
-
+    private MapView mapView;
     private GoogleMap googleMap;
-    private Map<Marker, ClientItem> maps = new HashMap<>();
-    ArrayList<ClientItem> arrayList;
+    private ArrayList<ClientItem> arrayList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        maps.clear();
-        View v = inflater.inflate(R.layout.fragment_map, container, false);
+        View view = inflater.inflate(R.layout.fragment_map, container, false);
         setHasOptionsMenu(true);
         ((ActivityMain) getActivity()).toolbar.setTitle(R.string.app_name);
-        mapView = (MapView) v.findViewById(R.id.mapView);
+        mapView = (MapView) view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         MapsInitializer.initialize(getActivity().getApplicationContext());
         googleMap = mapView.getMap();
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
-        arrayList = db.getmapdata();
+        arrayList = db.getMapData();
         setMarker();
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                ((ActivityMain) getActivity()).getClientItem().setRecid(recId(marker.getId(), arrayList));
+                ((ActivityMain) getActivity()).getClientItem().setId(id(marker.getId(), arrayList));
                 ((ActivityMain) getActivity()).getClientItem().setCheck(true);
                 ((ActivityMain) getActivity()).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
 
             }
         });
-        return v;
+        return view;
     }
 
     public void setMarker() {
@@ -68,13 +63,13 @@ public class FragmentAllPoint extends Fragment {
                     .title(arrayList.get(i).getProfileName())
                     .snippet(arrayList.get(i).getLast())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-            arrayList.get(i).setMapid(marker.getId());
+            arrayList.get(i).setMapId(marker.getId());
         }
     }
 
-    private int recId(String markerId, ArrayList<ClientItem> arrayList) {
+    private int id(String markerId, ArrayList<ClientItem> arrayList) {
         for (ClientItem clientItem : arrayList) {
-            if (clientItem.getMapid().equals(markerId)) {
+            if (clientItem.getMapId().equals(markerId)) {
                 return clientItem.getId();
             }
         }

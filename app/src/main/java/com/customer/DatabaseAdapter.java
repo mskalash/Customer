@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -21,7 +20,7 @@ public class DatabaseAdapter {
         this.context = context;
     }
 
-    public void selectprofile(int id) {
+    public void selectProfile(int id) {
         SQLiteDatabase db = helper.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + SQLHelper.TABLE_NAME_CONTACTS + " WHERE " + SQLHelper.CONTACTS_ID + "=" + id, null);
         while (cursor.moveToNext()) {
@@ -85,7 +84,7 @@ public class DatabaseAdapter {
         return result;
     }
 
-    public ArrayList<ClientItem> getmapdata() {
+    public ArrayList<ClientItem> getMapData() {
         SQLiteDatabase db = helper.getWritableDatabase();
         String[] columns = {SQLHelper.CONTACTS_ID, SQLHelper.CONTACTS_NAME, SQLHelper.CONTACTS_LAST, SQLHelper.CONTACTS_DESCRIPTION, SQLHelper.CONTACTS_LAT, SQLHelper.CONTACTS_LONGET};
         Cursor cursor = db.query(SQLHelper.TABLE_NAME_CONTACTS, columns, null, null, null, null, null);
@@ -120,7 +119,7 @@ public class DatabaseAdapter {
         return id;
     }
 
-    public void addcontact(String name, String lastname, String description, double lat, double longet, String filename, String imagename, String telephone) {
+    public void addContact(String name, String lastname, String description, double lat, double longet, String filename, String imagename, String telephone) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(SQLHelper.CONTACTS_NAME, name);
@@ -144,7 +143,7 @@ public class DatabaseAdapter {
 
     }
 
-    public void updatefavorites(int id, boolean favorites) {
+    public void updateFavorites(int id, boolean favorites) {
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(SQLHelper.CONTACTS_FAVORITE, favorites);
@@ -172,7 +171,7 @@ public class DatabaseAdapter {
         return count;
     }
 
-    public void deleteall() {
+    public void deleteAll() {
         SQLiteDatabase db = helper.getWritableDatabase();
         db.delete(SQLHelper.TABLE_NAME_CONTACTS, null, null);
         db.close();
@@ -224,7 +223,6 @@ public class DatabaseAdapter {
                 db.execSQL(CREATE_TABLE_CONTACTS);
             } catch (SQLException e) {
                 e.printStackTrace();
-                Toast.makeText(context, "" + e, Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -236,7 +234,6 @@ public class DatabaseAdapter {
                 onCreate(db);
             } catch (SQLException e) {
                 e.printStackTrace();
-                Toast.makeText(context, "" + e, Toast.LENGTH_SHORT).show();
             }
         }
     }

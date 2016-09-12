@@ -27,16 +27,16 @@ import java.io.IOException;
 
 public class FragmentRecoder extends android.support.v4.app.Fragment implements View.OnClickListener {
     public final static String TAG = "FragmentRecoder";
-    View view;
-    ImageView rec;
-    ImageView play;
-    ImageView stop;
-    MediaPlayer mediaPlayer;
-    String fileName;
-    boolean recoder = false;
-    final int REQUEST_CODE_FILE = 1;
-    String id;
-    DatabaseAdapter db;
+    private View view;
+    private ImageView rec;
+    private ImageView play;
+    private ImageView stop;
+    private MediaPlayer mediaPlayer;
+    private String fileName;
+    private boolean recoder = false;
+    private final int REQUEST_CODE_FILE = 1;
+    private String id;
+    private DatabaseAdapter db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,7 +47,7 @@ public class FragmentRecoder extends android.support.v4.app.Fragment implements 
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        };
+        }
         setView();
         if (((ActivityMain) getActivity()).getClientItem().isCheck())
             id = ((ActivityMain) getActivity()).getClientItem().getFileName();

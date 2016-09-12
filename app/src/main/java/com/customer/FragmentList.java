@@ -1,11 +1,8 @@
 package com.customer;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
@@ -37,13 +34,13 @@ import java.util.Arrays;
 
 public class FragmentList extends Fragment implements OnPermissionsListener {
     public final static String TAG = "FragmentList";
-    public static RecyclerView main;
-    public View view;
-    public boolean star = false;
-    public ArrayList<ClientItem> arrayList;
-    public EditText search;
+    private static RecyclerView main;
+    private View view;
+    private boolean star = false;
+    private ArrayList<ClientItem> arrayList;
+    private EditText search;
     public static AHBottomNavigation bottomBar;
-    public boolean sortViewName = false;
+    private boolean sortViewName = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -133,7 +130,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
                         sortViewName = false;
                         break;
                     case 2://Map
-                        if (!isOnline())
+                        if (!Utils.isOnline(getActivity()))
                             Toast.makeText(getActivity(), R.string.noinet, Toast.LENGTH_LONG).show();
                         ((ActivityMain) getActivity()).showScreen(new FragmentAllPoint(), FragmentAllPoint.TAG, true);
                         break;
@@ -159,7 +156,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!isOnline())
+                if (!Utils.isOnline(getActivity()))
                     Toast.makeText(getActivity(), R.string.noinet, Toast.LENGTH_LONG).show();
                 ((ActivityMain) getActivity()).getClientItem().clear();
                 ActivityCompat.requestPermissions(getActivity(), new String[]{
@@ -202,12 +199,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
     }
 
 
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
+
 
 
     @Override
@@ -248,19 +240,16 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
     }
 
     public void checkSort() {
-        boolean checkstar = true;
+        boolean checkStar = true;
 
         if (sortViewName) {
             Log.e("Sort", "Name");
-            ((AdapterList) main.getAdapter()).sortName(checkstar);
+            ((AdapterList) main.getAdapter()).sortName(checkStar);
         }
         if (!sortViewName) {
             Log.e("Sort", "Date");
-            ((AdapterList) main.getAdapter()).sortDate(checkstar, !star);
+            ((AdapterList) main.getAdapter()).sortDate(checkStar, !star);
         }
-
-
-
     }
 
     public void showDialog() {
@@ -284,7 +273,7 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
 
     public void deleteAll() {
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
-        db.deleteall();
+        db.deleteAll();
         ((AdapterList) main.getAdapter()).deleteAll();
         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/." + getResources().getString(R.string.app_name));
         if (file.exists()) {
@@ -298,11 +287,9 @@ public class FragmentList extends Fragment implements OnPermissionsListener {
 
     }
 
-
     @Override
     public void onPermissionsGranted(String[] permission) {
         ((ActivityMain) getActivity()).showScreen(new FragmentMap(), FragmentMap.TAG, true);
     }
-
 
 }

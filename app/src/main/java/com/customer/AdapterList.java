@@ -28,9 +28,9 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
     private LayoutInflater inflater;
     private Context context;
-    ArrayList<ClientItem> arrayList;
-    public boolean nameSort = false;
-    public boolean dateSort = true;
+    private ArrayList<ClientItem> arrayList;
+    private boolean nameSort = false;
+    private boolean dateSort = true;
 
     public AdapterList(Context context, ArrayList<ClientItem> arrayList) {
         inflater = LayoutInflater.from(context);
@@ -94,14 +94,14 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
                     int position = getAdapterPosition();
 
                     arrayList.get(position).setFavorite(true);
-                    db.updatefavorites(arrayList.get(position).getId(), true);
+                    db.updateFavorites(arrayList.get(position).getId(), true);
                 }
 
                 @Override
                 public void unLiked(LikeButton likeButton) {
                     int position = getAdapterPosition();
                     arrayList.get(position).setFavorite(false);
-                    db.updatefavorites(arrayList.get(position).getId(), false);
+                    db.updateFavorites(arrayList.get(position).getId(), false);
                 }
             });
             profile.setOnLongClickListener(this);
@@ -113,7 +113,7 @@ public class AdapterList extends RecyclerView.Adapter<AdapterList.FollowVH> {
             int position = getAdapterPosition();
 
             ((ActivityMain) context).getClientItem().setCheck(true);
-            ((ActivityMain) context).getClientItem().setRecid(arrayList.get(position).getId());
+            ((ActivityMain) context).getClientItem().setId(arrayList.get(position).getId());
             ((ActivityMain) context).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
 
         }

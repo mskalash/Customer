@@ -16,7 +16,7 @@ import com.customer.R;
 
 public class FragmentPhone extends Fragment {
     public final static String TAG = "FragmentPhone";
-    View view;
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,10 +40,7 @@ public class FragmentPhone extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.actionSettings) {
-
             ((ActivityMain) getActivity()).showScreen(new FragmentNew(), FragmentNew.TAG, true);
-
-
         }
         return true;
     }

@@ -1,14 +1,12 @@
 package com.customer;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -42,21 +40,18 @@ import java.io.OutputStream;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
-/**
- * Created by Максим on 08.08.2016.
- */
 public class FragmentNew extends Fragment implements OnPermissionsListener {
-    ImageView new_image;
-    View view;
-    Uri selectedImage;
-    EditText profileName;
-    EditText profileLast;
-    EditText profileDesc;
-    EditText profilePhone;
+    private ImageView new_image;
+    private View view;
+    private Uri selectedImage;
+    private EditText profileName;
+    private EditText profileLast;
+    private EditText profileDesc;
+    private EditText profilePhone;
     public final static String TAG = "FragmentNew";
-    static final int GALLERY_REQUEST = 1;
+    private final static int GALLERY_REQUEST = 1;
     private final static int ACTIVITY_TAKE_PHOTO = 0;
-    Dialog myDialog;
+    private Dialog myDialog;
 
     @Nullable
     @Override
@@ -65,7 +60,7 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_new, container, false);
         setView();
-        if (((ActivityMain) getActivity()).getClientItem().getProfileName() != null) settext();
+        if (((ActivityMain) getActivity()).getClientItem().getProfileName() != null) setText();
         new_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,6 +69,23 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
         });
 
         return view;
+    }
+
+    private void setText() {
+        if (((ActivityMain) getActivity()).getClientItem().getImageName() != null && (new File(Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName()).getPath()).exists())) {
+            selectedImage = Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName());
+            Glide.with(getActivity())
+                    .load(selectedImage)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .bitmapTransform(new CropCircleTransformation(getActivity()))
+                    .into(new_image);
+        }
+        profileLast.setText(((ActivityMain) getActivity()).getClientItem().getLast());
+        profileName.setText(((ActivityMain) getActivity()).getClientItem().getProfileName());
+        profileDesc.setText(((ActivityMain) getActivity()).getClientItem().getDesc());
+        profilePhone.setText(((ActivityMain) getActivity()).getClientItem().getPhone());
+
     }
 
     public void setView() {
@@ -158,7 +170,6 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
         return new File(folder, fileName);
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         myDialog.dismiss();
@@ -247,22 +258,6 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
         return super.onOptionsItemSelected(item);
     }
 
-    private void settext() {
-        if (((ActivityMain) getActivity()).getClientItem().getImageName() != null && (new File(Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName()).getPath()).exists())) {
-            selectedImage = Uri.parse(((ActivityMain) getActivity()).getClientItem().getImageName());
-            Glide.with(getActivity())
-                    .load(selectedImage)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .bitmapTransform(new CropCircleTransformation(getActivity()))
-                    .into(new_image);
-        }
-        profileLast.setText(((ActivityMain) getActivity()).getClientItem().getLast());
-        profileName.setText(((ActivityMain) getActivity()).getClientItem().getProfileName());
-        profileDesc.setText(((ActivityMain) getActivity()).getClientItem().getDesc());
-        profilePhone.setText(((ActivityMain) getActivity()).getClientItem().getPhone());
-
-    }
 
     @Override
     public void onPermissionsGranted(String[] permission) {

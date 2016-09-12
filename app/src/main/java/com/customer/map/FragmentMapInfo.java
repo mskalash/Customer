@@ -22,11 +22,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class FragmentMapInfo extends Fragment {
-    public View view;
-    public GoogleMap maps;
-    public MapView mapView;
-    public MarkerOptions marker;
-    public LatLng profileMap;
+    private View view;
+    private GoogleMap maps;
+    private MapView mapView;
+    private MarkerOptions marker;
+    private LatLng profileMap;
 
     @Nullable
     @Override
