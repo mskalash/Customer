@@ -43,13 +43,6 @@ public class ClientItem {
         this.phone = phone;
     }
 
-    public String getMapId() {
-        return mapId;
-    }
-
-    public void setMapId(String mapId) {
-        this.mapId = mapId;
-    }
 
     public boolean isCheck() {
         return check;

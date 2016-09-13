@@ -20,8 +20,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    android:alpha="0.3"
-    android:layout_margin="4dp"/>
+    android:alpha="0.3"/>
         <ImageView
             android:id="@+id/profile_avatar"
             android:layout_width="110dp"
