@@ -1,4 +1,4 @@
-package com.customer.map;
+package mskalash.customer.map;
 
 import com.google.android.gms.maps.model.LatLng;
 

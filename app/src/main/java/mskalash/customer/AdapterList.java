@@ -1,4 +1,4 @@
-package com.customer;
+package mskalash.customer;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.customer.R;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 

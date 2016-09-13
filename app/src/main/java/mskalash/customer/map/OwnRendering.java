@@ -1,4 +1,4 @@
-package com.customer.map;
+package mskalash.customer.map;
 
 import android.content.Context;
 

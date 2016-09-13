@@ -1,4 +1,4 @@
-package com.customer;
+package mskalash.customer;
 
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -14,7 +14,9 @@ import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.customer.map.FragmentMap;
+import com.customer.R;
+
+import mskalash.customer.map.FragmentMap;
 
 import java.io.File;
 

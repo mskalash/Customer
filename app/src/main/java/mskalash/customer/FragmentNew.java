@@ -1,4 +1,4 @@
-package com.customer;
+package mskalash.customer;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -29,7 +29,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.customer.map.FragmentMap;
+import com.customer.R;
+
+import mskalash.customer.map.FragmentMap;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,4 +1,4 @@
-package com.customer;
+package mskalash.customer;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -25,9 +25,11 @@ import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.customer.map.FragmentAllPoint;
-import com.customer.phone.FragmentPhone;
-import com.customer.utils.Utils;
+import com.customer.R;
+
+import mskalash.customer.map.FragmentAllPoint;
+import mskalash.customer.phone.FragmentPhone;
+import mskalash.customer.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.customer;
+package mskalash.customer;
 
 
 public class ClientItem {

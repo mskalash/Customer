@@ -1,4 +1,4 @@
-package com.customer.map;
+package mskalash.customer.map;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.customer.ActivityMain;
+import mskalash.customer.ActivityMain;
 import com.customer.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

@@ -1,4 +1,4 @@
-package com.customer.map;
+package mskalash.customer.map;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,10 +7,10 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.customer.ActivityMain;
-import com.customer.ClientItem;
-import com.customer.DatabaseAdapter;
-import com.customer.FragmentInfo;
+import mskalash.customer.ActivityMain;
+import mskalash.customer.ClientItem;
+import mskalash.customer.DatabaseAdapter;
+import mskalash.customer.FragmentInfo;
 import com.customer.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -43,9 +43,7 @@ public class FragmentAllPoint extends Fragment {
         googleMap = mapView.getMap();
         DatabaseAdapter db = new DatabaseAdapter(getActivity());
         arrayList = db.getMapData();
-//        setMarker();
         setCluster();
-
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -72,7 +70,7 @@ public class FragmentAllPoint extends Fragment {
             public boolean onClusterClick(Cluster<ClusterMapItem> cluster) {
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                         cluster.getPosition(), (float) Math.floor(googleMap
-                                .getCameraPosition().zoom + 3)),300,
+                                .getCameraPosition().zoom + 2)), 300,
                         null);
                 return true;
             }
@@ -89,25 +87,12 @@ public class FragmentAllPoint extends Fragment {
             clusterManager.addItem(offsetItem);
 
         }
-
-
     }
 
-//    public void setMarker() {
-//        for (int i = 0; i < arrayList.size(); i++) {
-//            Marker marker = googleMap.addMarker(new MarkerOptions()
-//                    .position(new LatLng(arrayList.get(i).getLat(), arrayList.get(i).getLonget()))
-//                    .title(arrayList.get(i).getProfileName())
-//                    .snippet(arrayList.get(i).getLast())
-//                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-//            arrayList.get(i).setMapId(marker.getId());
-//        }
-//    }
-
-    private int id(String markerId, ArrayList<ClientItem> arrayList) {
+    private int id(String title, ArrayList<ClientItem> arrayList) {
         for (ClientItem clientItem : arrayList) {
 
-            if (clientItem.getProfileName().equals(markerId)) {
+            if (clientItem.getProfileName().equals(title)) {
                 return clientItem.getId();
             }
         }

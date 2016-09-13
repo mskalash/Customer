@@ -1,4 +1,4 @@
-package com.customer;
+package mskalash.customer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.customer.R;
 
 
 public class ActivitySplash extends AppCompatActivity {

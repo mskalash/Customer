@@ -1,4 +1,4 @@
-package com.customer.phone;
+package mskalash.customer.phone;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
-import com.customer.ActivityMain;
-import com.customer.FragmentNew;
+import mskalash.customer.ActivityMain;
+import mskalash.customer.FragmentNew;
 import com.customer.R;
 
 public class FragmentPhone extends Fragment {

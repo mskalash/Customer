@@ -1,4 +1,4 @@
-package com.customer;
+package mskalash.customer;
 
 import android.content.ContentValues;
 import android.content.Context;

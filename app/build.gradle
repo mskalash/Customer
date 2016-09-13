@@ -28,12 +28,10 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.0.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.google.android.gms:play-services-maps:9.0.2'
-    compile 'com.github.castorflex.smoothprogressbar:library:0.5.2'//removable
-    compile 'jp.wasabeef:glide-transformations:2.0.1'//removable
-    compile 'com.balysv.materialmenu:material-menu-toolbar:1.5.4'//removable
+    compile 'com.github.castorflex.smoothprogressbar:library:0.5.2'
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
     compile 'com.android.support:design:24.2.0'
-    compile "com.daimajia.swipelayout:library:1.2.0@aar"//removable
-    compile 'com.android.support:support-v4:24.+'
+    compile 'com.android.support:support-v4:24'
     compile 'com.github.jd-alexander:LikeButton:0.2.0'
     compile 'com.aurelhubert:ahbottomnavigation:1.2.3'
     compile 'com.google.maps.android:android-maps-utils:0.4'

@@ -1,4 +1,4 @@
-package com.customer.record;
+package mskalash.customer.record;
 
 import android.app.Activity;
 import android.content.Intent;

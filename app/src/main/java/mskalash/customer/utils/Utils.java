@@ -1,4 +1,4 @@
-package com.customer.utils;
+package mskalash.customer.utils;
 
 import android.app.Activity;
 import android.content.Context;

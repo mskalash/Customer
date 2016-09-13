@@ -1,4 +1,4 @@
-package com.customer.record;
+package mskalash.customer.record;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.customer.ActivityMain;
-import com.customer.DatabaseAdapter;
-import com.customer.FragmentInfo;
-import com.customer.FragmentList;
+import mskalash.customer.ActivityMain;
+import mskalash.customer.DatabaseAdapter;
+import mskalash.customer.FragmentInfo;
+import mskalash.customer.FragmentList;
 import com.customer.R;
 
 import java.io.File;

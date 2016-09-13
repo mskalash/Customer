@@ -1,4 +1,4 @@
-package com.customer.phone;
+package mskalash.customer.phone;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -11,13 +11,14 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.customer.ActivityMain;
-import com.customer.ClientItem;
-import com.customer.FragmentNew;
-import com.customer.OnPermissionsListener;
+import mskalash.customer.ActivityMain;
+import mskalash.customer.ClientItem;
+import mskalash.customer.FragmentNew;
+import mskalash.customer.OnPermissionsListener;
 import com.customer.R;
 
 import java.util.ArrayList;
+
 public class AdapterPhone extends RecyclerView.Adapter<AdapterPhone.FollowVH> {
     private LayoutInflater inflater;
     private Context context;

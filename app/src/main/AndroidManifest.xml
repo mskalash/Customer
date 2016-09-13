@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".ActivitySplash"
+            android:name="mskalash.customer.ActivitySplash"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ActivityMain"
+            android:name="mskalash.customer.ActivityMain"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             >
@@ -39,7 +39,7 @@
         </activity>
 
         <activity
-            android:name=".record.ActivityRecordingCover"
+            android:name="mskalash.customer.record.ActivityRecordingCover"
             android:screenOrientation="portrait" />
 
         <meta-data

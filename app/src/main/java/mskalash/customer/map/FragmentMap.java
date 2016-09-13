@@ -1,8 +1,6 @@
-package com.customer.map;
+package mskalash.customer.map;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -14,13 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.customer.ActivityMain;
-import com.customer.FragmentNew;
-import com.customer.phone.FragmentPhone;
-import com.customer.OnPermissionsListener;
+import mskalash.customer.ActivityMain;
+import mskalash.customer.OnPermissionsListener;
 import com.customer.R;
-import com.customer.record.FragmentRecoder;
-import com.customer.utils.Utils;
+import mskalash.customer.record.FragmentRecoder;
+import mskalash.customer.utils.Utils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
