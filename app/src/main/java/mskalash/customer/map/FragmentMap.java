@@ -143,8 +143,7 @@ public class FragmentMap extends Fragment implements OnPermissionsListener, Goog
         int id = item.getItemId();
         if (id == R.id.actionSettings) {
             if (position != null) {
-                if (!Utils.isOnline(getActivity()))
-                    Toast.makeText(getActivity(), R.string.noinet, Toast.LENGTH_LONG).show();
+
                 ActivityCompat.requestPermissions(getActivity(), new String[]{
                         Manifest.permission.RECORD_AUDIO}, 3);
 

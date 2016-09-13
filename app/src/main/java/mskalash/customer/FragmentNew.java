@@ -31,8 +31,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.customer.R;
 
-import mskalash.customer.map.FragmentMap;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -41,6 +39,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import mskalash.customer.map.FragmentMap;
+import mskalash.customer.utils.Utils;
 
 public class FragmentNew extends Fragment implements OnPermissionsListener {
     private ImageView new_image;
@@ -246,6 +246,8 @@ public class FragmentNew extends Fragment implements OnPermissionsListener {
                 ((ActivityMain) getActivity()).getClientItem().setLast(profileLast.getText().toString());
                 ((ActivityMain) getActivity()).getClientItem().setDesc(profileDesc.getText().toString());
                 ((ActivityMain) getActivity()).getClientItem().setPhone(profilePhone.getText().toString());
+                if (!Utils.isOnline(getActivity()))
+                    Toast.makeText(getActivity(), R.string.noinet, Toast.LENGTH_LONG).show();
                 ActivityCompat.requestPermissions(getActivity(), new String[]{
                         android.Manifest.permission.ACCESS_COARSE_LOCATION,
                         android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
