@@ -7,10 +7,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
-import mskalash.customer.ActivityMain;
-import mskalash.customer.ClientItem;
-import mskalash.customer.DatabaseAdapter;
-import mskalash.customer.FragmentInfo;
 import com.customer.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,6 +17,11 @@ import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
+
+import mskalash.customer.ActivityMain;
+import mskalash.customer.ClientItem;
+import mskalash.customer.DatabaseAdapter;
+import mskalash.customer.FragmentInfo;
 
 public class FragmentAllPoint extends Fragment {
     public static final String TAG = "FragmentAllPoint";
@@ -48,7 +49,7 @@ public class FragmentAllPoint extends Fragment {
         googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                ((ActivityMain) getActivity()).getClientItem().setId(id(marker.getTitle(), arrayList));
+                ((ActivityMain) getActivity()).getClientItem().setId(id(String.valueOf(marker.getPosition().latitude),String .valueOf(marker.getPosition().longitude), arrayList));
                 ((ActivityMain) getActivity()).getClientItem().setCheck(true);
                 ((ActivityMain) getActivity()).showScreen(new FragmentInfo(), FragmentInfo.TAG, true);
 
@@ -89,10 +90,11 @@ public class FragmentAllPoint extends Fragment {
         }
     }
 
-    private int id(String title, ArrayList<ClientItem> arrayList) {
+    private int id(String latitude,String longetude, ArrayList<ClientItem> arrayList) {
         for (ClientItem clientItem : arrayList) {
 
-            if (clientItem.getProfileName().equals(title)) {
+            if (String.valueOf(clientItem.getLat()).equals(latitude)) {
+                if (String.valueOf(clientItem.getLonget()).equals(longetude))
                 return clientItem.getId();
             }
         }
